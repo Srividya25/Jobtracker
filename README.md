@@ -40,6 +40,7 @@ npm install
 1. In your Supabase project, go to **SQL Editor** (left sidebar).
 2. Click **New query**, open the file `setup.sql` from this repo, copy its entire contents, and paste them in.
 3. Click **Run**. (This creates the tables, security rules, and the private "resumes" storage bucket — all in one go.)
+4. Go to **Authentication → Sign In / Providers → Email** and turn off **Confirm email** for easy local testing. A fresh project has this ON by default, which blocks login until you confirm.
 
 ### 4. Connect the app to your Supabase
 
@@ -52,6 +53,8 @@ VITE_SUPABASE_URL=https://your-project-id.supabase.co
 VITE_SUPABASE_ANON_KEY=your-anon-key-here
 ```
 
+⚠️ The URL is just `https://your-project-id.supabase.co` — do not add `/rest/v1/` or a trailing slash.
+
 ### 5. Run it
 
 ```
@@ -59,17 +62,6 @@ npm run dev
 ```
 
 Open the printed URL (usually `http://localhost:5173`), click **Sign up**, and you're in.
-
-## Optional: deploy to the web
-
-So you (and friends) can use it from any device without running it locally:
-
-```
-npm run build
-npx vercel --prod --yes
-```
-
-Follow the Vercel login prompts. You'll get a permanent URL like `https://jobtracker-xxxx.vercel.app`. Anyone who opens it signs up with their own account.
 
 ## Optional: Chrome extension
 
