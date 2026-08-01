@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JobTracker</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { width: 420px; font-family: system-ui, -apple-system, sans-serif; font-size: 14px; color: #1f2937; background: #f9fafb; }
+    .container { padding: 16px; }
+    h1 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+    h2 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+    .view { display: none; }
+    .view.active { display: block; }
+    .form-group { margin-bottom: 10px; }
+    label { display: block; font-size: 12px; font-weight: 600; color: #374151; margin-bottom: 3px; }
+    input, textarea, select { width: 100%; padding: 7px 10px; font-size: 13px; border: 1px solid #d1d5db; border-radius: 5px; font-family: inherit; }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.15); }
+    textarea { resize: vertical; min-height: 60px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 8px 16px; font-size: 13px; font-weight: 600; border-radius: 5px; border: none; cursor: pointer; }
+    .btn-primary { background: #2563eb; color: #fff; }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-secondary { background: #fff; color: #374151; border: 1px solid #d1d5db; }
+    .btn-danger { background: #fff; color: #dc2626; border: 1px solid #fca5a5; }
+    .btn-block { width: 100%; }
+    .error { background: #fef2f2; color: #dc2626; padding: 8px 12px; border-radius: 5px; font-size: 12px; margin-bottom: 10px; display: none; }
+    .success { background: #f0fdf4; color: #16a34a; padding: 8px 12px; border-radius: 5px; font-size: 12px; margin-bottom: 10px; display: none; }
+    .status-bar { display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 12px; font-size: 12px; color: #6b7280; }
+    .status-bar .email { max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .status-bar a { color: #2563eb; cursor: pointer; text-decoration: none; font-weight: 500; }
+    .status-bar a:hover { text-decoration: underline; }
+    .upload-zone { border: 2px dashed #d1d5db; border-radius: 5px; padding: 12px; text-align: center; cursor: pointer; font-size: 12px; color: #6b7280; }
+    .upload-zone:hover { border-color: #2563eb; color: #2563eb; }
+    .upload-zone.has-file { border-color: #16a34a; color: #16a34a; }
+    .field-row { display: flex; gap: 8px; }
+    .field-row .form-group { flex: 1; }
+    .row { display: flex; gap: 8px; margin-top: 14px; }
+    .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid #e5e7eb; border-top-color: #2563eb; border-radius: 50%; animation: spin .6s linear infinite; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-center { text-align: center; padding: 40px 0; color: #6b7280; }
+    .resume-name { font-size: 11px; color: #16a34a; margin-top: 4px; }
+    input[type="file"] { display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Status bar -->
+    <div class="status-bar" id="statusBar" style="display:none">
+      <span class="email" id="userEmail"></span>
+      <a id="signOutBtn">Sign out</a>
+    </div>
+
+    <!-- Loading -->
+    <div class="view active" id="viewLoading">
+      <div class="loading-center">
+        <div class="spinner" style="width:24px;height:24px;border-width:3px;margin:0 auto 12px"></div>
+        <div>Loading...</div>
+      </div>
+    </div>
+
+    <!-- Login -->
+    <div class="view" id="viewLogin">
+      <h1>Sign in to JobTracker</h1>
+      <div class="error" id="loginError"></div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="loginEmail" placeholder="you@example.com" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="••••••••" />
+      </div>
+      <button class="btn btn-primary btn-block" id="loginBtn">Sign In</button>
+      <p style="margin-top:10px;font-size:12px;color:#6b7280;text-align:center">
+        Don't have an account?
+        <a href="#" id="showSignup" style="color:#2563eb;text-decoration:none">Sign up</a>
+      </p>
+    </div>
+
+    <!-- Signup -->
+    <div class="view" id="viewSignup">
+      <h1>Sign up</h1>
+      <div class="error" id="signupError"></div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="signupEmail" placeholder="you@example.com" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="signupPassword" placeholder="••••••••" />
+      </div>
+      <button class="btn btn-primary btn-block" id="signupBtn">Sign Up</button>
+      <p style="margin-top:8px;font-size:12px;color:#6b7280;text-align:center">
+        <a href="#" id="showLogin" style="color:#2563eb;text-decoration:none">Back to sign in</a>
+      </p>
+    </div>
+
+    <!-- Main form -->
+    <div class="view" id="viewForm">
+      <h1>Save Application</h1>
+      <div class="error" id="formError"></div>
+      <div class="success" id="formSuccess">Saved!</div>
+
+      <div class="field-row">
+        <div class="form-group" style="flex:2">
+          <label>Job Title *</label>
+          <input id="fieldTitle" placeholder="e.g. Software Engineer" />
+        </div>
+        <div class="form-group" style="flex:1">
+          <label>Company *</label>
+          <input id="fieldCompany" placeholder="e.g. Acme Inc" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Job URL</label>
+        <input id="fieldUrl" placeholder="https://..." />
+      </div>
+
+      <div class="form-group">
+        <label>Job Description</label>
+        <textarea id="fieldDescription" rows="5" placeholder="Pasted or scraped description"></textarea>
+      </div>
+
+      <div class="field-row">
+        <div class="form-group">
+          <label>Status</label>
+          <select id="fieldStatus">
+            <option value="applied">Applied</option>
+            <option value="screening">Screening</option>
+            <option value="interview">Interview</option>
+            <option value="offer">Offer</option>
+            <option value="rejected">Rejected</option>
+            <option value="accepted">Accepted</option>
+            <option value="withdrawn">Withdrawn</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Applied Date</label>
+          <input type="date" id="fieldDate" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Resume (PDF)</label>
+        <div class="upload-zone" id="uploadZone">
+          Click to select a PDF resume
+        </div>
+        <div class="resume-name" id="resumeName"></div>
+        <input type="file" id="resumeInput" accept=".pdf" />
+      </div>
+
+      <div class="row">
+        <button class="btn btn-primary btn-block" id="saveBtn">Save</button>
+        <button class="btn btn-secondary" id="closeBtn">Close</button>
+      </div>
+    </div>
+
+    <!-- Saved confirmation -->
+    <div class="view" id="viewSaved">
+      <div style="text-align:center;padding:30px 0">
+        <div style="font-size:40px;margin-bottom:8px">✓</div>
+        <h2 style="margin-bottom:4px">Saved!</h2>
+        <p style="color:#6b7280;font-size:13px;margin-bottom:16px" id="savedInfo"></p>
+        <button class="btn btn-primary" id="savedOkBtn">OK</button>
+      </div>
+    </div>
+
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

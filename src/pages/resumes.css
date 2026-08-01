@@ -1,0 +1,109 @@
+.resumes {
+  min-height: 100vh;
+  background: var(--bg);
+  padding: 32px 24px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+.resumes-inner {
+  max-width: 860px;
+  margin: 0 auto;
+}
+.resumes-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.resumes-head h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+.resumes-head p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.resume-list {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.resume-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.12s ease;
+}
+.resume-row:last-child {
+  border-bottom: none;
+}
+.resume-row:hover {
+  background: var(--surface-hover);
+}
+.resume-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--danger-soft);
+  color: var(--danger);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.resume-info {
+  flex: 1;
+  min-width: 0;
+}
+.resume-name {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.resume-date {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.resume-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.resume-upload {
+  margin-bottom: 20px;
+  background: var(--surface);
+  border: 2px dashed var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  text-align: center;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 14px;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.resume-upload:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.resume-upload input {
+  display: none;
+}
+.resume-empty {
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--muted);
+  font-size: 14px;
+}

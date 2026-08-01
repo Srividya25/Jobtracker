@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "JobTracker",
+  "version": "1.0",
+  "description": "Save job postings to your JobTracker dashboard",
+  "permissions": ["activeTab", "storage"],
+  "host_permissions": ["https://tbayavdshobhjjxwsjle.supabase.co/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Save to JobTracker"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
