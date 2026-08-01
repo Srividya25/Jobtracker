@@ -24,8 +24,8 @@ You need **Node.js 18+** (https://nodejs.org) and a free **Supabase account** (h
 ### 1. Get the code
 
 ```
-git clone <your-github-repo-url>
-cd jobtracker
+git clone https://github.com/Srividya25/Jobtracker.git
+cd Jobtracker
 npm install
 ```
 
