@@ -25,6 +25,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 
 let currentUser = null
 let currentFile = null
+let selectedResumeId = null
 
 const $ = (id) => document.getElementById(id)
 
@@ -103,6 +104,8 @@ async function showForm() {
   $('userEmail').textContent = currentUser?.email || ''
   $('fieldDate').value = new Date().toISOString().split('T')[0]
 
+  await loadResumes()
+
   // Request scrape from content script
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
@@ -117,6 +120,22 @@ async function showForm() {
     }
   } catch (_e) {
     // content script not available on this page; fields stay blank
+  }
+}
+
+async function loadResumes() {
+  const select = $('fieldResumeSelect')
+  while (select.options.length > 1) select.remove(1)
+  const { data, error } = await supabase
+    .from('resumes')
+    .select('id, file_name')
+    .order('uploaded_at', { ascending: false })
+  if (error || !data) return
+  for (const r of data) {
+    const opt = document.createElement('option')
+    opt.value = r.id
+    opt.textContent = r.file_name
+    select.appendChild(opt)
   }
 }
 
@@ -139,7 +158,9 @@ async function handleSave() {
     if (!user) throw new Error('Not authenticated')
 
     let resumeId = null
-    if (currentFile) {
+    if (selectedResumeId) {
+      resumeId = selectedResumeId
+    } else if (currentFile) {
       const fileExt = currentFile.name.split('.').pop()
       const fileName = `${crypto.randomUUID()}.${fileExt}`
       const filePath = `${user.id}/${fileName}`
@@ -196,11 +217,26 @@ $('closeBtn').addEventListener('click', () => window.close())
 $('savedOkBtn').addEventListener('click', () => window.close())
 
 $('uploadZone').addEventListener('click', () => $('resumeInput').click())
+$('fieldResumeSelect').addEventListener('change', (e) => {
+  const v = e.target.value
+  if (v) {
+    selectedResumeId = v
+    currentFile = null
+    $('uploadZone').style.display = 'none'
+    $('resumeName').textContent = e.target.selectedOptions[0].textContent
+    $('uploadZone').classList.remove('has-file')
+  } else {
+    selectedResumeId = null
+    $('uploadZone').style.display = ''
+  }
+})
 $('resumeInput').addEventListener('change', (e) => {
   const file = e.target.files?.[0]
   if (!file) return
   if (file.type !== 'application/pdf') return showError('formError', 'Only PDF files are accepted')
   currentFile = file
+  selectedResumeId = null
+  $('fieldResumeSelect').value = ''
   $('resumeName').textContent = file.name
   $('uploadZone').classList.add('has-file')
   $('uploadZone').textContent = 'Change file'

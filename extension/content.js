@@ -1,4 +1,25 @@
 ;(() => {
+  // Known ATS / job-platform names that are never the actual employer.
+  const PLATFORM_NAMES = [
+    'workday', 'myworkdayjobs', 'greenhouse', 'lever', 'ashby', 'smartrecruiters',
+    'icims', 'taleo', 'bullhorn', 'phenom', 'successfactors', 'bamboohr', 'jazzhr',
+    'jobvite', 'eightfold', 'hirevue', 'ziprecruiter', 'indeed', 'glassdoor',
+    'careerbuilder', 'monster', 'linkedin', 'simplify', 'getro', 'ukg',
+  ]
+
+  function isBlockedCompany(name) {
+    if (!name) return false
+    const n = name.toLowerCase()
+    if (PLATFORM_NAMES.some((b) => n.includes(b))) return true
+    if (
+      n.length < 40 &&
+      /staffing|recruiting|recruitment|employment agency|talent solutions|workforce solutions|executive search|headhunt|temporary agency|temp agency/.test(n)
+    ) {
+      return true
+    }
+    return false
+  }
+
   function getMetaContent(name) {
     const el =
       document.querySelector(`meta[property="${name}"]`) ||
@@ -27,7 +48,8 @@
           .replace(/\s*\n.*$/s, '')
           .replace(/^[0-9.,+\s]+$/, '')
           .trim()
-        if (!txt || txt.length > 60) return
+        if (!txt || txt.length < 2 || txt.length > 60) return
+        if (isBlockedCompany(txt)) return
         if (!best || txt.length < best.length) best = txt
       })
     }
@@ -49,32 +71,54 @@
     return best
   }
 
-  // Parse JSON-LD structured data (very reliable on most job boards)
+  // Parse JSON-LD structured data (very reliable on most job boards),
+  // including @graph wrappers. A staffing/ATS company is ignored so the
+  // fallback selectors get a chance to find the real employer.
   function fromJsonLd() {
     let out = { title: '', company: '', description: '' }
     try {
-      const scripts = document.querySelectorAll('script[type="application/ld+json"]')
-      for (const s of scripts) {
-        let data
+      const jobs = []
+      const stack = []
+      document.querySelectorAll('script[type="application/ld+json"]').forEach((s) => {
         try {
-          data = JSON.parse(s.textContent)
-        } catch {
+          stack.push(JSON.parse(s.textContent))
+        } catch (_e) {
+          // malformed JSON — skip this script
+        }
+      })
+      while (stack.length) {
+        const node = stack.shift()
+        if (Array.isArray(node)) {
+          node.forEach((n) => stack.push(n))
           continue
         }
-        const items = Array.isArray(data) ? data : [data]
-        for (const item of items) {
-          const job = item['@type'] === 'JobPosting' ? item : null
-          if (!job) continue
-          if (!out.title && job.title) out.title = job.title
-          if (!out.company && job.hiringOrganization) {
-            const org = typeof job.hiringOrganization === 'string' ? job.hiringOrganization : job.hiringOrganization.name
-            if (org) out.company = org
-          }
-          if (!out.description && job.description) {
-            out.description = job.description.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
-          }
-          if (out.title && out.company && out.description) return out
+        if (!node || typeof node !== 'object') continue
+        const types = Array.isArray(node['@type']) ? node['@type'] : [node['@type']]
+        if (types.includes('JobPosting')) jobs.push(node)
+        if (node['@graph']) stack.push(node['@graph'])
+      }
+      for (const job of jobs) {
+        if (!out.title && job.title) out.title = job.title
+        if (!out.company && job.hiringOrganization) {
+          const org =
+            typeof job.hiringOrganization === 'string'
+              ? job.hiringOrganization
+              : job.hiringOrganization?.name
+          if (org && !isBlockedCompany(org)) out.company = org
         }
+        if (!out.description && job.description) {
+          out.description = job.description
+            .replace(/<[^>]+>/g, ' ')
+            .replace(/&nbsp;/g, ' ')
+            .replace(/&amp;/g, '&')
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&#39;/g, "'")
+            .replace(/&quot;/g, '"')
+            .replace(/\s+/g, ' ')
+            .trim()
+        }
+        if (out.title && out.company && out.description) break
       }
     } catch (_e) {}
     return out
@@ -100,13 +144,92 @@
     )
   }
 
-  function scrape() {
-    // ---- Best source first: JSON-LD structured data ----
-    const ld = fromJsonLd()
+  // LinkedIn current markup
+  const LI_TITLE = [
+    '.jobs-unified-top-card__job-title',
+    '.job-details-jobs-unified-top-card__job-title',
+    'h1[data-automation="jobTitle"]',
+    'h1[data-automation="job-title"]',
+    'h1',
+  ]
+  const LI_COMPANY = [
+    '.jobs-unified-top-card__company-name',
+    '.job-details-jobs-unified-top-card__company-name',
+    'a[data-tracking-control-name*="company"]',
+    '[data-automation="jobCompany"]',
+    'a[href*="/company/"]',
+  ]
+  const LI_DESC = [
+    '.jobs-description__content',
+    '.jobs-description-container',
+    '.jobs-box__html-content',
+    '.show-more-less-html__markup',
+    '.jobs-description-content__text',
+  ]
 
-    // If a modal is open (Easy Apply etc.), scrape it first — that's what the
-    // user is looking at. Fall back to the page body if the modal is empty.
-    const dialog = openDialog()
+  const ATS_TITLE = [
+    'h1[data-automation="job-title"]',
+    'h1[data-automation-id="job-title"]',
+    'h1[class*="title"]',
+    '.job-title',
+    '.posting-title h1',
+    '.app-title',
+    '.jobsearch-JobInfoHeader-title',
+    '[data-testid="job-title"]',
+    '[itemprop="title"]',
+    '.top-card-layout__title',
+    'h1',
+  ]
+
+  const ATS_COMPANY = [
+    '[data-automation="company-name"]',
+    '[data-automation-id="company-name"]',
+    '.jobsearch-InlineCompanyRating [aria-label]',
+    '.posting-company',
+    '.company-name',
+    '.jobsearch-JobInfoHeader-company-name',
+    '[itemprop="hiringOrganization"]',
+    '[data-testid="company-name"]',
+    '.topcard__org-name-link',
+    '.top-card-layout__second-subline',
+    '[class*="company-name"]',
+    '[class*="CompanyName"]',
+    '[data-company]',
+    '.job-company',
+    'a[href*="company"] strong',
+    'a[href*="/companies/"]',
+    '[class*="employer"]',
+  ]
+
+  const ATS_DESC = [
+    '[data-automation="jobDescriptionText"]',
+    '[data-automation-id="job-description"]',
+    '[data-automation-id="jobPostingDescription"]',
+    '[data-automation="jobDescription"]',
+    '.job-description',
+    '.posting-description',
+    '.jobsearch-JobComponent-description',
+    '.jobsearch-jobDescriptionText',
+    '[itemprop="description"]',
+    '[data-testid="job-description"]',
+    '.jobDescriptionContent',
+    '#jobDescription',
+    '.description__text',
+    '#job-description',
+    '.js-job-description',
+    '.jobDescription',
+    '.job-post-description',
+    'article',
+  ]
+
+  function scrape() {
+    const isLinkedIn = window.location.hostname.includes('linkedin.com')
+    const isLinkedInJobPage = isLinkedIn && /\/jobs\//.test(window.location.pathname)
+
+    // On LinkedIn job pages, prefer the job details page behind any
+    // Easy Apply modal — that's where the real title/company/description live.
+    const ld = fromJsonLd()
+    const dialog = isLinkedInJobPage ? null : openDialog()
 
     // ---- Job title ----
     let title = ''
@@ -120,22 +243,13 @@
         scoped('h3')
       if (scopedTitle) title = stripNoise(scopedTitle.textContent)
     }
+    if (!title && isLinkedInJobPage) {
+      const titleEl = first(LI_TITLE)
+      if (titleEl) title = stripNoise(titleEl.textContent)
+    }
     if (!title) title = stripNoise(ld.title)
     if (!title) {
-      const titleEl = first([
-        'h1[data-automation="job-title"]',
-        'h1[data-automation-id="job-title"]',
-        'h1[class*="title"]',
-        '.job-title',
-        '.posting-title h1',
-        '.app-title',
-        '.jobsearch-JobInfoHeader-title',
-        '.jobs-unified-top-card__job-title',
-        '[data-testid="job-title"]',
-        '[itemprop="title"]',
-        '.top-card-layout__title',
-        'h1',
-      ])
+      const titleEl = first(ATS_TITLE)
       if (titleEl) title = stripNoise(titleEl.textContent)
     }
     if (!title) title = document.title.replace(/ - .*$/, '').replace(/ \| .*$/, '').trim()
@@ -152,66 +266,37 @@
         scoped('[itemprop="name"]')
       if (companyEl) {
         let txt = companyEl.textContent.trim()
-        if (txt && txt.length <= 60) company = stripNoise(txt)
+        if (txt && txt.length <= 60 && !isBlockedCompany(txt)) company = stripNoise(txt)
+      }
+    }
+    if (!company && isLinkedInJobPage) {
+      const companyEl = first(LI_COMPANY)
+      if (companyEl) {
+        let txt = companyEl.textContent.trim()
+        if (txt && txt.length <= 60 && !isBlockedCompany(txt)) company = stripNoise(txt)
       }
     }
     if (!company) company = stripNoise(ld.company)
+    if (!company) company = bestCompany(ATS_COMPANY)
     if (!company) {
       const ogSite = getMetaContent('site_name')
-      if (ogSite) company = ogSite
+      if (ogSite && !isBlockedCompany(ogSite)) company = ogSite
     }
-    if (!company || company.length > 60) {
-      company = bestCompany([
-        '[data-automation="company-name"]',
-        '[data-automation-id="company-name"]',
-        '.jobsearch-InlineCompanyRating [aria-label]',
-        '.posting-company',
-        '.company-name',
-        '.jobsearch-JobInfoHeader-company-name',
-        '.jobs-unified-top-card__company-name',
-        '.jobs-unified-top-card__company-name a',
-        '[itemprop="hiringOrganization"]',
-        '[data-testid="company-name"]',
-        '.topcard__org-name-link',
-        '.top-card-layout__second-subline',
-        '[class*="company-name"]',
-        '[class*="CompanyName"]',
-        'a[href*="company"] strong',
-        'a[href*="/companies/"]',
-        '[class*="employer"]',
-      ])
-      if (company && company.length > 60) company = ''
-    }
+    if (company && company.length > 60) company = ''
 
     // ---- Job description ----
     let description = stripNoise(ld.description)
     if (!description || description.length <= 50) {
-      const descEl = first([
-        '[data-automation="jobDescriptionText"]',
-        '[data-automation-id="job-description"]',
-        '[data-automation-id="jobPostingDescription"]',
-        '.jobs-description__content',
-        '.jobs-box__html-content',
-        '.show-more-less-html__markup',
-        '.job-description',
-        '.posting-description',
-        '.jobsearch-JobComponent-description',
-        '.jobsearch-jobDescriptionText',
-        '[itemprop="description"]',
-        '[data-testid="job-description"]',
-        '.jobDescriptionContent',
-        '#jobDescription',
-        '.description__text',
-        '#job-description',
-        'article',
-      ])
-      if (descEl) {
-        const txt = descEl.textContent.trim()
-        if (txt.length > 50) description = txt
+      for (const sel of [...LI_DESC, ...ATS_DESC]) {
+        const el = document.querySelector(sel)
+        if (!el) continue
+        const txt = el.textContent.trim()
+        if (txt.length > 50) {
+          description = txt
+          break
+        }
       }
     }
-
-    // Fallback: largest text block in the main content area
     if (!description || description.length <= 50) {
       const block = largestTextBlock([
         'main',
@@ -221,6 +306,7 @@
         '[class*="job-content"]',
         '[class*="JobContent"]',
         '[class*="details"]',
+        '[class*="Details"]',
         '#content',
       ])
       if (block) {
