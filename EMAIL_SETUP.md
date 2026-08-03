@@ -6,10 +6,11 @@ Gmail, or skip the steps below, nothing changes and nothing errors.
 
 > **The database is already set up from the main install.** Running `setup.sql`
 > (README step 3) creates the `email_events` table ahead of time — but it stays
-> **empty and unused** until you take the extra opt-in steps below. So basic
-> users get the job tracker with an empty "Emails" tab, and email users get the
-> full feature. Same SQL, same tables — the feature only comes alive when you
-> opt in.
+> **empty and unused** until you opt in. Email detection is **OFF by default**;
+> even with the extension loaded and Gmail open, nothing is scanned until you
+> flip the toggle in the popup. So basic users get the job tracker with an empty
+> "Emails" tab, and email users get the full feature. Same SQL, same tables —
+> the feature only comes alive when you opt in.
 
 ## What it does
 
@@ -41,19 +42,36 @@ That's it for the database — nothing else to create.
 2. Open `chrome://extensions`, click the **refresh** icon on JobTracker.
 3. Make sure you're **signed in** to JobTracker (open the popup once to confirm).
 
-## Step 3 — Use it
+## Step 3 — Turn on Gmail detection
+
+Gmail detection is **off by default**. To enable it:
+
+1. Open the JobTracker popup (click the extension icon).
+2. Check the **"Gmail detection"** toggle. It will now read "Gmail detection · ON".
+
+> Nobody's Gmail is scanned until this toggle is on — so users who just want the
+> job tracker can ignore this step entirely.
+
+## Step 4 — Use it
 
 1. Open https://mail.google.com in Chrome.
 2. The script scans every ~15 seconds while Gmail is open.
 3. Matched emails appear in the **Emails** tab of the app within a few minutes
    (refresh the tab to see them).
 
+## Turning it off
+
+Uncheck the **"Gmail detection"** toggle in the popup. The scanner skips every
+scan while it's off, and no new emails are saved. (You can also just not open
+Gmail, or remove the extension.)
+
 ## Notes
 
 - Matching is keyword-based, so it can produce false positives (e.g. any email
   containing "schedule"). It never deletes or modifies your emails — it only
   reads subject/snippet/sender/date.
-- To turn the feature off, remove the extension, or don't open Gmail. Nothing
-  in the app depends on it.
+- To turn the feature off, uncheck the **"Gmail detection"** toggle in the
+  popup, remove the extension, or don't open Gmail. Nothing in the app depends
+  on it.
 - To tidy the list, use **Done** / **Dismiss** on the Emails tab. Done and
   dismissed emails are auto-cleared after one year. Your Gmail is never touched.

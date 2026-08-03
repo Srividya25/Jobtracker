@@ -58,11 +58,10 @@ export async function getEmailEvents(status?: string) {
   return (data || []) as EmailEvent[]
 }
 
-export async function getEmailEventCount(status: string) {
-  const { count, error } = await supabase
-    .from('email_events')
-    .select('id', { count: 'exact', head: true })
-    .eq('status', status)
+export async function getEmailEventCount(status?: string) {
+  let query = supabase.from('email_events').select('id', { count: 'exact', head: true })
+  if (status) query = query.eq('status', status)
+  const { count, error } = await query
 
   if (error) throw error
   return count ?? 0

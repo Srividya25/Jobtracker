@@ -9,6 +9,7 @@ export default function Layout() {
   const { theme, toggle } = useTheme()
   const location = useLocation()
   const [newEmailCount, setNewEmailCount] = useState(0)
+  const [showEmailsTab, setShowEmailsTab] = useState(false)
   const cleanupDone = useRef(false)
 
   useEffect(() => {
@@ -19,14 +20,24 @@ export default function Layout() {
   }, [])
 
   useEffect(() => {
+    // Only show the Emails tab for users who actually have email events.
+    // If the table is missing or the query fails, keep it hidden (no error).
     let cancelled = false
-    getEmailEventCount('new')
-      .then((c) => {
-        if (!cancelled) setNewEmailCount(c)
-      })
-      .catch(() => {
-        if (!cancelled) setNewEmailCount(0)
-      })
+    ;(async () => {
+      try {
+        const total = await getEmailEventCount()
+        if (cancelled) return
+        if (total === 0) {
+          setShowEmailsTab(false)
+          return
+        }
+        setShowEmailsTab(true)
+        const fresh = await getEmailEventCount('new')
+        if (!cancelled) setNewEmailCount(fresh)
+      } catch {
+        if (!cancelled) setShowEmailsTab(false)
+      }
+    })()
     return () => {
       cancelled = true
     }
@@ -96,9 +107,11 @@ export default function Layout() {
         <NavLink to="/resumes" className={navTabClass}>
           Resumes
         </NavLink>
-        <NavLink to="/emails" className={navTabClass}>
-          Emails{newEmailCount > 0 ? ` (${newEmailCount})` : ''}
-        </NavLink>
+        {showEmailsTab && (
+          <NavLink to="/emails" className={navTabClass}>
+            Emails{newEmailCount > 0 ? ` (${newEmailCount})` : ''}
+          </NavLink>
+        )}
 
         <div style={{ flex: 1 }} />
 

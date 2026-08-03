@@ -104,6 +104,9 @@ async function showForm() {
   $('userEmail').textContent = currentUser?.email || ''
   $('fieldDate').value = new Date().toISOString().split('T')[0]
 
+  chrome.storage.local.get('gmailEnabled', (r) => {
+    $('gmailToggle').checked = !!r.gmailEnabled
+  })
   renderGmailStatus()
 
   await loadResumes()
@@ -127,17 +130,21 @@ async function showForm() {
 
 function renderGmailStatus() {
   const el = $('gmailStatus')
-  chrome.storage.local.get('gmailScan', (r) => {
+  chrome.storage.local.get(['gmailScan', 'gmailEnabled'], (r) => {
+    const enabled = !!r.gmailEnabled
     const s = r.gmailScan
-    if (!s) {
-      el.style.display = 'none'
+    el.style.display = 'block'
+    if (!enabled) {
+      el.textContent = 'Gmail detection · OFF — toggle it on below to scan your Gmail'
       return
     }
-    el.style.display = 'block'
-    let text = 'Gmail detection'
-    if (s.lastRun) text += ' · active'
+    if (!s || !s.lastRun) {
+      el.textContent = 'Gmail detection · ON — open Gmail in this browser to start scanning'
+      return
+    }
+    let text = 'Gmail detection · active'
     if (s.error) text += ` · ⚠ ${s.error}`
-    if (s.rows !== undefined && s.lastRun) text += ` · ${s.rows} emails scanned`
+    if (s.rows !== undefined) text += ` · ${s.rows} emails scanned`
     if (s.matches !== undefined) text += ` · ${s.matches} matches`
     if (s.saved !== undefined) text += ` · ${s.saved} saved`
     el.textContent = text
@@ -248,6 +255,11 @@ $('signOutBtn').addEventListener('click', handleLogout)
 $('saveBtn').addEventListener('click', handleSave)
 $('closeBtn').addEventListener('click', () => window.close())
 $('savedOkBtn').addEventListener('click', () => window.close())
+
+$('gmailToggle').addEventListener('change', (e) => {
+  chrome.storage.local.set({ gmailEnabled: e.target.checked })
+  renderGmailStatus()
+})
 
 $('uploadZone').addEventListener('click', () => $('resumeInput').click())
 $('fieldResumeSelect').addEventListener('change', (e) => {

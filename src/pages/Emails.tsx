@@ -11,7 +11,7 @@ const FILTERS: { key: Filter; label: string }[] = [
 ]
 
 const EMPTY_TEXT: Record<Filter, string> = {
-  new: 'No new interview emails detected yet. Keep Gmail open and they\u2019ll appear here.',
+  new: 'No detected emails yet. Email detection is off by default — to turn it on, open the JobTracker extension popup and enable “Gmail detection”, then keep Gmail open in Chrome.',
   done: 'Nothing marked as done yet. Mark handled emails as done to keep them here.',
   dismissed: 'No dismissed emails. Dismiss irrelevant ones to tidy this up.',
 }

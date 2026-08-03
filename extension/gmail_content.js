@@ -192,6 +192,14 @@ async function scanAndSave() {
 }
 
 // Start scanning once the Gmail UI is present, then periodically.
-const start = () => scanAndSave()
+// The feature is opt-in: it only scans when the user has enabled the
+// "Gmail detection" toggle in the popup (default OFF).
+const start = async () => {
+  const stored = await new Promise((resolve) => {
+    chrome.storage.local.get('gmailEnabled', (r) => resolve(r))
+  })
+  if (!stored.gmailEnabled) return
+  scanAndSave()
+}
 setTimeout(start, 4000)
 setInterval(start, 15000)
