@@ -179,3 +179,64 @@ create policy "Users can delete own resume files"
     bucket_id = 'resumes'
     and (storage.foldername(name))[1] = auth.uid()::text
   );
+
+
+
+
+-- ============================================================
+-- PART E — EMAIL EVENTS (optional Gmail feature)
+--
+-- Rows are created when the Chrome extension detects an
+-- interview/assessment email in Gmail. The UNIQUE constraint on
+-- (user_id, email_subject, email_sender, email_date) means re-reading
+-- the same email is skipped silently.
+-- ============================================================
+
+create table if not exists public.email_events (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) not null,
+  email_subject text not null,
+  email_sender text not null default '',
+  email_snippet text,
+  email_date timestamptz not null,
+  detected_type text,
+  status text default 'new',
+  created_at timestamptz default now(),
+  unique (user_id, email_subject, email_sender, email_date)
+);
+
+-- Guarded migration: tri-state status for the Emails page
+-- ('new' = needs attention, 'done' = handled, 'dismissed' = not
+-- relevant). Safe to re-run — skips silently if the column is there.
+alter table public.email_events
+  add column if not exists status text default 'new';
+
+grant usage on schema public to anon, authenticated;
+grant all on public.email_events to anon, authenticated;
+
+alter table public.email_events enable row level security;
+
+
+drop policy if exists "Users can view own email_events" on public.email_events;
+create policy "Users can view own email_events"
+  on public.email_events for select
+  using (auth.uid() = user_id);
+
+
+drop policy if exists "Users can insert own email_events" on public.email_events;
+create policy "Users can insert own email_events"
+  on public.email_events for insert
+  with check (auth.uid() = user_id);
+
+
+drop policy if exists "Users can update own email_events" on public.email_events;
+create policy "Users can update own email_events"
+  on public.email_events for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+
+drop policy if exists "Users can delete own email_events" on public.email_events;
+create policy "Users can delete own email_events"
+  on public.email_events for delete
+  using (auth.uid() = user_id);

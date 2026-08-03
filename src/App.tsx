@@ -8,6 +8,7 @@ import SignIn from './pages/SignIn'
 import Dashboard from './pages/Dashboard'
 import Kanban from './pages/Kanban'
 import Resumes from './pages/Resumes'
+import Emails from './pages/Emails'
 import ApplicationForm from './pages/ApplicationForm'
 import ApplicationDetail from './pages/ApplicationDetail'
 
@@ -24,6 +25,7 @@ export default function App() {
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/kanban" element={<Kanban />} />
                 <Route path="/resumes" element={<Resumes />} />
+                <Route path="/emails" element={<Emails />} />
                 <Route path="/new" element={<ApplicationForm />} />
                 <Route path="/app/:id" element={<ApplicationDetail />} />
                 <Route path="/app/:id/edit" element={<ApplicationForm />} />

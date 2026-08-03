@@ -104,6 +104,8 @@ async function showForm() {
   $('userEmail').textContent = currentUser?.email || ''
   $('fieldDate').value = new Date().toISOString().split('T')[0]
 
+  renderGmailStatus()
+
   await loadResumes()
 
   // Request scrape from content script
@@ -121,6 +123,37 @@ async function showForm() {
   } catch (_e) {
     // content script not available on this page; fields stay blank
   }
+}
+
+function renderGmailStatus() {
+  const el = $('gmailStatus')
+  chrome.storage.local.get('gmailScan', (r) => {
+    const s = r.gmailScan
+    if (!s) {
+      el.style.display = 'none'
+      return
+    }
+    el.style.display = 'block'
+    let text = 'Gmail detection'
+    if (s.lastRun) text += ' · active'
+    if (s.error) text += ` · ⚠ ${s.error}`
+    if (s.rows !== undefined && s.lastRun) text += ` · ${s.rows} emails scanned`
+    if (s.matches !== undefined) text += ` · ${s.matches} matches`
+    if (s.saved !== undefined) text += ` · ${s.saved} saved`
+    el.textContent = text
+    if (s.debug && s.rows === 0) {
+      const d = s.debug
+      el.title = `tr:${d.totalTr} zA/zE:${d.zARows} y6:${d.y6Rows} emailAttr:${d.emailAttr} main:${d.mainExists} mainTr:${d.mainTr}`
+      const more = document.createElement('div')
+      more.id = 'gmailDebug'
+      more.className = 'gmail-debug'
+      more.textContent = `tr:${d.totalTr} zA/zE:${d.zARows} y6:${d.y6Rows} email:${d.emailAttr} mainTr:${d.mainTr}` + (d.sample ? `\n${d.sample}` : '')
+      el.appendChild(more)
+    } else {
+      const old = document.getElementById('gmailDebug')
+      if (old) old.remove()
+    }
+  })
 }
 
 async function loadResumes() {

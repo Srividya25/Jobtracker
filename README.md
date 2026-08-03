@@ -11,6 +11,7 @@ A job application tracker built with React + Supabase. Track your applications a
 - **Resume library** — upload PDFs, preview them, link one to each application
 - **Application details** — job URL, description, notes, follow-up date, interview date & location
 - **Dark mode** — toggle in the top-right corner (remembered per device)
+- **Emails tab (optional)** — interview & assessment emails detected from Gmail, with New / Done / Dismissed filters (see [EMAIL_SETUP.md](EMAIL_SETUP.md))
 - **Chrome extension** — one click on a job posting to save the job title, company, and description
 
 ## How accounts work
@@ -39,7 +40,7 @@ npm install
 
 1. In your Supabase project, go to **SQL Editor** (left sidebar).
 2. Click **New query**, open the file `setup.sql` from this repo, copy its entire contents, and paste them in.
-3. Click **Run**. (This creates the tables, security rules, and the private "resumes" storage bucket — all in one go.)
+3. Click **Run**. (This creates the tables, security rules, and the private "resumes" storage bucket — all in one go. It also sets up the optional email-detection table, which **stays dormant** unless you enable it — see the optional section below.)
 4. Go to **Authentication → Sign In / Providers → Email** and turn off **Confirm email** for easy local testing. A fresh project has this ON by default, which blocks login until you confirm.
 
 ### 4. Connect the app to your Supabase
@@ -66,6 +67,8 @@ Open the printed URL (usually `http://localhost:5173`), click **Sign up**, and y
 ## Optional: Chrome extension
 
 The extension lets you save a job posting from the browser with one click.
+
+> **Optional:** Detect interview/assessment emails from Gmail automatically and manage them in the **Emails** tab — see [EMAIL_SETUP.md](EMAIL_SETUP.md). This feature is dormant after the main install; it only activates if you take the extra setup steps below that guide.
 
 1. Install dependencies once: `npm install`
 2. Create `extension/config.js` from `extension/config.example.js` and paste **your** Supabase Project URL and anon key.

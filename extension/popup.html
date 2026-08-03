@@ -41,6 +41,8 @@
     .loading-center { text-align: center; padding: 40px 0; color: #6b7280; }
     .resume-name { font-size: 11px; color: #16a34a; margin-top: 4px; }
     input[type="file"] { display: none; }
+    .gmail-status { background: #eef2ff; color: #4f46e5; padding: 6px 10px; border-radius: 6px; font-size: 11px; margin-bottom: 12px; }
+    .gmail-debug { margin-top: 6px; padding-top: 6px; border-top: 1px dashed #c7d2fe; white-space: pre-wrap; word-break: break-all; font-family: ui-monospace, monospace; font-size: 10px; color: #6b7280; }
   </style>
 </head>
 <body>
@@ -51,6 +53,8 @@
       <span class="email" id="userEmail"></span>
       <a id="signOutBtn">Sign out</a>
     </div>
+
+    <div class="gmail-status" id="gmailStatus" style="display:none"></div>
 
     <!-- Loading -->
     <div class="view active" id="viewLoading">

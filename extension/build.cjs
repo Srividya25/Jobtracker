@@ -26,6 +26,15 @@ async function main() {
     globalName: 'JobTrackerPopup',
   })
 
+  // Bundle the Gmail content script (optional feature, includes supabase-js)
+  await esbuild.build({
+    ...shared,
+    entryPoints: [path.join(EXT, 'gmail_content.js')],
+    outfile: path.join(DIST, 'gmail_content.js'),
+    platform: 'browser',
+    format: 'iife',
+  })
+
   // Copy static files
   for (const file of ['manifest.json', 'popup.html', 'content.js', 'background.js']) {
     fs.copyFileSync(path.join(EXT, file), path.join(DIST, file))

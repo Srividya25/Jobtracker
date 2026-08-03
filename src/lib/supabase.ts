@@ -36,6 +36,56 @@ export interface Application {
   resume?: Resume | null
 }
 
+export interface EmailEvent {
+  id: string
+  user_id: string
+  email_subject: string
+  email_sender: string | null
+  email_snippet: string | null
+  email_date: string | null
+  detected_type: string | null
+  status: string | null
+  created_at: string
+}
+
+// Email events helpers (optional Gmail feature)
+export async function getEmailEvents(status?: string) {
+  let query = supabase.from('email_events').select('*')
+  if (status) query = query.eq('status', status)
+  const { data, error } = await query.order('email_date', { ascending: false }).limit(100)
+
+  if (error) throw error
+  return (data || []) as EmailEvent[]
+}
+
+export async function getEmailEventCount(status: string) {
+  const { count, error } = await supabase
+    .from('email_events')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', status)
+
+  if (error) throw error
+  return count ?? 0
+}
+
+export async function updateEmailEventStatus(id: string, status: string) {
+  const { error } = await supabase.from('email_events').update({ status }).eq('id', id)
+  if (error) throw error
+}
+
+// Removes handled emails ('done'/'dismissed') once they're a year old,
+// so the Emails page doesn't pile up. RLS scopes this to the user's rows.
+export async function cleanupOldEmailEvents() {
+  const cutoff = new Date()
+  cutoff.setFullYear(cutoff.getFullYear() - 1)
+  const { error } = await supabase
+    .from('email_events')
+    .delete()
+    .in('status', ['done', 'dismissed'])
+    .lt('email_date', cutoff.toISOString())
+  if (error) throw error
+}
+
 // Resume helpers
 export async function uploadResume(file: File, userId: string): Promise<{ path: string; fileName: string }> {
   const fileExt = file.name.split('.').pop()
