@@ -8,9 +8,10 @@ Gmail, or skip the steps below, nothing changes and nothing errors.
 > (README step 3) creates the `email_events` table ahead of time — but it stays
 > **empty and unused** until you opt in. Email detection is **OFF by default**;
 > even with the extension loaded and Gmail open, nothing is scanned until you
-> flip the toggle in the popup. So basic users get the job tracker with an empty
-> "Emails" tab, and email users get the full feature. Same SQL, same tables —
-> the feature only comes alive when you opt in.
+> flip the toggle in the popup. So basic users see only the core tabs
+> (Dashboard / Pipeline / Resumes) — the **Emails** tab is hidden until an email
+> is actually detected for the account — and email users get the full feature.
+> Same SQL, same tables — the feature only comes alive when you opt in.
 
 ## What it does
 
@@ -19,8 +20,9 @@ loaded, a content script reads the currently visible emails and flags ones whose
 subject or snippet contains job-application keywords (interview, assessment,
 online assessment, OA, coding challenge, technical screen, hackerrank,
 codesignal, phone screen, schedule, availability). Matches are saved to the
-`email_events` table and appear in the **Emails** tab of the app — so even if you
-miss the email, it's visible in your tracker.
+`email_events` table and appear in the **Emails** tab of the app — the tab only
+shows in the navigation once you have at least one detected email — so even if
+you miss the email, it's visible in your tracker.
 
 There you can filter by **New / Done / Dismissed**, mark an email as **done**
 once you've handled it, or **dismiss** it if it isn't relevant. Handled emails
@@ -57,7 +59,8 @@ Gmail detection is **off by default**. To enable it:
 1. Open https://mail.google.com in Chrome.
 2. The script scans every ~15 seconds while Gmail is open.
 3. Matched emails appear in the **Emails** tab of the app within a few minutes
-   (refresh the tab to see them).
+   (the tab appears in the nav once the first email is saved — refresh the page
+   to see it).
 
 ## Turning it off
 

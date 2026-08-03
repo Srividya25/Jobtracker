@@ -11,7 +11,7 @@ A job application tracker built with React + Supabase. Track your applications a
 - **Resume library** — upload PDFs, preview them, link one to each application
 - **Application details** — job URL, description, notes, follow-up date, interview date & location
 - **Dark mode** — toggle in the top-right corner (remembered per device)
-- **Emails tab (optional)** — interview & assessment emails detected from Gmail, with New / Done / Dismissed filters; handled emails auto-clear after a year (see [EMAIL_SETUP.md](EMAIL_SETUP.md))
+- **Emails tab (optional)** — interview & assessment emails detected from Gmail, with New / Done / Dismissed filters; handled emails auto-clear after a year. The tab is **hidden until you have at least one detected email** — basic users see only Dashboard / Pipeline / Resumes (see [EMAIL_SETUP.md](EMAIL_SETUP.md))
 - **Chrome extension** — one click on a job posting to save the job title, company, and description
 
 ## How accounts work
@@ -68,7 +68,7 @@ Open the printed URL (usually `http://localhost:5173`), click **Sign up**, and y
 
 The extension lets you save a job posting from the browser with one click.
 
-> **Optional:** Detect interview/assessment emails from Gmail automatically and manage them in the **Emails** tab — see [EMAIL_SETUP.md](EMAIL_SETUP.md). Email detection is **off by default**: even with the extension loaded and Gmail open, nothing is scanned until you enable the **"Gmail detection"** toggle in the extension popup.
+> **Optional:** Detect interview/assessment emails from Gmail automatically and manage them in the **Emails** tab — see [EMAIL_SETUP.md](EMAIL_SETUP.md). Email detection is **off by default**: even with the extension loaded and Gmail open, nothing is scanned until you enable the **"Gmail detection"** toggle in the extension popup. The **Emails** tab only appears in the app once you have at least one detected email.
 
 1. Install dependencies once: `npm install`
 2. Create `extension/config.js` from `extension/config.example.js` and paste **your** Supabase Project URL and anon key.
