@@ -25,38 +25,38 @@ export default function AuthScene() {
         .as-tw2   { animation: asTw 3s ease-in-out 1.4s infinite; }
         @keyframes asBob { from { transform: translateY(0); } to { transform: translateY(-6px); } }
         @keyframes asApp1 {
-          0%   { transform: translate(-140px, 30px) scale(0.6); opacity: 0; }
-          12%  { opacity: 1; }
+          0%   { transform: translate(20px, 15px) scale(0.55); opacity: 0; }
+          14%  { opacity: 1; }
           82%  { opacity: 1; }
           100% { transform: translate(800px, 185px) scale(1); opacity: 0; }
         }
         @keyframes asApp2 {
-          0%   { transform: translate(1340px, 20px) scale(0.6); opacity: 0; }
-          12%  { opacity: 1; }
+          0%   { transform: translate(1170px, 20px) scale(0.55); opacity: 0; }
+          14%  { opacity: 1; }
           82%  { opacity: 1; }
           100% { transform: translate(805px, 190px) scale(1); opacity: 0; }
         }
         @keyframes asApp3 {
-          0%   { transform: translate(-110px, 370px) scale(0.6); opacity: 0; }
-          12%  { opacity: 1; }
+          0%   { transform: translate(25px, 378px) scale(0.55); opacity: 0; }
+          14%  { opacity: 1; }
           82%  { opacity: 1; }
           100% { transform: translate(790px, 205px) scale(1); opacity: 0; }
         }
         @keyframes asApp4 {
-          0%   { transform: translate(1300px, 370px) scale(0.6); opacity: 0; }
-          12%  { opacity: 1; }
+          0%   { transform: translate(1170px, 378px) scale(0.55); opacity: 0; }
+          14%  { opacity: 1; }
           82%  { opacity: 1; }
           100% { transform: translate(810px, 200px) scale(1); opacity: 0; }
         }
         @keyframes asApp5 {
-          0%   { transform: translate(30px, -70px) scale(0.6); opacity: 0; }
-          12%  { opacity: 1; }
+          0%   { transform: translate(220px, 8px) scale(0.55); opacity: 0; }
+          14%  { opacity: 1; }
           82%  { opacity: 1; }
           100% { transform: translate(795px, 180px) scale(1); opacity: 0; }
         }
         @keyframes asApp6 {
-          0%   { transform: translate(1330px, -80px) scale(0.6); opacity: 0; }
-          12%  { opacity: 1; }
+          0%   { transform: translate(960px, 8px) scale(0.55); opacity: 0; }
+          14%  { opacity: 1; }
           82%  { opacity: 1; }
           100% { transform: translate(805px, 195px) scale(1); opacity: 0; }
         }

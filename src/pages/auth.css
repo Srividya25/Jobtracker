@@ -29,9 +29,14 @@
 .auth-panel {
   position: relative;
 }
-.auth-visual {
+.auth-card {
+  width: 100%;
+  background: #fffdf8;
+  border: 1px solid color-mix(in srgb, var(--hero-text) 16%, transparent);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 14px 40px rgba(90, 68, 44, 0.10);
   position: relative;
-  height: 480px;
 }
 .auth-visual-head {
   position: relative;
@@ -48,24 +53,11 @@
   font-size: 14px;
   color: color-mix(in srgb, var(--hero-text) 72%, transparent);
 }
-.auth-card {
-  width: 100%;
-  background: transparent;
-  border: 1px solid color-mix(in srgb, var(--hero-text) 16%, transparent);
-  border-radius: 16px;
-  padding: 32px;
-  box-shadow: none;
-  position: relative;
-}
 @media (max-width: 900px) {
   .auth-grid {
     grid-template-columns: 1fr;
     gap: 24px;
     max-width: 440px;
-  }
-  .auth-visual {
-    height: 260px;
-    order: -1;
   }
 }
 .auth-logo {
