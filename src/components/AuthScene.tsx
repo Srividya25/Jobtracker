@@ -152,7 +152,7 @@ export default function AuthScene() {
           <path d="M7 27 l5 5 l9 -11" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.7" />
         </g>
 
-        <g className="as-bob2" transform="translate(586, 240)">
+        <g className="as-bob2" transform="translate(932, 240)">
           <rect width="24" height="24" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
           <path d="M24 14 a 8 8 0 0 1 0 12" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="4.5" strokeLinecap="round" strokeOpacity="0.85" />
           <path d="M9 6 c-3 -7 3 -11 0 -18" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeLinecap="round" className="as-steam" />
