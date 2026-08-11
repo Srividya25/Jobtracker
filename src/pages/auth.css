@@ -29,6 +29,10 @@
 .auth-panel {
   position: relative;
 }
+.auth-visual {
+  position: relative;
+  height: 480px;
+}
 .auth-card {
   width: 100%;
   background: #fffdf8;
@@ -37,10 +41,11 @@
   padding: 32px;
   box-shadow: 0 14px 40px rgba(90, 68, 44, 0.10);
   position: relative;
+  z-index: 2;
 }
 .auth-visual-head {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   padding: 28px 28px 0;
 }
 .auth-visual-head h2 {

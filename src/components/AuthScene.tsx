@@ -3,11 +3,15 @@ export default function AuthScene() {
     <div className="auth-scene" aria-hidden="true">
       <style>{`
         .auth-scene {
-          position: absolute;
-          inset: 0;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
           overflow: hidden;
           pointer-events: none;
           opacity: 0.92;
+          z-index: 1;
         }
         .auth-scene svg { width: 100%; height: 100%; display: block; }
         .as-bob   { animation: asBob 4.5s ease-in-out infinite alternate; }
