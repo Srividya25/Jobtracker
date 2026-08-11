@@ -50,6 +50,21 @@
   margin-bottom: 16px;
   text-align: center;
 }
+.auth-notice {
+  background: var(--info-soft, #eff6ff);
+  color: var(--info, #1d4ed8);
+  border: 1px solid var(--info-border, #bfdbfe);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+.auth-notice strong {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
 .auth-field {
   display: flex;
   flex-direction: column;

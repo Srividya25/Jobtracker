@@ -27,6 +27,10 @@ export default function SignIn() {
         <div className="auth-logo">J</div>
         <h1 className="auth-title">Sign In</h1>
         <p className="auth-sub">Welcome back to JobTracker</p>
+        <div className="auth-notice">
+          <strong>This is a demo instance</strong>
+          New accounts aren't allowed here. To use JobTracker with your own data, clone the repo, set up your own free Supabase, and run it locally — see the README (github.com/Srividya25/Jobtracker).
+        </div>
         {error && <div className="auth-error">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="auth-field">
