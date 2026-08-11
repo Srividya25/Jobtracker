@@ -120,8 +120,8 @@ export default function AuthScene() {
         <rect x="588" y="262" width="20" height="64" rx="5" fill="var(--hero-text)" fillOpacity="0.3" />
         <rect x="910" y="262" width="20" height="64" rx="5" fill="var(--hero-text)" fillOpacity="0.3" />
 
-        <ellipse cx="860" cy="196" rx="120" ry="95" fill="url(#asGlow)" />
-        <g>
+        <g transform="translate(-28, 0)">
+          <ellipse cx="860" cy="196" rx="120" ry="95" fill="url(#asGlow)" />
           <rect x="788" y="146" width="150" height="94" rx="10" fill="var(--hero-text)" fillOpacity="0.85" />
           <rect x="800" y="158" width="126" height="70" rx="6" fill="var(--hero-text)" fillOpacity="0.2" />
           <rect x="810" y="210" width="13" height="10" rx="2" fill="var(--hero-text)" fillOpacity="0.7" />
@@ -132,6 +132,7 @@ export default function AuthScene() {
           <path d="M814 176 l8 8 l14 -14" fill="none" stroke="var(--hero-text)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.75" />
           <rect x="862" y="236" width="14" height="10" fill="var(--hero-text)" fillOpacity="0.55" />
           <rect x="824" y="246" width="90" height="9" rx="4.5" fill="var(--hero-text)" fillOpacity="0.55" />
+        </g>
         </g>
 
         <rect x="706" y="242" width="118" height="15" rx="6" fill="var(--hero-text)" fillOpacity="0.85" />
