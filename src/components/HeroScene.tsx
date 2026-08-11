@@ -44,7 +44,6 @@ export default function HeroScene({
         .hs-stick { stroke: var(--hero-text); fill: none; stroke-linecap: round; stroke-linejoin: round; }
         .hs-soft { opacity: .45; }
         .hs-shadow { fill: var(--hero-text); fill-opacity: .14; }
-        .hs-panel { fill: var(--hero-text); fill-opacity: .05; stroke: var(--hero-text); stroke-opacity: .14; }
         .hs-label-big { fill: var(--hero-text); fill-opacity: .95; font-size: 20px; font-weight: 800; text-anchor: middle; letter-spacing: 1px; font-family: inherit; }
         .hs-bubble { fill: var(--hero-text); font-size: 16px; font-weight: 800; text-anchor: middle; font-family: inherit; }
         .hs-paper { fill: var(--hero-text); fill-opacity: .18; stroke: var(--hero-text); stroke-opacity: .85; }
@@ -55,6 +54,7 @@ export default function HeroScene({
         .hs-stage { opacity: 0; animation: hsStage 12s linear infinite; animation-fill-mode: both; }
         .hs-spark, .hs-tick, .hs-pop { transform-box: fill-box; transform-origin: center; animation: hsPop 1.8s ease-in-out infinite; }
         .hs-idle { animation: hsIdle 3.2s ease-in-out infinite; }
+        .hs-pace { animation: hsPace 3s ease-in-out infinite alternate; }
         .hs-spin { transform-box: fill-box; transform-origin: center; animation: hsSpin 6s linear infinite; }
         .hs-talk { transform-box: fill-box; transform-origin: center; animation: hsTalk 1.6s ease-in-out infinite; }
         .hs-wait { fill: var(--hero-text); fill-opacity: .9; animation: hsWait 1.5s ease-in-out infinite; }
@@ -73,6 +73,7 @@ export default function HeroScene({
           100% { opacity: 0; }
         }
         @keyframes hsIdle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+        @keyframes hsPace { 0% { transform: translateX(-16px); } 100% { transform: translateX(16px); } }
         @keyframes hsSpin { to { transform: rotate(360deg); } }
         @keyframes hsBlink { 0%, 100% { opacity: .18; } 50% { opacity: .75; } }
         @keyframes hsPop { 0%, 55%, 100% { transform: scale(.3); opacity: .2; } 72% { transform: scale(1.18); opacity: 1; } 86% { transform: scale(1); } }
@@ -118,11 +119,43 @@ export default function HeroScene({
 
         {STAGES.map((st, i) => (
           <g key={st.key} className="hs-stage" style={{ animationDelay: `${i * 2}s` }}>
-            <rect x={430} y={36} width={340} height={330} rx={26} className="hs-panel" strokeWidth={2} />
             <text className="hs-label-big" x={600} y={80}>
               {st.label}
             </text>
-            <g transform="translate(600 100) scale(0.9)">
+            {st.key === 'apply' && (
+              <g transform="translate(0 170)">
+                <g className="hs-fly">
+                  <path
+                    d="M0 14 L60 2 L38 40 L26 26 L8 28 Z"
+                    fill="var(--hero-text)"
+                    fillOpacity="0.22"
+                    stroke="var(--hero-text)"
+                    strokeWidth="3"
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                  />
+                </g>
+              </g>
+            )}
+            {st.key === 'offer' && (
+              <g>
+                <g transform="translate(510 150)">
+                  <g className="hs-rise">
+                    <ellipse cx={0} cy={0} rx={11} ry={14} className="hs-stick" strokeWidth={3.5} />
+                    <path d="M0 13 l-4 8 h8 Z" fill="var(--hero-text)" fillOpacity="0.2" stroke="var(--hero-text)" strokeWidth={2.5} strokeLinejoin="round" />
+                    <path d="M0 21 v34" className="hs-stick hs-soft" strokeWidth={2.5} />
+                  </g>
+                </g>
+                <g transform="translate(700 138)">
+                  <g className="hs-rise" style={{ animationDelay: '0.8s' }}>
+                    <ellipse cx={0} cy={0} rx={11} ry={14} className="hs-stick" strokeWidth={3.5} />
+                    <path d="M0 13 l-4 8 h8 Z" fill="var(--hero-text)" fillOpacity="0.2" stroke="var(--hero-text)" strokeWidth={2.5} strokeLinejoin="round" />
+                    <path d="M0 21 v34" className="hs-stick hs-soft" strokeWidth={2.5} />
+                  </g>
+                </g>
+              </g>
+            )}
+            <g transform="translate(600 84) scale(0.78)">
               <StageBody stage={st.key} />
             </g>
             <ellipse cx={600} cy={392} rx={42} ry={4} className="hs-shadow" />
@@ -163,20 +196,22 @@ function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
 
     case 'wait1':
       return (
-        <g className="hs-idle">
-          <g className="hs-stick" strokeWidth={5}>
-            <circle cx={0} cy={108} r={13} />
-            <path d="M0 121 L0 178" />
-            <path d="M0 132 L-14 156 L-26 180" />
-            <path d="M0 132 L14 156 L26 180" />
-            <path d="M0 178 L-8 232 L-13 300" />
-            <path d="M0 178 L8 232 L13 300" />
-          </g>
-          <g transform="translate(42 64)">
-            <circle r={16} className="hs-stick" strokeWidth={4.5} />
-            <g className="hs-spin hs-stick" strokeWidth={3.5}>
-              <path d="M0 -12 L0 12" />
-              <circle r={2.5} className="hs-ink" />
+        <g className="hs-pace">
+          <g className="hs-idle">
+            <g className="hs-stick" strokeWidth={5}>
+              <circle cx={0} cy={108} r={13} />
+              <path d="M0 121 L0 178" />
+              <path d="M0 132 L-14 156 L-26 180" />
+              <path d="M0 132 L14 156 L26 180" />
+              <path d="M0 178 L-8 232 L-13 300" />
+              <path d="M0 178 L8 232 L13 300" />
+            </g>
+            <g transform="translate(42 64)">
+              <circle r={16} className="hs-stick" strokeWidth={4.5} />
+              <g className="hs-spin hs-stick" strokeWidth={3.5}>
+                <path d="M0 -12 L0 12" />
+                <circle r={2.5} className="hs-ink" />
+              </g>
             </g>
           </g>
         </g>
@@ -238,22 +273,24 @@ function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
 
     case 'wait2':
       return (
-        <g className="hs-idle">
-          <g className="hs-stick" strokeWidth={5}>
-            <circle cx={0} cy={108} r={13} />
-            <path d="M0 121 L0 192" />
-            <path d="M0 132 L-14 156 L-26 180" />
-            <path d="M0 132 L14 156 L26 180" />
-            <path d="M0 192 L18 248 L18 300" />
-            <path d="M0 192 L6 240 L10 300" />
-          </g>
-          <g transform="translate(34 66)">
-            <circle r={16} className="hs-stick" strokeWidth={4} />
-            <circle cx={24} cy={-14} r={7} className="hs-stick" strokeWidth={3.5} />
-            <circle cx={38} cy={-28} r={4} className="hs-stick" strokeWidth={3} />
-            <circle cx={-5} cy={2} r={2.6} className="hs-wait" style={{ animationDelay: '0s' }} />
-            <circle cx={3} cy={2} r={2.6} className="hs-wait" style={{ animationDelay: '0.22s' }} />
-            <circle cx={11} cy={2} r={2.6} className="hs-wait" style={{ animationDelay: '0.44s' }} />
+        <g className="hs-pace">
+          <g className="hs-idle">
+            <g className="hs-stick" strokeWidth={5}>
+              <circle cx={0} cy={108} r={13} />
+              <path d="M0 121 L0 192" />
+              <path d="M0 132 L-14 156 L-26 180" />
+              <path d="M0 132 L14 156 L26 180" />
+              <path d="M0 192 L18 248 L18 300" />
+              <path d="M0 192 L6 240 L10 300" />
+            </g>
+            <g transform="translate(34 66)">
+              <circle r={16} className="hs-stick" strokeWidth={4} />
+              <circle cx={24} cy={-14} r={7} className="hs-stick" strokeWidth={3.5} />
+              <circle cx={38} cy={-28} r={4} className="hs-stick" strokeWidth={3} />
+              <circle cx={-5} cy={2} r={2.6} className="hs-wait" style={{ animationDelay: '0s' }} />
+              <circle cx={3} cy={2} r={2.6} className="hs-wait" style={{ animationDelay: '0.22s' }} />
+              <circle cx={11} cy={2} r={2.6} className="hs-wait" style={{ animationDelay: '0.44s' }} />
+            </g>
           </g>
         </g>
       )
