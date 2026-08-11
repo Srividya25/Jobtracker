@@ -118,6 +118,11 @@
   font-size: 13px;
   margin-bottom: 2px;
 }
+.auth-notice a {
+  color: var(--hero-text);
+  font-weight: 600;
+  text-decoration: underline;
+}
 .auth-field {
   display: flex;
   flex-direction: column;

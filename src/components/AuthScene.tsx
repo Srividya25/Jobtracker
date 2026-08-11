@@ -117,8 +117,8 @@ export default function AuthScene() {
         <rect x="704" y="252" width="116" height="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.4" />
         <rect x="704" y="258" width="116" height="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.4" />
 
-        <rect x="844" y="248" width="24" height="30" rx="12" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.82" />
-        <path d="M856 250 v11" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeOpacity="0.55" />
+        <rect x="844" y="240" width="24" height="30" rx="12" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.82" />
+        <path d="M856 247 v11" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeOpacity="0.55" />
 
         <g className="as-bob">
           <rect x="650" y="238" width="84" height="12" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" transform="rotate(6 692 244)" />
@@ -152,7 +152,7 @@ export default function AuthScene() {
           <path d="M7 27 l5 5 l9 -11" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.7" />
         </g>
 
-        <g className="as-bob2" transform="translate(586, 196)">
+        <g className="as-bob2" transform="translate(586, 240)">
           <rect width="24" height="24" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
           <path d="M24 14 a 8 8 0 0 1 0 12" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="4.5" strokeLinecap="round" strokeOpacity="0.85" />
           <path d="M9 6 c-3 -7 3 -11 0 -18" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeLinecap="round" className="as-steam" />

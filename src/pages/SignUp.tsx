@@ -37,7 +37,7 @@ export default function SignUp() {
             <p className="auth-sub">Start tracking your job search</p>
             <div className="auth-notice">
               <strong>This is a demo instance</strong>
-              New accounts aren't allowed here. To use JobTracker with your own data, clone the repo, set up your own free Supabase, and run it locally — see the README (github.com/Srividya25/Jobtracker).
+              New accounts aren't allowed here. To use JobTracker with your own data, clone the repo, set up your own free Supabase, and run it locally — see the README (<a href="https://github.com/Srividya25/Jobtracker">github.com/Srividya25/Jobtracker</a>).
             </div>
             {error && <div className="auth-error">{error}</div>}
             <form onSubmit={handleSubmit}>
