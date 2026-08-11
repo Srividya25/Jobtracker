@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import AuthScene from '../components/AuthScene'
+import BuildBadge from '../components/BuildBadge'
 import './auth.css'
 
 export default function SignUp() {
@@ -70,6 +71,7 @@ export default function SignUp() {
           <AuthScene />
         </div>
       </div>
+      <BuildBadge />
     </div>
   )
 }
