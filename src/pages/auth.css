@@ -6,7 +6,7 @@
   padding: 40px 24px;
   position: relative;
   overflow: hidden;
-  --scene-ink: #b08a58;
+  --scene-ink: #cdb083;
   background: var(--hero-grad);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
