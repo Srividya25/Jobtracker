@@ -6,9 +6,10 @@
   padding: 40px 24px;
   position: relative;
   overflow: hidden;
-  --hero-grad: linear-gradient(135deg, #f3e8d6 0%, #e7d5b6 50%, #d9c19a 100%);
+  --hero-grad: linear-gradient(135deg, #ffffff 0%, #fdfaf4 55%, #f6efe3 100%);
   --hero-text: #5a442c;
   --hero-text-sub: rgba(90, 68, 44, 0.72);
+  --scene-ink: #b08a58;
   --primary: #a9773f;
   --primary-hover: #8f6331;
   --primary-soft: #f3e6d2;
