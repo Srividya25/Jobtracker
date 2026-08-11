@@ -72,6 +72,7 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
         .as-steam2{ animation: asSteam 2.4s ease-out 0.8s infinite; }
         .as-tw    { animation: asTw 3s ease-in-out infinite; }
         .as-tw2   { animation: asTw 3s ease-in-out 1.4s infinite; }
+        .as-sip   { transform-box: fill-box; transform-origin: center; animation: asSip 12s ease-in-out infinite; }
         .as-live .as-eq { transform-box: fill-box; transform-origin: center bottom; animation: asEq 0.4s ease-in-out infinite alternate; }
         .as-live .as-eq2 { animation-delay: 0.08s; }
         .as-live .as-eq3 { animation-delay: 0.16s; }
@@ -112,6 +113,15 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
           100% { transform: translateY(-26px); opacity: 0; }
         }
         @keyframes asTw { 0%, 100% { opacity: 0.12; } 50% { opacity: 0.85; } }
+        @keyframes asSip {
+          0%   { transform: translate(0, 0) rotate(0deg); }
+          6%   { transform: translate(-10px, -18px) rotate(6deg); }
+          14%  { transform: translate(-30px, -52px) rotate(15deg); }
+          30%  { transform: translate(-30px, -52px) rotate(15deg); }
+          40%  { transform: translate(-10px, -18px) rotate(6deg); }
+          48%  { transform: translate(0, 0) rotate(0deg); }
+          100% { transform: translate(0, 0) rotate(0deg); }
+        }
         @keyframes asEq { from { transform: scaleY(0.35); } to { transform: scaleY(1.35); } }
         @keyframes asIn { from { opacity: 0; } to { opacity: 0.88; } }
       `}</style>
@@ -181,6 +191,15 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
           <rect x="650" y="252" width="84" height="12" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" transform="rotate(-4 692 258)" />
           <circle cx="730" cy="246" r="9" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.7" />
           <circle cx="730" cy="258" r="9" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.7" />
+        </g>
+
+        <g className="as-sip">
+          <circle cx="738" cy="244" r="8" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.5" />
+          <rect x="726" y="222" width="20" height="18" rx="5" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
+          <rect x="729" y="225" width="14" height="3" rx="1.5" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
+          <path d="M746 228 a 6 6 0 0 1 0 10" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="3.5" strokeLinecap="round" strokeOpacity="0.8" />
+          <path d="M732 220 c -2 -6 2 -9 0 -14" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeLinecap="round" className="as-steam" />
+          <path d="M739 221 c -2 -6 2 -9 0 -14" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeLinecap="round" className="as-steam2" />
         </g>
 
         <g className="as-app as-app1">
