@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import HeroScene from '../components/HeroScene'
+import AuthScene from '../components/AuthScene'
 import './auth.css'
 
 export default function SignIn() {
@@ -24,32 +24,42 @@ export default function SignIn() {
 
   return (
     <div className="auth">
-      <HeroScene className="auth-scene" />
-      <div className="auth-card">
-        <div className="auth-logo">J</div>
-        <h1 className="auth-title">Sign In</h1>
-        <p className="auth-sub">Welcome back to JobTracker</p>
-        <div className="auth-notice">
-          <strong>This is a demo instance</strong>
-          New accounts aren't allowed here. To use JobTracker with your own data, clone the repo, set up your own free Supabase, and run it locally — see the README (github.com/Srividya25/Jobtracker).
+      <div className="auth-grid">
+        <div className="auth-panel">
+          <div className="auth-card">
+            <div className="auth-logo">J</div>
+            <h1 className="auth-title">Sign In</h1>
+            <p className="auth-sub">Welcome back to JobTracker</p>
+            <div className="auth-notice">
+              <strong>This is a demo instance</strong>
+              New accounts aren't allowed here. To use JobTracker with your own data, clone the repo, set up your own free Supabase, and run it locally — see the README (github.com/Srividya25/Jobtracker).
+            </div>
+            {error && <div className="auth-error">{error}</div>}
+            <form onSubmit={handleSubmit}>
+              <div className="auth-field">
+                <label>Email</label>
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" />
+              </div>
+              <div className="auth-field">
+                <label>Password</label>
+                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="••••••••" />
+              </div>
+              <button type="submit" className="auth-btn" disabled={loading}>
+                {loading ? 'Signing in…' : 'Sign In'}
+              </button>
+            </form>
+            <p className="auth-foot">
+              Don't have an account? <Link to="/signup">Sign Up</Link>
+            </p>
+          </div>
         </div>
-        {error && <div className="auth-error">{error}</div>}
-        <form onSubmit={handleSubmit}>
-          <div className="auth-field">
-            <label>Email</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" />
+        <div className="auth-visual">
+          <div className="auth-visual-head">
+            <h2>Every application, one place.</h2>
+            <p>Capture, track, and win your job search.</p>
           </div>
-          <div className="auth-field">
-            <label>Password</label>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="••••••••" />
-          </div>
-          <button type="submit" className="auth-btn" disabled={loading}>
-            {loading ? 'Signing in…' : 'Sign In'}
-          </button>
-        </form>
-        <p className="auth-foot">
-          Don't have an account? <Link to="/signup">Sign Up</Link>
-        </p>
+          <AuthScene />
+        </div>
       </div>
     </div>
   )
