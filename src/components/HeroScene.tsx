@@ -57,6 +57,7 @@ export default function HeroScene({
         .hs-pace { animation: hsPace 3s ease-in-out infinite alternate; }
         .hs-spin { transform-box: fill-box; transform-origin: center; animation: hsSpin 6s linear infinite; }
         .hs-talk { transform-box: fill-box; transform-origin: center; animation: hsTalk 1.6s ease-in-out infinite; }
+        .hs-talk2 { transform-box: fill-box; transform-origin: center; animation: hsTalk 1.6s ease-in-out 0.8s infinite; }
         .hs-wait { fill: var(--hero-text); fill-opacity: .9; animation: hsWait 1.5s ease-in-out infinite; }
         .hs-jump { animation: hsJump .9s ease-in-out infinite; }
         .hs-conf { fill: var(--hero-text); fill-opacity: .55; transform-box: fill-box; transform-origin: center; animation: hsConf 2.4s linear infinite; }
@@ -111,8 +112,7 @@ export default function HeroScene({
           </g>
         </g>
 
-        {/* timeline */}
-        <line x1={340} y1={376} x2={860} y2={376} className="hs-stick hs-soft" strokeWidth={3} />
+        {/* timeline dots */}
         {STAGES.map((_, i) => (
           <circle key={i} cx={340 + i * 104} cy={376} r={5} className="hs-dot-idle" />
         ))}
@@ -219,21 +219,30 @@ function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
 
     case 'assessment':
       return (
-        <g className="hs-idle">
-          <g className="hs-stick" strokeWidth={5}>
-            <circle cx={-4} cy={108} r={13} />
-            <path d="M-4 121 L0 178" />
-            <path d="M0 132 L-12 154 L16 172" />
-            <path d="M0 132 L14 160 L28 190" />
-            <path d="M0 178 L-8 232 L-13 300" />
-            <path d="M0 178 L8 232 L13 300" />
+        <g>
+          <g className="hs-idle">
+            <g className="hs-stick" strokeWidth={5}>
+              <circle cx={0} cy={108} r={13} />
+              <path d="M0 121 L0 186" />
+              <path d="M0 132 L-14 190 L-18 240" />
+              <path d="M0 132 L14 190 L18 240" />
+              <path d="M0 186 L16 244 L16 300" />
+              <path d="M0 186 L4 240 L8 300" />
+            </g>
+            <circle cx={-18} cy={240} r={3.5} className="hs-spark" style={{ animationDelay: '0.5s' }} />
+            <circle cx={18} cy={240} r={3.5} className="hs-spark" style={{ animationDelay: '1.1s' }} />
           </g>
-          <g transform="translate(16 172)">
-            <rect width={30} height={44} rx={4} className="hs-card-strong" strokeWidth={2.5} />
-            <path d="M6 12 l6 7 l12 -15" fill="none" className="hs-stick hs-tick" strokeWidth={3.5} style={{ animationDelay: '0s' }} />
-            <path d="M6 26 l6 7 l12 -15" fill="none" className="hs-stick hs-tick" strokeWidth={3.5} style={{ animationDelay: '0.8s' }} />
+          <path d="M-70 250 L70 250 M-60 250 L-60 300 M60 250 L60 300" className="hs-stick hs-soft" strokeWidth={4} />
+          <g>
+            <rect x={-30} y={202} width={60} height={34} rx={3} className="hs-ink" />
+            <rect x={-24} y={211} width={22} height={3} rx={1.5} className="hs-type" style={{ animationDelay: '0s' }} />
+            <rect x={-24} y={220} width={22} height={3} rx={1.5} className="hs-type" style={{ animationDelay: '0.3s' }} />
+            <rect x={-24} y={229} width={22} height={3} rx={1.5} className="hs-type" style={{ animationDelay: '0.6s' }} />
+            <path d="M4 210 l5 6 l11 -13" fill="none" className="hs-stick hs-tick" strokeWidth={3.5} style={{ animationDelay: '0.4s' }} />
+            <path d="M4 219 l5 6 l11 -13" fill="none" className="hs-stick hs-tick" strokeWidth={3.5} style={{ animationDelay: '1.1s' }} />
+            <path d="M4 228 l5 6 l11 -13" fill="none" className="hs-stick hs-tick" strokeWidth={3.5} style={{ animationDelay: '1.6s' }} />
+            <rect x={-38} y={236} width={76} height={9} rx={3} className="hs-ink" />
           </g>
-          <path d="M32 212 L42 222" className="hs-stick" strokeWidth={4} />
         </g>
       )
 
@@ -248,6 +257,7 @@ function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
               <path d="M-42 132 L-34 184 L-22 238" />
               <path d="M-42 178 L-50 232 L-55 300" />
               <path d="M-42 178 L-34 232 L-29 300" />
+              <path d="M-51 117 q6 7 12 0" />
             </g>
           </g>
           <g className="hs-idle" style={{ animationDelay: '0.4s' }}>
@@ -258,14 +268,25 @@ function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
               <path d="M46 132 L56 156 L68 182" />
               <path d="M46 190 L60 248 L60 300" />
               <path d="M46 190 L38 300" />
+              <path d="M39 117 q6 7 12 0" />
             </g>
           </g>
           <path d="M-32 252 L32 252 M-26 252 L-26 300 M26 252 L26 300" className="hs-stick hs-soft" strokeWidth={4} />
+          <rect x={-20} y={234} width={11} height={10} rx={2.5} fill="var(--hero-text)" fillOpacity="0.2" stroke="var(--hero-text)" strokeWidth="2.5" />
+          <path d="M-9 238 a 5 5 0 0 1 0 8" fill="none" className="hs-stick hs-soft" strokeWidth={2.5} />
+          <rect x={10} y={240} width={16} height={6} rx={1.5} className="hs-card-strong" strokeWidth={1.5} />
           <g className="hs-talk">
             <circle cx={68} cy={74} r={14} className="hs-stick" strokeWidth={4} />
             <path d="M62 86 L54 100 L70 88 Z" fill="none" className="hs-stick hs-soft" strokeWidth={3.5} />
             <text x={68} y={80} textAnchor="middle" className="hs-bubble">
               ?
+            </text>
+          </g>
+          <g className="hs-talk2">
+            <circle cx={-70} cy={78} r={13} className="hs-stick" strokeWidth={4} />
+            <path d="M-64 89 L-72 102 L-58 91 Z" fill="none" className="hs-stick hs-soft" strokeWidth={3.5} />
+            <text x={-70} y={83} textAnchor="middle" className="hs-bubble">
+              …
             </text>
           </g>
         </g>
