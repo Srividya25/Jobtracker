@@ -80,27 +80,31 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
         @keyframes asBob { from { transform: translateY(0); } to { transform: translateY(-6px); } }
         @keyframes asApp1 {
           0%   { transform: translate(20px, 15px) scale(0.55); opacity: 0; }
-          14%  { opacity: 1; }
-          82%  { opacity: 1; }
-          100% { transform: translate(800px, 185px) scale(1); opacity: 0; }
+          12%  { opacity: 1; }
+          78%  { transform: translate(800px, 185px) scale(1); opacity: 1; }
+          90%  { transform: translate(800px, 185px) scale(1); opacity: 1; }
+          100% { transform: translate(800px, 185px) scale(0.94); opacity: 0; }
         }
         @keyframes asApp2 {
           0%   { transform: translate(1170px, 20px) scale(0.55); opacity: 0; }
-          14%  { opacity: 1; }
-          82%  { opacity: 1; }
-          100% { transform: translate(805px, 190px) scale(1); opacity: 0; }
+          12%  { opacity: 1; }
+          78%  { transform: translate(805px, 190px) scale(1); opacity: 1; }
+          90%  { transform: translate(805px, 190px) scale(1); opacity: 1; }
+          100% { transform: translate(805px, 190px) scale(0.94); opacity: 0; }
         }
         @keyframes asApp3 {
           0%   { transform: translate(25px, 378px) scale(0.55); opacity: 0; }
-          14%  { opacity: 1; }
-          82%  { opacity: 1; }
-          100% { transform: translate(790px, 205px) scale(1); opacity: 0; }
+          12%  { opacity: 1; }
+          78%  { transform: translate(790px, 205px) scale(1); opacity: 1; }
+          90%  { transform: translate(790px, 205px) scale(1); opacity: 1; }
+          100% { transform: translate(790px, 205px) scale(0.94); opacity: 0; }
         }
         @keyframes asApp4 {
           0%   { transform: translate(1170px, 378px) scale(0.55); opacity: 0; }
-          14%  { opacity: 1; }
-          82%  { opacity: 1; }
-          100% { transform: translate(810px, 200px) scale(1); opacity: 0; }
+          12%  { opacity: 1; }
+          78%  { transform: translate(810px, 200px) scale(1); opacity: 1; }
+          90%  { transform: translate(810px, 200px) scale(1); opacity: 1; }
+          100% { transform: translate(810px, 200px) scale(0.94); opacity: 0; }
         }
         @keyframes asSteam {
           0%   { transform: translateY(0); opacity: 0; }
@@ -171,8 +175,8 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
         <rect x="704" y="252" width="116" height="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.4" />
         <rect x="704" y="258" width="116" height="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.4" />
 
-        <rect x="844" y="240" width="24" height="30" rx="12" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.82" />
-        <path d="M856 247 v11" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeOpacity="0.55" />
+        <rect x="844" y="222" width="24" height="30" rx="12" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.82" />
+        <path d="M844 236 h-12" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeOpacity="0.55" />
 
         <g className="as-bob">
           <rect x="650" y="238" width="84" height="12" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" transform="rotate(6 692 244)" />
