@@ -50,12 +50,12 @@ export default function SignIn() {
             <form onSubmit={handleSubmit}>
               <div className="auth-field">
                 <label>Email</label>
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} onKeyDown={markTyping} required placeholder="you@example.com" autoComplete="email" autoFocus />
+                <input type="email" value={email} onChange={(e) => { setEmail(e.target.value); markTyping() }} onKeyDown={markTyping} required placeholder="you@example.com" autoComplete="email" autoFocus />
               </div>
               <div className="auth-field">
                 <label>Password</label>
                 <div className="auth-input-wrap">
-                  <input type={showPw ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={markTyping} required placeholder="••••••••" autoComplete="current-password" />
+                  <input type={showPw ? 'text' : 'password'} value={password} onChange={(e) => { setPassword(e.target.value); markTyping() }} onKeyDown={markTyping} required placeholder="••••••••" autoComplete="current-password" />
                   <button
                     type="button"
                     className="auth-pw-toggle"

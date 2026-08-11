@@ -55,12 +55,12 @@ export default function SignUp() {
             <form onSubmit={handleSubmit}>
               <div className="auth-field">
                 <label>Email</label>
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} onKeyDown={markTyping} required placeholder="you@example.com" autoComplete="email" autoFocus />
+                <input type="email" value={email} onChange={(e) => { setEmail(e.target.value); markTyping() }} onKeyDown={markTyping} required placeholder="you@example.com" autoComplete="email" autoFocus />
               </div>
               <div className="auth-field">
                 <label>Password</label>
                 <div className="auth-input-wrap">
-                  <input type={showPw ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={markTyping} required minLength={6} placeholder="At least 6 characters" autoComplete="new-password" />
+                  <input type={showPw ? 'text' : 'password'} value={password} onChange={(e) => { setPassword(e.target.value); markTyping() }} onKeyDown={markTyping} required minLength={6} placeholder="At least 6 characters" autoComplete="new-password" />
                   <button
                     type="button"
                     className="auth-pw-toggle"
@@ -84,7 +84,7 @@ export default function SignUp() {
               </div>
               <div className="auth-field">
                 <label>Confirm Password</label>
-                <input type={showPw ? 'text' : 'password'} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} onKeyDown={markTyping} required placeholder="Re-enter your password" autoComplete="new-password" />
+                <input type={showPw ? 'text' : 'password'} value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value); markTyping() }} onKeyDown={markTyping} required placeholder="Re-enter your password" autoComplete="new-password" />
               </div>
               <button type="submit" className="auth-btn" disabled={loading}>
                 {loading ? 'Creating account…' : 'Sign Up'}
