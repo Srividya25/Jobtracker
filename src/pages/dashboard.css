@@ -10,7 +10,7 @@
 .dash-hero {
   background: var(--hero-grad);
   color: var(--hero-text);
-  padding: 32px 24px 320px;
+  padding: 28px 24px 200px;
   position: relative;
   overflow: hidden;
 }
