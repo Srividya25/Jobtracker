@@ -98,6 +98,10 @@ export default function AuthScene() {
         </g>
 
         <g className="as-bob">
+          <rect x="574" y="214" width="52" height="98" rx="14" fill="var(--hero-text)" fillOpacity="0.35" />
+          <rect x="598" y="300" width="118" height="12" rx="6" fill="var(--hero-text)" fillOpacity="0.45" />
+          <rect x="604" y="312" width="12" height="28" rx="5" fill="var(--hero-text)" fillOpacity="0.3" />
+          <rect x="700" y="312" width="12" height="28" rx="5" fill="var(--hero-text)" fillOpacity="0.3" />
           <rect x="636" y="216" width="78" height="84" rx="18" fill="var(--hero-text)" fillOpacity="0.92" />
           <path d="M664 216 v-10" stroke="var(--hero-text)" strokeWidth="6" strokeOpacity="0.8" />
           <rect x="662" y="202" width="24" height="16" rx="6" fill="var(--hero-text)" fillOpacity="0.8" />
@@ -114,6 +118,10 @@ export default function AuthScene() {
           <rect x="634" y="254" width="88" height="12" rx="6" fill="var(--hero-text)" fillOpacity="0.7" transform="rotate(-5 678 260)" />
           <circle cx="716" cy="248" r="9" fill="var(--hero-text)" fillOpacity="0.75" />
           <circle cx="716" cy="260" r="9" fill="var(--hero-text)" fillOpacity="0.75" />
+          <rect x="646" y="302" width="14" height="34" rx="7" fill="var(--hero-text)" fillOpacity="0.55" />
+          <rect x="688" y="302" width="14" height="34" rx="7" fill="var(--hero-text)" fillOpacity="0.55" />
+          <rect x="642" y="332" width="22" height="9" rx="4" fill="var(--hero-text)" fillOpacity="0.7" />
+          <rect x="684" y="332" width="22" height="9" rx="4" fill="var(--hero-text)" fillOpacity="0.7" />
         </g>
 
         <rect x="560" y="240" width="400" height="22" rx="10" fill="var(--hero-text)" fillOpacity="0.45" />
@@ -132,7 +140,6 @@ export default function AuthScene() {
           <path d="M814 176 l8 8 l14 -14" fill="none" stroke="var(--hero-text)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.75" />
           <rect x="862" y="236" width="14" height="10" fill="var(--hero-text)" fillOpacity="0.55" />
           <rect x="824" y="246" width="90" height="9" rx="4.5" fill="var(--hero-text)" fillOpacity="0.55" />
-        </g>
         </g>
 
         <rect x="706" y="242" width="118" height="15" rx="6" fill="var(--hero-text)" fillOpacity="0.85" />
