@@ -43,7 +43,7 @@
 .detail-hero {
   background: var(--hero-grad);
   color: var(--hero-text);
-  padding: 24px 24px 56px;
+  padding: 24px 24px 300px;
   position: relative;
   overflow: hidden;
 }

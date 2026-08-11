@@ -1,3 +1,12 @@
+const STAGES = [
+  { key: 'apply', label: 'Apply' },
+  { key: 'wait1', label: 'Wait' },
+  { key: 'assessment', label: 'Assessment' },
+  { key: 'interview', label: 'Interview' },
+  { key: 'wait2', label: 'Wait' },
+  { key: 'offer', label: 'Offer' },
+] as const
+
 export default function HeroScene({
   className = '',
   variant = 'full',
@@ -13,165 +22,218 @@ export default function HeroScene({
           inset: 0;
           overflow: hidden;
           pointer-events: none;
-          opacity: 0.75;
+          opacity: 0.8;
         }
-        .hero-scene--right {
-          left: auto;
-          width: 62%;
+        .hero-scene--right { left: auto; width: 100%; }
+        .hero-scene svg { width: 100%; height: 100%; display: block; }
+
+        .hs-card { fill: var(--hero-text); fill-opacity: .05; stroke: var(--hero-text); stroke-opacity: .18; }
+        .hs-card-strong { fill: var(--hero-text); fill-opacity: .16; stroke: var(--hero-text); stroke-opacity: .85; }
+        .hs-ink { fill: var(--hero-text); fill-opacity: .9; stroke: none; }
+        .hs-stick { stroke: var(--hero-text); fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        .hs-soft { opacity: .45; }
+        .hs-label { fill: var(--hero-text); fill-opacity: .9; font-size: 16px; font-weight: 800; text-anchor: middle; letter-spacing: .4px; font-family: inherit; }
+        .hs-bubble { fill: var(--hero-text); font-size: 20px; font-weight: 800; text-anchor: middle; font-family: inherit; }
+        .hs-paper { fill: var(--hero-text); fill-opacity: .18; stroke: var(--hero-text); stroke-opacity: .85; }
+        .hs-type { fill: var(--hero-text); fill-opacity: .35; animation: hsBlink 1.2s ease-in-out infinite; }
+
+        .hs-spark, .hs-tick, .hs-pop { transform-box: fill-box; transform-origin: center; animation: hsPop 1.8s ease-in-out infinite; }
+        .hs-idle { animation: hsIdle 3.2s ease-in-out infinite; }
+        .hs-spin { transform-box: fill-box; transform-origin: center; animation: hsSpin 6s linear infinite; }
+        .hs-talk { transform-box: fill-box; transform-origin: center; animation: hsTalk 1.6s ease-in-out infinite; }
+        .hs-wait { fill: var(--hero-text); fill-opacity: .9; animation: hsWait 1.5s ease-in-out infinite; }
+        .hs-jump { animation: hsJump .9s ease-in-out infinite; }
+        .hs-conf { fill: var(--hero-text); fill-opacity: .55; transform-box: fill-box; transform-origin: center; animation: hsConf 2.4s linear infinite; }
+        .hs-glow { fill: var(--hero-text); fill-opacity: .06; animation: hsStep 12s linear infinite; }
+        .hs-step { fill: none; stroke: var(--hero-text); stroke-opacity: .75; animation: hsStep 12s linear infinite; }
+
+        @keyframes hsIdle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+        @keyframes hsSpin { to { transform: rotate(360deg); } }
+        @keyframes hsBlink { 0%, 100% { opacity: .18; } 50% { opacity: .75; } }
+        @keyframes hsPop { 0%, 55%, 100% { transform: scale(.3); opacity: .2; } 72% { transform: scale(1.18); opacity: 1; } 86% { transform: scale(1); } }
+        @keyframes hsTalk { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+        @keyframes hsWait { 0%, 100% { opacity: .12; } 50% { opacity: .95; } }
+        @keyframes hsJump { 0%, 100% { transform: translateY(0); } 48% { transform: translateY(-16px); } 56% { transform: translateY(-16px); } }
+        @keyframes hsConf { 0% { transform: translateY(0) rotate(0); opacity: 0; } 15% { opacity: .7; } 100% { transform: translateY(110px) rotate(220deg); opacity: 0; } }
+        @keyframes hsStep {
+          0%, 16.5% { transform: translateX(0); }
+          16.66%, 33.16% { transform: translateX(192px); }
+          33.32%, 49.82% { transform: translateX(384px); }
+          49.98%, 66.48% { transform: translateX(576px); }
+          66.64%, 83.14% { transform: translateX(768px); }
+          83.3%, 100% { transform: translateX(960px); }
         }
-        .hero-scene svg {
-          width: 100%;
-          height: 100%;
-          display: block;
-        }
-        .hs-bob   { animation: hsBob 4.5s ease-in-out infinite alternate; }
-        .hs-bob2  { animation: hsBob 6s ease-in-out 0.5s infinite alternate; }
-        .hs-doc   { animation: hsDoc 6.5s linear infinite; }
-        .hs-doc2  { animation: hsDoc 6.5s linear 2.1s infinite; }
-        .hs-doc3  { animation: hsDoc 6.5s linear 4.2s infinite; }
-        .hs-plane { animation: hsPlane 9s linear infinite; }
-        .hs-card  { animation: hsCard 6s ease-in-out infinite; }
-        .hs-pop   { transform-box: fill-box; transform-origin: center; animation: hsPop 1.6s ease-in-out infinite; }
-        .hs-steam { animation: hsSteam 2.4s ease-out infinite; }
-        .hs-steam2{ animation: hsSteam 2.4s ease-out 0.8s infinite; }
-        .hs-tw    { animation: hsTw 3s ease-in-out infinite; }
-        .hs-tw2   { animation: hsTw 3s ease-in-out 0.9s infinite; }
-        .hs-tw3   { animation: hsTw 3s ease-in-out 1.8s infinite; }
-        @keyframes hsBob { from { transform: translateY(0); } to { transform: translateY(-8px); } }
-        @keyframes hsDoc {
-          0%   { transform: translateX(-200px); opacity: 0; }
-          12%  { opacity: 1; }
-          80%  { opacity: 1; }
-          100% { transform: translateX(540px); opacity: 0; }
-        }
-        @keyframes hsPlane {
-          0%   { transform: translateX(-160px) translateY(0); }
-          25%  { transform: translateX(300px) translateY(-14px); }
-          50%  { transform: translateX(760px) translateY(4px); }
-          75%  { transform: translateX(1220px) translateY(-12px); }
-          100% { transform: translateX(1420px) translateY(0); }
-        }
-        @keyframes hsCard {
-          0%   { transform: translate(0, 0); }
-          22%  { transform: translate(0, -10px); }
-          45%  { transform: translate(44px, -10px); }
-          68%  { transform: translate(88px, 0); }
-          100% { transform: translate(88px, 0); }
-        }
-        @keyframes hsPop {
-          0%, 60%, 100% { transform: scale(0); }
-          75%           { transform: scale(1.2); }
-          88%           { transform: scale(1); }
-        }
-        @keyframes hsSteam {
-          0%   { transform: translateY(0); opacity: 0; }
-          30%  { opacity: 0.8; }
-          100% { transform: translateY(-28px); opacity: 0; }
-        }
-        @keyframes hsTw { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.9; } }
       `}</style>
-      <svg viewBox="0 0 1200 400" preserveAspectRatio={variant === 'right' ? 'xMaxYMid slice' : 'xMidYMid slice'}>
-        {/* ground */}
-        <path d="M0 342 Q 300 322 600 344 T 1200 342 L 1200 400 L 0 400 Z" fill="#d9bd8c" fillOpacity="0.30" />
+      <svg
+        viewBox="0 0 1200 400"
+        preserveAspectRatio={variant === 'right' ? 'xMaxYMax meet' : 'xMidYMax meet'}
+      >
+        <line x1={40} y1={310} x2={1160} y2={310} className="hs-stick hs-soft" strokeWidth={3} />
 
-        {/* kanban board (wall, right) */}
-        <g transform="translate(900, 122)">
-          <rect width="150" height="118" rx="9" fill="#c9a76b" fillOpacity="0.9" />
-          <rect x="0" y="14" width="40" height="90" rx="6" fill="#fdf8ec" fillOpacity="0.55" />
-          <rect x="44" y="14" width="40" height="90" rx="6" fill="#fdf8ec" fillOpacity="0.55" />
-          <rect x="88" y="14" width="40" height="90" rx="6" fill="#fdf8ec" fillOpacity="0.55" />
-          <circle cx="20" cy="6.5" r="4" fill="#5b3a1e" fillOpacity="0.7" />
-          <circle cx="64" cy="6.5" r="4" fill="#5b3a1e" fillOpacity="0.7" />
-          <circle cx="108" cy="6.5" r="4" fill="#5b3a1e" fillOpacity="0.7" />
-          <g className="hs-card">
-            <rect x="5" y="22" width="30" height="74" rx="7" fill="#fffdf5" fillOpacity="0.95" />
-            <rect x="11" y="34" width="18" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.8" />
-            <rect x="11" y="44" width="18" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.6" />
-            <rect x="11" y="54" width="12" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.6" />
-          </g>
-          <path d="M102 60 l9 9 l18 -21" fill="none" stroke="#221c13" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" className="hs-pop" style={{ animationDelay: '1.2s' }} />
-        </g>
+          {STAGES.map((st, i) => (
+            <g key={st.key} transform={`translate(${120 + i * 192} 0)`}>
+              <rect x={-90} y={44} width={180} height={236} rx={16} className="hs-card" strokeWidth={2} />
+              <StageBody stage={st.key} />
+              <text className="hs-label" x={0} y={268}>
+                {st.label}
+              </text>
+            </g>
+          ))}
 
-        {/* briefcase (floor, right) */}
-        <g className="hs-bob2" transform="translate(1020, 248)">
-          <rect width="118" height="80" rx="14" fill="#8a5a2b" fillOpacity="0.95" />
-          <path d="M38 0 v-16 a 12 12 0 0 1 42 0 v16" fill="none" stroke="#5b3a1e" strokeWidth="9" strokeLinecap="round" />
-          <rect x="50" y="-5" width="18" height="10" rx="5" fill="#5b3a1e" fillOpacity="0.8" />
-          <path d="M34 52 l16 16 l34 -36" fill="none" stroke="#fffdf5" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" className="hs-pop" style={{ animationDelay: '1.6s' }} />
-        </g>
-
-        {/* floating application card (above laptop) */}
-        <g className="hs-bob2" transform="translate(576, 104)">
-          <rect width="72" height="94" rx="11" fill="#fffdf5" fillOpacity="0.92" />
-          <rect x="11" y="14" width="50" height="9" rx="4.5" fill="#8a5a2b" fillOpacity="0.8" />
-          <rect x="11" y="30" width="50" height="7" rx="3.5" fill="#8a5a2b" fillOpacity="0.55" />
-          <rect x="11" y="42" width="36" height="7" rx="3.5" fill="#8a5a2b" fillOpacity="0.55" />
-          <path d="M20 70 l10 10 l24 -24" fill="none" stroke="#221c13" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-        </g>
-
-        {/* character sitting at desk (center-right) */}
-        <g className="hs-bob">
-          <rect x="700" y="214" width="80" height="86" rx="18" fill="#fffdf5" fillOpacity="0.95" />
-          <path d="M730 214 v-10" stroke="#e3cba4" strokeWidth="6" />
-          <rect x="728" y="200" width="24" height="16" rx="6" fill="#e8c9a0" />
-          <circle cx="740" cy="166" r="34" fill="#e8c9a0" />
-          <path d="M706 164 a34 34 0 0 1 68 0 v2 a34 34 0 0 0 -68 0 Z" fill="#221c13" />
-          <circle cx="728" cy="172" r="3.4" fill="#221c13" />
-          <circle cx="752" cy="172" r="3.4" fill="#221c13" />
-          <path d="M730 182 q10 8 20 0" fill="none" stroke="#221c13" strokeWidth="2.6" strokeLinecap="round" />
-        </g>
-
-        {/* desk */}
-        <rect x="560" y="238" width="380" height="22" rx="10" fill="#8a5a2b" fillOpacity="0.92" />
-        <rect x="588" y="260" width="20" height="66" rx="5" fill="#5b3a1e" fillOpacity="0.85" />
-        <rect x="880" y="260" width="20" height="66" rx="5" fill="#5b3a1e" fillOpacity="0.85" />
-
-        {/* laptop */}
-        <g transform="rotate(-4 667 205)">
-          <rect x="600" y="188" width="134" height="34" rx="4" fill="#2b2117" />
-          <rect x="612" y="196" width="40" height="5" rx="2.5" fill="#c9a76b" fillOpacity="0.8" />
-          <rect x="612" y="205" width="52" height="5" rx="2.5" fill="#c9a76b" fillOpacity="0.6" />
-          <rect x="612" y="214" width="30" height="5" rx="2.5" fill="#c9a76b" fillOpacity="0.6" />
-        </g>
-        <rect x="592" y="222" width="150" height="9" rx="4" fill="#3a2f24" />
-        <rect x="602" y="226" width="130" height="1" fill="#5b4632" />
-
-        {/* arms + hands on laptop */}
-        <rect x="694" y="232" width="56" height="14" rx="7" fill="#e8c9a0" transform="rotate(24 722 239)" />
-        <rect x="716" y="236" width="58" height="14" rx="7" fill="#e8c9a0" transform="rotate(-24 745 243)" />
-        <circle cx="700" cy="244" r="10" fill="#e8c9a0" />
-        <circle cx="756" cy="230" r="10" fill="#e8c9a0" />
-
-        {/* mug with steam */}
-        <rect x="846" y="210" width="26" height="26" rx="6" fill="#fffdf5" fillOpacity="0.95" />
-        <path d="M872 216 a 9 9 0 0 1 0 14" fill="none" stroke="#fffdf5" strokeWidth="5" strokeLinecap="round" />
-        <path d="M856 202 c-3 -7 3 -11 0 -18" fill="none" stroke="#fffdf5" strokeWidth="2.5" strokeLinecap="round" className="hs-steam" />
-        <path d="M862 204 c-3 -7 3 -11 0 -18" fill="none" stroke="#fffdf5" strokeWidth="2.5" strokeLinecap="round" className="hs-steam2" />
-
-        {/* documents flying toward laptop */}
-        <g className="hs-doc" transform="translate(0, 168)">
-          <rect width="36" height="48" rx="7" fill="#fffdf5" fillOpacity="0.9" />
-          <rect x="8" y="11" width="20" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.8" />
-          <rect x="8" y="21" width="20" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.6" />
-          <rect x="8" y="31" width="13" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.6" />
-        </g>
-        <g className="hs-doc2" transform="translate(0, 226)">
-          <rect width="32" height="44" rx="7" fill="#f2e3c9" fillOpacity="0.9" />
-          <rect x="7" y="10" width="18" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.8" />
-          <rect x="7" y="20" width="18" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.6" />
-        </g>
-
-        {/* paper plane (left) */}
-        <g className="hs-plane" transform="translate(0, 320)">
-          <path d="M0 14 L62 0 L44 58 L28 40 L10 44 Z" fill="#fffdf5" fillOpacity="0.9" />
-          <path d="M28 40 L62 0" fill="none" stroke="#8a5a2b" strokeOpacity="0.7" strokeWidth="3" />
-        </g>
-
-        {/* sparkles */}
-        <path d="M640 90 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z" fill="#fffdf5" className="hs-tw" />
-        <path d="M520 330 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z" fill="#fffdf5" className="hs-tw2" />
-        <path d="M360 60 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z" fill="#fffdf5" className="hs-tw3" />
-      </svg>
+          <rect className="hs-glow" x={30} y={44} width={180} height={236} rx={16} />
+          <rect className="hs-step" x={30} y={44} width={180} height={236} rx={16} strokeWidth={3} />
+        </svg>
     </div>
   )
+}
+
+function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
+  switch (stage) {
+    case 'apply':
+      return (
+        <g>
+          <g className="hs-idle">
+            <g className="hs-stick" strokeWidth={6}>
+              <circle cx={-6} cy={108} r={12} />
+              <path d="M-6 120 L-6 172" />
+              <path d="M-6 134 L26 214" />
+              <path d="M-6 134 L-28 176" />
+              <path d="M-6 172 L-19 300" />
+              <path d="M-6 172 L7 300" />
+            </g>
+            <circle cx={26} cy={214} r={4} className="hs-spark" style={{ animationDelay: '0.6s' }} />
+          </g>
+          <path d="M-72 252 L72 252 M-60 252 L-60 300 M60 252 L60 300" className="hs-stick hs-soft" strokeWidth={5} />
+          <g>
+            <rect x={14} y={206} width={44} height={28} rx={3} className="hs-ink" />
+            <rect x={22} y={214} width={28} height={3} rx={1.5} className="hs-type" style={{ animationDelay: '0s' }} />
+            <rect x={22} y={222} width={22} height={3} rx={1.5} className="hs-type" style={{ animationDelay: '0.2s' }} />
+            <rect x={22} y={230} width={14} height={3} rx={1.5} className="hs-type" style={{ animationDelay: '0.4s' }} />
+            <rect x={10} y={234} width={52} height={10} rx={3} className="hs-ink" />
+          </g>
+        </g>
+      )
+
+    case 'wait1':
+      return (
+        <g className="hs-idle">
+          <g className="hs-stick" strokeWidth={6}>
+            <circle cx={0} cy={108} r={12} />
+            <path d="M0 120 L0 186" />
+            <path d="M0 134 L-20 198" />
+            <path d="M0 134 L4 206" />
+            <path d="M0 186 L6 236 L30 300" />
+            <path d="M0 186 L-2 236 L20 300" />
+          </g>
+          <g transform="translate(30 92)">
+            <circle r={15} className="hs-stick" strokeWidth={5} />
+            <g className="hs-spin hs-stick" strokeWidth={4}>
+              <path d="M0 -11 L0 11" />
+              <circle r={2.5} className="hs-ink" />
+            </g>
+          </g>
+        </g>
+      )
+
+    case 'assessment':
+      return (
+        <g className="hs-idle">
+          <g className="hs-stick" strokeWidth={6}>
+            <circle cx={-6} cy={108} r={12} />
+            <path d="M-6 120 L-6 172" />
+            <path d="M-6 134 L14 178" />
+            <path d="M-6 134 L30 206" />
+            <path d="M-6 172 L-19 300" />
+            <path d="M-6 172 L7 300" />
+          </g>
+          <g transform="translate(14 176)">
+            <rect width={30} height={44} rx={4} className="hs-card-strong" strokeWidth={2.5} />
+            <path d="M6 12 l6 7 l12 -15" fill="none" className="hs-stick hs-tick" strokeWidth={4} style={{ animationDelay: '0s' }} />
+            <path d="M6 26 l6 7 l12 -15" fill="none" className="hs-stick hs-tick" strokeWidth={4} style={{ animationDelay: '0.8s' }} />
+          </g>
+          <path d="M32 214 L42 224" className="hs-stick" strokeWidth={5} />
+        </g>
+      )
+
+    case 'interview':
+      return (
+        <g>
+          <g className="hs-idle">
+            <g className="hs-stick" strokeWidth={6}>
+              <circle cx={-40} cy={108} r={12} />
+              <path d="M-40 120 L-40 172" />
+              <path d="M-40 134 L-20 240" />
+              <path d="M-40 134 L-60 180" />
+              <path d="M-40 172 L-53 300" />
+              <path d="M-40 172 L-27 300" />
+            </g>
+          </g>
+          <g className="hs-idle" style={{ animationDelay: '0.4s' }}>
+            <g className="hs-stick" strokeWidth={6}>
+              <circle cx={44} cy={108} r={12} />
+              <path d="M44 120 L44 186" />
+              <path d="M44 134 L20 238" />
+              <path d="M44 134 L62 202" />
+              <path d="M44 186 L58 300" />
+              <path d="M44 186 L32 300" />
+            </g>
+          </g>
+          <path d="M-34 254 L34 254 M-28 254 L-28 300 M28 254 L28 300" className="hs-stick hs-soft" strokeWidth={5} />
+          <g className="hs-talk">
+            <circle cx={66} cy={80} r={14} className="hs-stick" strokeWidth={4.5} />
+            <path d="M60 92 L52 108 L68 96 Z" fill="none" className="hs-stick hs-soft" strokeWidth={4} />
+            <text x={66} y={86} textAnchor="middle" className="hs-bubble">
+              ?
+            </text>
+          </g>
+        </g>
+      )
+
+    case 'wait2':
+      return (
+        <g className="hs-idle">
+          <g className="hs-stick" strokeWidth={6}>
+            <circle cx={0} cy={108} r={12} />
+            <path d="M0 120 L0 186" />
+            <path d="M0 134 L-20 198" />
+            <path d="M0 134 L4 206" />
+            <path d="M0 186 L6 236 L30 300" />
+            <path d="M0 186 L-2 236 L20 300" />
+          </g>
+          <g transform="translate(24 86)">
+            <circle r={15} className="hs-stick" strokeWidth={4.5} />
+            <circle cx={22} cy={-10} r={7} className="hs-stick" strokeWidth={4} />
+            <circle cx={36} cy={-20} r={4} className="hs-stick" strokeWidth={3.5} />
+            <circle cx={-4} cy={2} r={2.6} className="hs-wait" style={{ animationDelay: '0s' }} />
+            <circle cx={3} cy={2} r={2.6} className="hs-wait" style={{ animationDelay: '0.22s' }} />
+            <circle cx={10} cy={2} r={2.6} className="hs-wait" style={{ animationDelay: '0.44s' }} />
+          </g>
+        </g>
+      )
+
+    case 'offer':
+      return (
+        <g>
+          <g className="hs-jump">
+            <g className="hs-stick" strokeWidth={6}>
+              <circle cx={0} cy={108} r={12} />
+              <path d="M0 120 L0 170" />
+              <path d="M0 134 L-24 106" />
+              <path d="M0 134 L24 106" />
+              <path d="M0 170 L-12 268" />
+              <path d="M0 170 L14 270" />
+            </g>
+            <g transform="translate(22 108)">
+              <rect width={22} height={30} rx={3} className="hs-paper" strokeWidth={2.5} />
+              <path d="M4 17 l5 6 l10 -12" fill="none" className="hs-stick hs-pop" strokeWidth={4} />
+            </g>
+          </g>
+          <rect x={-46} y={70} width={7} height={7} rx={1.5} className="hs-conf" style={{ animationDelay: '0s' }} />
+          <rect x={-34} y={52} width={6} height={6} rx={1.5} className="hs-conf" style={{ animationDelay: '0.35s' }} />
+          <rect x={-22} y={64} width={8} height={8} rx={2} className="hs-conf" style={{ animationDelay: '0.7s' }} />
+          <rect x={-52} y={58} width={6} height={6} rx={1.5} className="hs-conf" style={{ animationDelay: '0.5s' }} />
+          <rect x={-12} y={48} width={7} height={7} rx={1.5} className="hs-conf" style={{ animationDelay: '0.9s' }} />
+        </g>
+      )
+  }
 }
