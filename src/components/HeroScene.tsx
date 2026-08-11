@@ -7,6 +7,18 @@ const STAGES = [
   { key: 'offer', label: 'Offer' },
 ] as const
 
+function Star({ x, y, d }: { x: number; y: number; d: number }) {
+  return (
+    <path
+      d={`M${x} ${y - 9} L${x + 3} ${y - 3} L${x + 9} ${y} L${x + 3} ${y + 3} L${x} ${y + 9} L${x - 3} ${y + 3} L${x - 9} ${y} L${x - 3} ${y - 3} Z`}
+      className="hs-tw"
+      style={{ animationDelay: `${d}s` }}
+      fill="var(--hero-text)"
+      fillOpacity="0.5"
+    />
+  )
+}
+
 export default function HeroScene({
   className = '',
   variant = 'full',
@@ -22,7 +34,7 @@ export default function HeroScene({
           inset: 0;
           overflow: hidden;
           pointer-events: none;
-          opacity: 0.85;
+          opacity: 0.9;
         }
         .hero-scene--right { left: auto; width: 100%; }
         .hero-scene svg { width: 100%; height: 100%; display: block; }
@@ -32,8 +44,9 @@ export default function HeroScene({
         .hs-stick { stroke: var(--hero-text); fill: none; stroke-linecap: round; stroke-linejoin: round; }
         .hs-soft { opacity: .45; }
         .hs-shadow { fill: var(--hero-text); fill-opacity: .14; }
-        .hs-label-big { fill: var(--hero-text); fill-opacity: .95; font-size: 24px; font-weight: 800; text-anchor: middle; letter-spacing: 1px; font-family: inherit; }
-        .hs-bubble { fill: var(--hero-text); font-size: 18px; font-weight: 800; text-anchor: middle; font-family: inherit; }
+        .hs-panel { fill: var(--hero-text); fill-opacity: .05; stroke: var(--hero-text); stroke-opacity: .14; }
+        .hs-label-big { fill: var(--hero-text); fill-opacity: .95; font-size: 20px; font-weight: 800; text-anchor: middle; letter-spacing: 1px; font-family: inherit; }
+        .hs-bubble { fill: var(--hero-text); font-size: 16px; font-weight: 800; text-anchor: middle; font-family: inherit; }
         .hs-paper { fill: var(--hero-text); fill-opacity: .18; stroke: var(--hero-text); stroke-opacity: .85; }
         .hs-type { fill: var(--hero-text); fill-opacity: .35; animation: hsBlink 1.2s ease-in-out infinite; }
         .hs-dot { fill: var(--hero-text); }
@@ -47,6 +60,10 @@ export default function HeroScene({
         .hs-wait { fill: var(--hero-text); fill-opacity: .9; animation: hsWait 1.5s ease-in-out infinite; }
         .hs-jump { animation: hsJump .9s ease-in-out infinite; }
         .hs-conf { fill: var(--hero-text); fill-opacity: .55; transform-box: fill-box; transform-origin: center; animation: hsConf 2.4s linear infinite; }
+        .hs-tw { animation: hsTw 2.4s ease-in-out infinite; }
+        .hs-cloud { animation: hsCloud 3.6s ease-in-out infinite alternate; }
+        .hs-rise { animation: hsRise 2.4s ease-in-out infinite alternate; }
+        .hs-fly { animation: hsFly 9s linear infinite; }
 
         @keyframes hsStage {
           0%   { opacity: 0; }
@@ -63,22 +80,53 @@ export default function HeroScene({
         @keyframes hsWait { 0%, 100% { opacity: .12; } 50% { opacity: .95; } }
         @keyframes hsJump { 0%, 100% { transform: translateY(0); } 48% { transform: translateY(-16px); } 56% { transform: translateY(-16px); } }
         @keyframes hsConf { 0% { transform: translateY(0) rotate(0); opacity: 0; } 15% { opacity: .7; } 100% { transform: translateY(110px) rotate(220deg); opacity: 0; } }
+        @keyframes hsTw { 0%, 100% { opacity: .1; } 50% { opacity: .8; } }
+        @keyframes hsCloud { 0% { transform: translateX(0); } 100% { transform: translateX(16px); } }
+        @keyframes hsRise { 0% { transform: translateY(0); } 100% { transform: translateY(-70px); } }
+        @keyframes hsFly { 0% { transform: translateX(-150px); } 100% { transform: translateX(1370px); } }
       `}</style>
       <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid meet">
-        <line x1={330} y1={364} x2={870} y2={364} className="hs-stick hs-soft" strokeWidth={3} />
+        {/* background: stars + clouds */}
+        <Star x={170} y={150} d={0} />
+        <Star x={310} y={70} d={0.35} />
+        <Star x={1040} y={80} d={0.7} />
+        <Star x={1100} y={210} d={1.05} />
+        <Star x={150} y={300} d={1.4} />
+        <Star x={960} y={330} d={1.75} />
+        <g transform="translate(150 66)">
+          <g className="hs-cloud">
+            <circle cx={12} cy={22} r={10} fill="var(--hero-text)" fillOpacity="0.16" />
+            <circle cx={27} cy={16} r={13} fill="var(--hero-text)" fillOpacity="0.16" />
+            <circle cx={42} cy={22} r={10} fill="var(--hero-text)" fillOpacity="0.16" />
+            <rect x={12} y={20} width={30} height={12} rx={6} fill="var(--hero-text)" fillOpacity="0.16" />
+          </g>
+        </g>
+        <g transform="translate(1030 56)">
+          <g className="hs-cloud" style={{ animationDelay: '0.9s' }}>
+            <circle cx={10} cy={18} r={8} fill="var(--hero-text)" fillOpacity="0.13" />
+            <circle cx={22} cy={13} r={11} fill="var(--hero-text)" fillOpacity="0.13" />
+            <circle cx={34} cy={18} r={8} fill="var(--hero-text)" fillOpacity="0.13" />
+            <rect x={10} y={16} width={24} height={10} rx={5} fill="var(--hero-text)" fillOpacity="0.13" />
+          </g>
+        </g>
+
+        {/* timeline */}
+        <line x1={340} y1={376} x2={860} y2={376} className="hs-stick hs-soft" strokeWidth={3} />
         {STAGES.map((_, i) => (
-          <circle key={i} cx={330 + i * 108} cy={364} r={5} className="hs-dot-idle" />
+          <circle key={i} cx={340 + i * 104} cy={376} r={5} className="hs-dot-idle" />
         ))}
+
         {STAGES.map((st, i) => (
-          <g key={st.key} className="hs-stage" style={{ animationDelay: `${-i * 2}s` }}>
-            <text className="hs-label-big" x={600} y={62}>
+          <g key={st.key} className="hs-stage" style={{ animationDelay: `${i * 2}s` }}>
+            <rect x={430} y={36} width={340} height={330} rx={26} className="hs-panel" strokeWidth={2} />
+            <text className="hs-label-big" x={600} y={80}>
               {st.label}
             </text>
-            <g transform="translate(600 8) scale(1.15)">
+            <g transform="translate(600 100) scale(0.9)">
               <StageBody stage={st.key} />
             </g>
-            <ellipse cx={600} cy={392} rx={46} ry={4} className="hs-shadow" />
-            <circle cx={330 + i * 108} cy={364} r={5} className="hs-dot" />
+            <ellipse cx={600} cy={392} rx={42} ry={4} className="hs-shadow" />
+            <circle cx={340 + i * 104} cy={376} r={5} className="hs-dot" />
           </g>
         ))}
       </svg>
