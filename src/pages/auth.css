@@ -12,13 +12,11 @@
 .auth-card {
   width: 100%;
   max-width: 400px;
-  background: color-mix(in srgb, var(--hero-text) 9%, transparent);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border: 1px solid color-mix(in srgb, var(--hero-text) 24%, transparent);
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--hero-text) 16%, transparent);
   border-radius: 16px;
   padding: 32px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  box-shadow: none;
   position: relative;
   z-index: 1;
 }
