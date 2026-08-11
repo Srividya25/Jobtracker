@@ -8,6 +8,6 @@
   </defs>
   <rect width="64" height="64" rx="16" fill="#16181d"/>
   <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="#2c3038" stroke-width="1.5"/>
-  <text x="30" y="45" font-family="Georgia, 'Times New Roman', serif" font-size="38" font-weight="500" font-style="italic" fill="url(#gold)" text-anchor="middle">J</text>
-  <circle cx="48.5" cy="17.5" r="2.4" fill="url(#gold)"/>
+  <path d="M32 10 C 21.5 10 13 18.3 13 28.5 C 13 39.5 32 55 32 55 C 32 55 51 39.5 51 28.5 C 51 18.3 42.5 10 32 10 Z" fill="none" stroke="url(#gold)" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="32" cy="28" r="6.5" fill="url(#gold)"/>
 </svg>
