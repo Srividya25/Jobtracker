@@ -10,7 +10,7 @@
 .dash-hero {
   background: var(--hero-grad);
   color: var(--hero-text);
-  padding: 32px 24px 180px;
+  padding: 32px 24px 120px;
   position: relative;
   overflow: hidden;
 }
@@ -94,8 +94,10 @@
 /* ---- Main area ---- */
 .dash-main {
   max-width: 1080px;
-  margin: -40px auto 0;
-  padding: 0 24px 48px;
+  margin: 0 auto;
+  padding: 24px 24px 48px;
+  position: relative;
+  z-index: 1;
 }
 
 /* ---- Stats cards ---- */
