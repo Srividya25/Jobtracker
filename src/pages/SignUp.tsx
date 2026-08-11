@@ -55,11 +55,25 @@ export default function SignUp() {
             <form onSubmit={handleSubmit}>
               <div className="auth-field">
                 <label>Email</label>
-                <input type="email" value={email} onChange={(e) => { setEmail(e.target.value); markTyping() }} onKeyDown={markTyping} required placeholder="you@example.com" autoComplete="email" autoFocus />
+                <div className="auth-input-wrap">
+                  <span className="auth-field-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="4" width="20" height="16" rx="2" />
+                      <path d="m22 6-10 7L2 6" />
+                    </svg>
+                  </span>
+                  <input type="email" value={email} onChange={(e) => { setEmail(e.target.value); markTyping() }} onKeyDown={markTyping} required placeholder="you@example.com" autoComplete="email" autoFocus />
+                </div>
               </div>
               <div className="auth-field">
                 <label>Password</label>
-                <div className="auth-input-wrap">
+                <div className="auth-input-wrap has-toggle">
+                  <span className="auth-field-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="4" y="11" width="16" height="10" rx="2" />
+                      <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+                    </svg>
+                  </span>
                   <input type={showPw ? 'text' : 'password'} value={password} onChange={(e) => { setPassword(e.target.value); markTyping() }} onKeyDown={markTyping} required minLength={6} placeholder="At least 6 characters" autoComplete="new-password" />
                   <button
                     type="button"
@@ -84,7 +98,15 @@ export default function SignUp() {
               </div>
               <div className="auth-field">
                 <label>Confirm Password</label>
-                <input type={showPw ? 'text' : 'password'} value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value); markTyping() }} onKeyDown={markTyping} required placeholder="Re-enter your password" autoComplete="new-password" />
+                <div className="auth-input-wrap">
+                  <span className="auth-field-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="4" y="11" width="16" height="10" rx="2" />
+                      <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+                    </svg>
+                  </span>
+                  <input type={showPw ? 'text' : 'password'} value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value); markTyping() }} onKeyDown={markTyping} required placeholder="Re-enter your password" autoComplete="new-password" />
+                </div>
               </div>
               <button type="submit" className="auth-btn" disabled={loading}>
                 {loading ? 'Creating account…' : 'Sign Up'}

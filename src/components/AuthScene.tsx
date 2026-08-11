@@ -41,6 +41,7 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
           display: flex;
           align-items: center;
           justify-content: center;
+          animation: asIn 1.1s cubic-bezier(0.22, 0.61, 0.36, 1) 0.15s both;
         }
         .auth-scene svg {
           width: 80%;
@@ -108,6 +109,7 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
         }
         @keyframes asTw { 0%, 100% { opacity: 0.12; } 50% { opacity: 0.85; } }
         @keyframes asEq { from { transform: scaleY(0.35); } to { transform: scaleY(1.35); } }
+        @keyframes asIn { from { opacity: 0; } to { opacity: 0.88; } }
       `}</style>
       <div className="as-spot" />
       <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax meet" className={live ? 'as-live' : undefined}>
