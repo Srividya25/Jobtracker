@@ -22,21 +22,22 @@ export default function HeroScene({
           inset: 0;
           overflow: hidden;
           pointer-events: none;
-          opacity: 0.8;
+          opacity: 0.85;
         }
         .hero-scene--right { left: auto; width: 100%; }
         .hero-scene svg { width: 100%; height: 100%; display: block; }
 
-        .hs-card { fill: var(--hero-text); fill-opacity: .05; stroke: var(--hero-text); stroke-opacity: .18; }
-        .hs-card-strong { fill: var(--hero-text); fill-opacity: .16; stroke: var(--hero-text); stroke-opacity: .85; }
         .hs-ink { fill: var(--hero-text); fill-opacity: .9; stroke: none; }
+        .hs-card-strong { fill: var(--hero-text); fill-opacity: .16; stroke: var(--hero-text); stroke-opacity: .85; }
         .hs-stick { stroke: var(--hero-text); fill: none; stroke-linecap: round; stroke-linejoin: round; }
         .hs-soft { opacity: .45; }
-        .hs-label { fill: var(--hero-text); fill-opacity: .9; font-size: 16px; font-weight: 800; text-anchor: middle; letter-spacing: .4px; font-family: inherit; }
+        .hs-label-big { fill: var(--hero-text); fill-opacity: .95; font-size: 30px; font-weight: 800; text-anchor: middle; letter-spacing: 1px; font-family: inherit; }
         .hs-bubble { fill: var(--hero-text); font-size: 20px; font-weight: 800; text-anchor: middle; font-family: inherit; }
         .hs-paper { fill: var(--hero-text); fill-opacity: .18; stroke: var(--hero-text); stroke-opacity: .85; }
         .hs-type { fill: var(--hero-text); fill-opacity: .35; animation: hsBlink 1.2s ease-in-out infinite; }
+        .hs-dot { fill: var(--hero-text); }
 
+        .hs-stage { animation: hsStage 12s linear infinite; }
         .hs-spark, .hs-tick, .hs-pop { transform-box: fill-box; transform-origin: center; animation: hsPop 1.8s ease-in-out infinite; }
         .hs-idle { animation: hsIdle 3.2s ease-in-out infinite; }
         .hs-spin { transform-box: fill-box; transform-origin: center; animation: hsSpin 6s linear infinite; }
@@ -44,9 +45,14 @@ export default function HeroScene({
         .hs-wait { fill: var(--hero-text); fill-opacity: .9; animation: hsWait 1.5s ease-in-out infinite; }
         .hs-jump { animation: hsJump .9s ease-in-out infinite; }
         .hs-conf { fill: var(--hero-text); fill-opacity: .55; transform-box: fill-box; transform-origin: center; animation: hsConf 2.4s linear infinite; }
-        .hs-glow { fill: var(--hero-text); fill-opacity: .06; animation: hsStep 12s linear infinite; }
-        .hs-step { fill: none; stroke: var(--hero-text); stroke-opacity: .75; animation: hsStep 12s linear infinite; }
 
+        @keyframes hsStage {
+          0%   { opacity: 0; transform: translateY(20px); }
+          5%   { opacity: 1; transform: translateY(0); }
+          16.5% { opacity: 1; transform: translateY(0); }
+          21.5% { opacity: 0; transform: translateY(-20px); }
+          100% { opacity: 0; transform: translateY(-20px); }
+        }
         @keyframes hsIdle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
         @keyframes hsSpin { to { transform: rotate(360deg); } }
         @keyframes hsBlink { 0%, 100% { opacity: .18; } 50% { opacity: .75; } }
@@ -55,34 +61,22 @@ export default function HeroScene({
         @keyframes hsWait { 0%, 100% { opacity: .12; } 50% { opacity: .95; } }
         @keyframes hsJump { 0%, 100% { transform: translateY(0); } 48% { transform: translateY(-16px); } 56% { transform: translateY(-16px); } }
         @keyframes hsConf { 0% { transform: translateY(0) rotate(0); opacity: 0; } 15% { opacity: .7; } 100% { transform: translateY(110px) rotate(220deg); opacity: 0; } }
-        @keyframes hsStep {
-          0%, 16.5% { transform: translateX(0); }
-          16.66%, 33.16% { transform: translateX(192px); }
-          33.32%, 49.82% { transform: translateX(384px); }
-          49.98%, 66.48% { transform: translateX(576px); }
-          66.64%, 83.14% { transform: translateX(768px); }
-          83.3%, 100% { transform: translateX(960px); }
-        }
       `}</style>
-      <svg
-        viewBox="0 0 1200 400"
-        preserveAspectRatio={variant === 'right' ? 'xMaxYMax meet' : 'xMidYMax meet'}
-      >
-        <line x1={40} y1={310} x2={1160} y2={310} className="hs-stick hs-soft" strokeWidth={3} />
+      <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid meet">
+        <line x1={420} y1={390} x2={780} y2={390} className="hs-stick hs-soft" strokeWidth={3} />
 
-          {STAGES.map((st, i) => (
-            <g key={st.key} transform={`translate(${120 + i * 192} 0)`}>
-              <rect x={-90} y={44} width={180} height={236} rx={16} className="hs-card" strokeWidth={2} />
+        {STAGES.map((st, i) => (
+          <g key={st.key} className="hs-stage" style={{ animationDelay: `${i * 2}s` }}>
+            <text className="hs-label-big" x={600} y={66}>
+              {st.label}
+            </text>
+            <g transform="translate(600 10) scale(1.25)">
               <StageBody stage={st.key} />
-              <text className="hs-label" x={0} y={268}>
-                {st.label}
-              </text>
             </g>
-          ))}
-
-          <rect className="hs-glow" x={30} y={44} width={180} height={236} rx={16} />
-          <rect className="hs-step" x={30} y={44} width={180} height={236} rx={16} strokeWidth={3} />
-        </svg>
+            <circle cx={600 + (i - 2.5) * 34} cy={360} r={6} className="hs-dot" />
+          </g>
+        ))}
+      </svg>
     </div>
   )
 }
