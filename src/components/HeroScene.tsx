@@ -7,137 +7,163 @@ export default function HeroScene({ className = '' }: { className?: string }) {
           inset: 0;
           overflow: hidden;
           pointer-events: none;
-          opacity: 0.55;
+          opacity: 0.75;
         }
         .hero-scene svg {
           width: 100%;
           height: 100%;
           display: block;
         }
-        .hs-bob   { animation: hsBob 5s ease-in-out infinite alternate; }
-        .hs-bob2  { animation: hsBob 7s ease-in-out infinite alternate; }
-        .hs-doc   { animation: hsDoc 7s linear infinite; }
-        .hs-doc2  { animation: hsDoc 7s linear 2.33s infinite; }
-        .hs-doc3  { animation: hsDoc 7s linear 4.66s infinite; }
+        .hs-bob   { animation: hsBob 4.5s ease-in-out infinite alternate; }
+        .hs-bob2  { animation: hsBob 6s ease-in-out 0.5s infinite alternate; }
+        .hs-doc   { animation: hsDoc 6.5s linear infinite; }
+        .hs-doc2  { animation: hsDoc 6.5s linear 2.1s infinite; }
+        .hs-doc3  { animation: hsDoc 6.5s linear 4.2s infinite; }
         .hs-plane { animation: hsPlane 9s linear infinite; }
         .hs-card  { animation: hsCard 6s ease-in-out infinite; }
         .hs-pop   { transform-box: fill-box; transform-origin: center; animation: hsPop 1.6s ease-in-out infinite; }
-        .hs-spin  { transform-box: fill-box; transform-origin: center; animation: hsSpin 14s linear infinite; }
+        .hs-steam { animation: hsSteam 2.4s ease-out infinite; }
+        .hs-steam2{ animation: hsSteam 2.4s ease-out 0.8s infinite; }
         .hs-tw    { animation: hsTw 3s ease-in-out infinite; }
         .hs-tw2   { animation: hsTw 3s ease-in-out 0.9s infinite; }
         .hs-tw3   { animation: hsTw 3s ease-in-out 1.8s infinite; }
-        @keyframes hsBob { from { transform: translateY(0); } to { transform: translateY(-12px); } }
+        @keyframes hsBob { from { transform: translateY(0); } to { transform: translateY(-8px); } }
         @keyframes hsDoc {
-          0%   { transform: translateX(-160px); opacity: 0; }
+          0%   { transform: translateX(-180px); opacity: 0; }
           10%  { opacity: 1; }
-          82%  { opacity: 1; }
-          100% { transform: translateX(760px); opacity: 0; }
+          80%  { opacity: 1; }
+          100% { transform: translateX(560px); opacity: 0; }
         }
         @keyframes hsPlane {
           0%   { transform: translateX(-160px) translateY(0); }
-          25%  { transform: translateX(300px) translateY(-16px); }
-          50%  { transform: translateX(760px) translateY(6px); }
-          75%  { transform: translateX(1220px) translateY(-14px); }
+          25%  { transform: translateX(300px) translateY(-14px); }
+          50%  { transform: translateX(760px) translateY(4px); }
+          75%  { transform: translateX(1220px) translateY(-12px); }
           100% { transform: translateX(1420px) translateY(0); }
         }
         @keyframes hsCard {
           0%   { transform: translate(0, 0); }
-          22%  { transform: translate(0, -14px); }
-          45%  { transform: translate(90px, -14px); }
-          68%  { transform: translate(180px, 0); }
-          100% { transform: translate(180px, 0); }
+          22%  { transform: translate(0, -10px); }
+          45%  { transform: translate(44px, -10px); }
+          68%  { transform: translate(88px, 0); }
+          100% { transform: translate(88px, 0); }
         }
         @keyframes hsPop {
           0%, 60%, 100% { transform: scale(0); }
           75%           { transform: scale(1.2); }
           88%           { transform: scale(1); }
         }
-        @keyframes hsSpin { to { transform: rotate(360deg); } }
+        @keyframes hsSteam {
+          0%   { transform: translateY(0); opacity: 0; }
+          30%  { opacity: 0.8; }
+          100% { transform: translateY(-28px); opacity: 0; }
+        }
         @keyframes hsTw { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.9; } }
       `}</style>
       <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice">
-        {/* soft clouds + ground */}
-        <ellipse cx="150" cy="348" rx="95" ry="28" fill="#fff" fillOpacity="0.10" />
-        <ellipse cx="1050" cy="352" rx="120" ry="30" fill="#fff" fillOpacity="0.10" />
-        <path d="M0 400 Q 300 340 600 392 T 1200 384 V 400 Z" fill="#fff" fillOpacity="0.09" />
+        {/* ground */}
+        <path d="M0 342 Q 300 322 600 344 T 1200 342 L 1200 400 L 0 400 Z" fill="#d9bd8c" fillOpacity="0.30" />
 
-        {/* application document (left) */}
-        <g className="hs-bob" transform="translate(80, 96)">
-          <rect width="120" height="150" rx="14" fill="#fff" fillOpacity="0.38" />
-          <rect x="16" y="18" width="88" height="12" rx="6" fill="#3b2a7d" fillOpacity="0.45" />
-          <rect x="16" y="40" width="88" height="10" rx="5" fill="#3b2a7d" fillOpacity="0.32" />
-          <rect x="16" y="56" width="64" height="10" rx="5" fill="#3b2a7d" fillOpacity="0.32" />
-          <path d="M30 104 l16 16 l40 -40" fill="none" stroke="#fff" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.85" />
+        {/* kanban board (wall, right) */}
+        <g transform="translate(905, 118)">
+          <rect width="150" height="118" rx="9" fill="#c9a76b" fillOpacity="0.9" />
+          <rect x="0" y="14" width="40" height="90" rx="6" fill="#fdf8ec" fillOpacity="0.55" />
+          <rect x="44" y="14" width="40" height="90" rx="6" fill="#fdf8ec" fillOpacity="0.55" />
+          <rect x="88" y="14" width="40" height="90" rx="6" fill="#fdf8ec" fillOpacity="0.55" />
+          <circle cx="20" cy="6.5" r="4" fill="#5b3a1e" fillOpacity="0.7" />
+          <circle cx="64" cy="6.5" r="4" fill="#5b3a1e" fillOpacity="0.7" />
+          <circle cx="108" cy="6.5" r="4" fill="#5b3a1e" fillOpacity="0.7" />
+          <g className="hs-card">
+            <rect x="5" y="22" width="30" height="74" rx="7" fill="#fffdf5" fillOpacity="0.95" />
+            <rect x="11" y="34" width="18" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.8" />
+            <rect x="11" y="44" width="18" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.6" />
+            <rect x="11" y="54" width="12" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.6" />
+          </g>
+          <path d="M102 60 l9 9 l18 -21" fill="none" stroke="#221c13" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" className="hs-pop" style={{ animationDelay: '1.2s' }} />
         </g>
 
-        {/* clipboard with pencil (top center) */}
-        <g className="hs-bob2" transform="translate(520, 34)">
-          <rect x="10" y="10" width="70" height="100" rx="10" fill="#fff" fillOpacity="0.38" />
-          <rect x="36" y="4" width="18" height="12" rx="4" fill="#fff" fillOpacity="0.7" />
-          <rect x="26" y="34" width="38" height="8" rx="4" fill="#3b2a7d" fillOpacity="0.35" />
-          <rect x="26" y="50" width="38" height="8" rx="4" fill="#3b2a7d" fillOpacity="0.28" />
-          <rect x="26" y="66" width="26" height="8" rx="4" fill="#3b2a7d" fillOpacity="0.28" />
-          <path d="M70 84 l10 22 24 -30" fill="none" stroke="#fbbf24" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
+        {/* briefcase (floor, right) */}
+        <g className="hs-bob2" transform="translate(1025, 300)">
+          <rect width="118" height="80" rx="14" fill="#8a5a2b" fillOpacity="0.95" />
+          <path d="M38 0 v-16 a 12 12 0 0 1 42 0 v16" fill="none" stroke="#5b3a1e" strokeWidth="9" strokeLinecap="round" />
+          <rect x="50" y="-5" width="18" height="10" rx="5" fill="#5b3a1e" fillOpacity="0.8" />
+          <path d="M34 52 l16 16 l34 -36" fill="none" stroke="#fffdf5" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" className="hs-pop" style={{ animationDelay: '1.6s' }} />
         </g>
 
-        {/* briefcase (right) */}
-        <g className="hs-bob2" transform="translate(930, 148)">
-          <rect width="180" height="116" rx="20" fill="#fff" fillOpacity="0.42" />
-          <path d="M48 0 v-20 a 12 12 0 0 1 84 0 v20" fill="none" stroke="#fff" strokeWidth="14" strokeLinecap="round" strokeOpacity="0.5" />
-          <path d="M45 52 l20 20 l46 -46" fill="none" stroke="#4ade80" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round" className="hs-pop" style={{ animationDelay: '1.2s' }} />
-          <rect x="76" y="-6" width="28" height="12" rx="6" fill="#3b2a7d" fillOpacity="0.4" />
+        {/* character sitting at desk (center-right) */}
+        <g className="hs-bob">
+          {/* torso / shirt */}
+          <rect x="700" y="222" width="80" height="86" rx="18" fill="#fffdf5" fillOpacity="0.95" />
+          <path d="M730 222 v-10" stroke="#e3cba4" strokeWidth="6" />
+          <rect x="728" y="208" width="24" height="16" rx="6" fill="#e8c9a0" />
+          {/* head */}
+          <circle cx="740" cy="174" r="34" fill="#e8c9a0" />
+          <path d="M706 172 a34 34 0 0 1 68 0 v2 a34 34 0 0 0 -68 0 Z" fill="#221c13" />
+          <circle cx="728" cy="180" r="3.4" fill="#221c13" />
+          <circle cx="752" cy="180" r="3.4" fill="#221c13" />
+          <path d="M730 190 q10 8 20 0" fill="none" stroke="#221c13" strokeWidth="2.6" strokeLinecap="round" />
         </g>
 
-        {/* documents flying into briefcase */}
-        <g className="hs-doc" transform="translate(0, 130)">
-          <rect width="34" height="46" rx="7" fill="#fff" fillOpacity="0.65" />
-          <rect x="8" y="10" width="18" height="5" rx="2.5" fill="#3b2a7d" fillOpacity="0.5" />
-          <rect x="8" y="20" width="18" height="5" rx="2.5" fill="#3b2a7d" fillOpacity="0.4" />
+        {/* desk */}
+        <rect x="560" y="246" width="380" height="22" rx="10" fill="#8a5a2b" fillOpacity="0.92" />
+        <rect x="588" y="268" width="20" height="66" rx="5" fill="#5b3a1e" fillOpacity="0.85" />
+        <rect x="880" y="268" width="20" height="66" rx="5" fill="#5b3a1e" fillOpacity="0.85" />
+
+        {/* laptop */}
+        <g transform="rotate(-4 667 213)">
+          <rect x="600" y="196" width="134" height="34" rx="4" fill="#2b2117" />
+          <rect x="612" y="204" width="40" height="5" rx="2.5" fill="#c9a76b" fillOpacity="0.8" />
+          <rect x="612" y="213" width="52" height="5" rx="2.5" fill="#c9a76b" fillOpacity="0.6" />
+          <rect x="612" y="222" width="30" height="5" rx="2.5" fill="#c9a76b" fillOpacity="0.6" />
+        </g>
+        <rect x="592" y="230" width="150" height="9" rx="4" fill="#3a2f24" />
+        <rect x="602" y="234" width="130" height="1" fill="#5b4632" />
+
+        {/* arms + hands on laptop */}
+        <rect x="694" y="240" width="56" height="14" rx="7" fill="#e8c9a0" transform="rotate(24 722 247)" />
+        <rect x="716" y="244" width="58" height="14" rx="7" fill="#e8c9a0" transform="rotate(-24 745 251)" />
+        <circle cx="700" cy="252" r="10" fill="#e8c9a0" />
+        <circle cx="756" cy="238" r="10" fill="#e8c9a0" />
+
+        {/* mug with steam */}
+        <rect x="846" y="218" width="26" height="26" rx="6" fill="#fffdf5" fillOpacity="0.95" />
+        <path d="M872 224 a 9 9 0 0 1 0 14" fill="none" stroke="#fffdf5" strokeWidth="5" strokeLinecap="round" />
+        <path d="M856 210 c-3 -7 3 -11 0 -18" fill="none" stroke="#fffdf5" strokeWidth="2.5" strokeLinecap="round" className="hs-steam" />
+        <path d="M862 212 c-3 -7 3 -11 0 -18" fill="none" stroke="#fffdf5" strokeWidth="2.5" strokeLinecap="round" className="hs-steam2" />
+
+        {/* documents flying toward laptop */}
+        <g className="hs-doc" transform="translate(0, 160)">
+          <rect width="36" height="48" rx="7" fill="#fffdf5" fillOpacity="0.9" />
+          <rect x="8" y="11" width="20" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.8" />
+          <rect x="8" y="21" width="20" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.6" />
+          <rect x="8" y="31" width="13" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.6" />
         </g>
         <g className="hs-doc2" transform="translate(0, 210)">
-          <rect width="30" height="40" rx="7" fill="#fff" fillOpacity="0.65" />
-          <rect x="7" y="9" width="16" height="5" rx="2.5" fill="#3b2a7d" fillOpacity="0.5" />
-          <rect x="7" y="18" width="16" height="5" rx="2.5" fill="#3b2a7d" fillOpacity="0.4" />
-        </g>
-        <g className="hs-doc3" transform="translate(0, 300)">
-          <rect width="38" height="50" rx="7" fill="#fff" fillOpacity="0.65" />
-          <rect x="9" y="11" width="20" height="5" rx="2.5" fill="#3b2a7d" fillOpacity="0.5" />
-          <rect x="9" y="21" width="20" height="5" rx="2.5" fill="#3b2a7d" fillOpacity="0.4" />
+          <rect width="32" height="44" rx="7" fill="#f2e3c9" fillOpacity="0.9" />
+          <rect x="7" y="10" width="18" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.8" />
+          <rect x="7" y="20" width="18" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.6" />
         </g>
 
-        {/* paper plane */}
-        <g className="hs-plane" transform="translate(0, 260)">
-          <path d="M0 14 L62 0 L44 58 L28 40 L10 44 Z" fill="#fff" fillOpacity="0.75" />
-          <path d="M28 40 L62 0" fill="none" stroke="#3b2a7d" strokeOpacity="0.5" strokeWidth="3" />
+        {/* floating application card (left) */}
+        <g className="hs-bob2" transform="translate(90, 120)">
+          <rect width="120" height="150" rx="14" fill="#fffdf5" fillOpacity="0.92" />
+          <rect x="16" y="18" width="88" height="12" rx="6" fill="#8a5a2b" fillOpacity="0.8" />
+          <rect x="16" y="40" width="88" height="10" rx="5" fill="#8a5a2b" fillOpacity="0.55" />
+          <rect x="16" y="56" width="64" height="10" rx="5" fill="#8a5a2b" fillOpacity="0.55" />
+          <rect x="16" y="78" width="88" height="10" rx="5" fill="#8a5a2b" fillOpacity="0.4" />
+          <path d="M30 108 l16 16 l40 -40" fill="none" stroke="#221c13" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
         </g>
 
-        {/* mini kanban pipeline */}
-        <g transform="translate(340, 226)">
-          <rect x="0" y="18" width="64" height="112" rx="12" fill="#fff" fillOpacity="0.32" />
-          <rect x="90" y="18" width="64" height="112" rx="12" fill="#fff" fillOpacity="0.32" />
-          <rect x="180" y="18" width="64" height="112" rx="12" fill="#fff" fillOpacity="0.32" />
-          <circle cx="32" cy="9" r="4.5" fill="#fff" fillOpacity="0.7" />
-          <circle cx="122" cy="9" r="4.5" fill="#fff" fillOpacity="0.7" />
-          <circle cx="212" cy="9" r="4.5" fill="#fff" fillOpacity="0.7" />
-          <g className="hs-card">
-            <rect x="10" y="30" width="44" height="86" rx="9" fill="#fff" fillOpacity="0.75" />
-            <rect x="19" y="42" width="26" height="7" rx="3.5" fill="#3b2a7d" fillOpacity="0.5" />
-            <rect x="19" y="55" width="26" height="7" rx="3.5" fill="#3b2a7d" fillOpacity="0.35" />
-            <rect x="19" y="68" width="18" height="7" rx="3.5" fill="#3b2a7d" fillOpacity="0.35" />
-          </g>
-          <path d="M204 66 l12 12 l24 -28" fill="none" stroke="#4ade80" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" className="hs-pop" style={{ animationDelay: '1.4s' }} />
-        </g>
-
-        {/* spinning magnifier */}
-        <g className="hs-spin" transform="translate(1140, 62)">
-          <circle cx="0" cy="0" r="27" fill="none" stroke="#fff" strokeWidth="8" strokeOpacity="0.6" />
-          <path d="M18 18 L34 34" stroke="#fff" strokeWidth="8" strokeLinecap="round" strokeOpacity="0.6" />
+        {/* paper plane (left) */}
+        <g className="hs-plane" transform="translate(0, 320)">
+          <path d="M0 14 L62 0 L44 58 L28 40 L10 44 Z" fill="#fffdf5" fillOpacity="0.9" />
+          <path d="M28 40 L62 0" fill="none" stroke="#8a5a2b" strokeOpacity="0.7" strokeWidth="3" />
         </g>
 
         {/* sparkles */}
-        <path d="M214 66 l6 14 14 6 -14 6 -6 14 -6 -14 -14 -6 14 -6 Z" fill="#fff" className="hs-tw" />
-        <path d="M742 96 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z" fill="#fff" className="hs-tw2" />
-        <path d="M672 330 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z" fill="#fff" className="hs-tw3" />
+        <path d="M250 64 l6 14 14 6 -14 6 -6 14 -6 -14 -14 -6 14 -6 Z" fill="#fffdf5" className="hs-tw" />
+        <path d="M640 90 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z" fill="#fffdf5" className="hs-tw2" />
+        <path d="M470 330 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z" fill="#fffdf5" className="hs-tw3" />
       </svg>
     </div>
   )

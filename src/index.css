@@ -14,7 +14,7 @@
   --danger: #dc2626;
   --danger-soft: #fef2f2;
   --success: #16a34a;
-  --hero-grad: linear-gradient(135deg, #4f46e5 0%, #7c3aed 55%, #a855f7 100%);
+  --hero-grad: linear-gradient(135deg, #b0804e 0%, #8a5a2b 55%, #6b431f 100%);
   --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
   --shadow-md: 0 6px 16px rgba(15, 23, 42, 0.1);
 }
@@ -35,7 +35,7 @@
   --danger: #f87171;
   --danger-soft: #3b1a1a;
   --success: #4ade80;
-  --hero-grad: linear-gradient(135deg, #312e81 0%, #5b21b6 55%, #7e22ce 100%);
+  --hero-grad: linear-gradient(135deg, #4a3017 0%, #3a2410 55%, #2e1c0c 100%);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.5);
 }

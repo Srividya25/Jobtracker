@@ -76,7 +76,7 @@ export default function Layout() {
           alignItems: 'center',
           gap: 8,
           padding: '10px 24px',
-          background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 55%, #a855f7 100%)',
+          background: 'linear-gradient(135deg, #b0804e 0%, #8a5a2b 55%, #6b431f 100%)',
         }}
       >
         <NavLink to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 800, fontSize: 15, color: 'rgba(255,255,255,0.95)', textDecoration: 'none' }}>
