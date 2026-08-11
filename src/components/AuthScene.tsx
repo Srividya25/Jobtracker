@@ -10,10 +10,13 @@ export default function AuthScene() {
           height: 100vh;
           overflow: hidden;
           pointer-events: none;
-          opacity: 0.92;
+          opacity: 0.88;
           z-index: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
-        .auth-scene svg { width: 100%; height: 100%; display: block; }
+        .auth-scene svg { width: 80%; height: 80%; display: block; }
         .as-bob   { animation: asBob 4.5s ease-in-out infinite alternate; }
         .as-bob2  { animation: asBob 6s ease-in-out 0.6s infinite alternate; }
         .as-app   { transform-box: fill-box; transform-origin: center; }
@@ -21,8 +24,6 @@ export default function AuthScene() {
         .as-app2  { animation: asApp2 8s ease-in-out 0.8s infinite; }
         .as-app3  { animation: asApp3 7.5s ease-in-out 1.6s infinite; }
         .as-app4  { animation: asApp4 8.5s ease-in-out 2.4s infinite; }
-        .as-app5  { animation: asApp5 7.5s ease-in-out 3.2s infinite; }
-        .as-app6  { animation: asApp6 8s ease-in-out 4s infinite; }
         .as-steam { animation: asSteam 2.4s ease-out infinite; }
         .as-steam2{ animation: asSteam 2.4s ease-out 0.8s infinite; }
         .as-tw    { animation: asTw 3s ease-in-out infinite; }
@@ -52,18 +53,6 @@ export default function AuthScene() {
           82%  { opacity: 1; }
           100% { transform: translate(810px, 200px) scale(1); opacity: 0; }
         }
-        @keyframes asApp5 {
-          0%   { transform: translate(220px, 8px) scale(0.55); opacity: 0; }
-          14%  { opacity: 1; }
-          82%  { opacity: 1; }
-          100% { transform: translate(795px, 180px) scale(1); opacity: 0; }
-        }
-        @keyframes asApp6 {
-          0%   { transform: translate(960px, 8px) scale(0.55); opacity: 0; }
-          14%  { opacity: 1; }
-          82%  { opacity: 1; }
-          100% { transform: translate(805px, 195px) scale(1); opacity: 0; }
-        }
         @keyframes asSteam {
           0%   { transform: translateY(0); opacity: 0; }
           30%  { opacity: 0.8; }
@@ -86,6 +75,10 @@ export default function AuthScene() {
 
         <g className="as-bob">
           <rect x="654" y="206" width="76" height="54" rx="16" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
+          <rect x="646" y="260" width="16" height="70" rx="8" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.6" />
+          <rect x="690" y="260" width="16" height="70" rx="8" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.6" />
+          <rect x="642" y="326" width="24" height="11" rx="5" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.75" />
+          <rect x="686" y="326" width="24" height="11" rx="5" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.75" />
           <path d="M682 206 v-10" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="6" strokeOpacity="0.75" />
           <circle cx="684" cy="158" r="32" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.78" />
           <path d="M652 154 a32 32 0 0 1 64 0 v2 a32 32 0 0 0 -64 0 Z" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.88" />
@@ -153,18 +146,6 @@ export default function AuthScene() {
           <rect x="5" y="22" width="10" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
         </g>
         <g className="as-app as-app4">
-          <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
-          <rect x="5" y="8" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" />
-          <rect x="5" y="15" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
-          <path d="M7 27 l5 5 l9 -11" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.7" />
-        </g>
-        <g className="as-app as-app5">
-          <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
-          <rect x="5" y="8" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" />
-          <rect x="5" y="15" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
-          <rect x="5" y="22" width="10" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
-        </g>
-        <g className="as-app as-app6">
           <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
           <rect x="5" y="8" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" />
           <rect x="5" y="15" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
