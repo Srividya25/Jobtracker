@@ -16,7 +16,7 @@ export default function AuthScene() {
           align-items: center;
           justify-content: center;
         }
-        .auth-scene svg { width: 80%; height: 80%; display: block; }
+        .auth-scene svg { width: 80%; height: 80%; display: block; transform: translate(40px, -30px); }
         .as-bob   { animation: asBob 4.5s ease-in-out infinite alternate; }
         .as-bob2  { animation: asBob 6s ease-in-out 0.6s infinite alternate; }
         .as-app   { transform-box: fill-box; transform-origin: center; }
