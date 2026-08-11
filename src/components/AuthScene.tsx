@@ -1,6 +1,32 @@
-export default function AuthScene() {
+import { useEffect, useRef } from 'react'
+
+export default function AuthScene({ live = false }: { live?: boolean }) {
+  const sceneRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const scene = sceneRef.current
+    if (!scene) return
+    const spot = scene.querySelector<HTMLElement>('.as-spot')
+    let raf = 0
+    const onMove = (e: MouseEvent) => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        const cx = e.clientX / window.innerWidth - 0.5
+        const cy = e.clientY / window.innerHeight - 0.5
+        scene.style.setProperty('--parx', `${Math.round(cx * -16)}px`)
+        scene.style.setProperty('--pary', `${Math.round(cy * -10)}px`)
+        if (spot) spot.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`
+      })
+    }
+    window.addEventListener('mousemove', onMove)
+    return () => {
+      window.removeEventListener('mousemove', onMove)
+      cancelAnimationFrame(raf)
+    }
+  }, [])
+
   return (
-    <div className="auth-scene" aria-hidden="true">
+    <div className="auth-scene" aria-hidden="true" ref={sceneRef}>
       <style>{`
         .auth-scene {
           position: fixed;
@@ -16,7 +42,24 @@ export default function AuthScene() {
           align-items: center;
           justify-content: center;
         }
-        .auth-scene svg { width: 80%; height: 80%; display: block; transform: translate(80px, -80px); }
+        .auth-scene svg {
+          width: 80%;
+          height: 80%;
+          display: block;
+          transform: translate(calc(80px + var(--parx, 0px)), calc(-80px + var(--pary, 0px)));
+          transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+        .as-spot {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 480px;
+          height: 480px;
+          margin: -240px 0 0 -240px;
+          border-radius: 50%;
+          background: radial-gradient(circle, color-mix(in srgb, var(--primary) 13%, transparent), transparent 65%);
+          will-change: transform;
+        }
         .as-bob   { animation: asBob 4.5s ease-in-out infinite alternate; }
         .as-bob2  { animation: asBob 6s ease-in-out 0.6s infinite alternate; }
         .as-app   { transform-box: fill-box; transform-origin: center; }
@@ -28,6 +71,11 @@ export default function AuthScene() {
         .as-steam2{ animation: asSteam 2.4s ease-out 0.8s infinite; }
         .as-tw    { animation: asTw 3s ease-in-out infinite; }
         .as-tw2   { animation: asTw 3s ease-in-out 1.4s infinite; }
+        .as-live .as-eq { transform-box: fill-box; transform-origin: center bottom; animation: asEq 0.4s ease-in-out infinite alternate; }
+        .as-live .as-eq2 { animation-delay: 0.08s; }
+        .as-live .as-eq3 { animation-delay: 0.16s; }
+        .as-live .as-eq4 { animation-delay: 0.08s; }
+        .as-live .as-eq5 { animation-delay: 0.02s; }
         @keyframes asBob { from { transform: translateY(0); } to { transform: translateY(-6px); } }
         @keyframes asApp1 {
           0%   { transform: translate(20px, 15px) scale(0.55); opacity: 0; }
@@ -59,8 +107,10 @@ export default function AuthScene() {
           100% { transform: translateY(-26px); opacity: 0; }
         }
         @keyframes asTw { 0%, 100% { opacity: 0.12; } 50% { opacity: 0.85; } }
+        @keyframes asEq { from { transform: scaleY(0.35); } to { transform: scaleY(1.35); } }
       `}</style>
-      <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax meet">
+      <div className="as-spot" />
+      <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax meet" className={live ? 'as-live' : undefined}>
         <defs>
           <radialGradient id="asGlow" cx="0.5" cy="0.5" r="0.5">
             <stop offset="0%" stopColor="var(--scene-ink, var(--hero-text))" stopOpacity="0.22" />
@@ -102,11 +152,11 @@ export default function AuthScene() {
           <rect x="782" y="144" width="144" height="88" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.18" />
           <rect x="796" y="162" width="56" height="8" rx="4" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.5" />
           <rect x="796" y="178" width="40" height="8" rx="4" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.35" />
-          <rect x="796" y="206" width="14" height="16" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" />
-          <rect x="818" y="196" width="14" height="26" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" />
-          <rect x="840" y="186" width="14" height="36" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" />
-          <rect x="862" y="194" width="14" height="28" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" />
-          <rect x="884" y="204" width="14" height="18" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" />
+          <rect x="796" y="206" width="14" height="16" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" className="as-eq as-eq1" />
+          <rect x="818" y="196" width="14" height="26" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" className="as-eq as-eq2" />
+          <rect x="840" y="186" width="14" height="36" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" className="as-eq as-eq3" />
+          <rect x="862" y="194" width="14" height="28" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" className="as-eq as-eq4" />
+          <rect x="884" y="204" width="14" height="18" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" className="as-eq as-eq5" />
           <path d="M908 170 l7 7 l14 -14" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.7" />
           <rect x="866" y="246" width="16" height="12" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.5" />
           <rect x="824" y="258" width="100" height="10" rx="5" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.5" />
