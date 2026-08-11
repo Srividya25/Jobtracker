@@ -75,10 +75,10 @@ export default function AuthScene() {
 
         <g className="as-bob">
           <rect x="654" y="206" width="76" height="54" rx="16" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
-          <rect x="646" y="260" width="16" height="70" rx="8" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.6" />
-          <rect x="690" y="260" width="16" height="70" rx="8" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.6" />
-          <rect x="642" y="326" width="24" height="11" rx="5" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.75" />
-          <rect x="686" y="326" width="24" height="11" rx="5" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.75" />
+          <rect x="668" y="260" width="16" height="70" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.6" />
+          <rect x="700" y="260" width="16" height="70" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.6" />
+          <rect x="666" y="328" width="20" height="12" rx="5" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.75" />
+          <rect x="698" y="328" width="20" height="12" rx="5" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.75" />
           <path d="M682 206 v-10" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="6" strokeOpacity="0.75" />
           <circle cx="684" cy="158" r="32" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.78" />
           <path d="M652 154 a32 32 0 0 1 64 0 v2 a32 32 0 0 0 -64 0 Z" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.88" />
