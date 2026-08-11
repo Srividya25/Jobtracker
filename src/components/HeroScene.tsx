@@ -1,6 +1,12 @@
-export default function HeroScene({ className = '' }: { className?: string }) {
+export default function HeroScene({
+  className = '',
+  variant = 'full',
+}: {
+  className?: string
+  variant?: 'full' | 'right'
+}) {
   return (
-    <div className={`hero-scene ${className}`} aria-hidden="true">
+    <div className={`hero-scene hero-scene--${variant} ${className}`} aria-hidden="true">
       <style>{`
         .hero-scene {
           position: absolute;
@@ -8,6 +14,10 @@ export default function HeroScene({ className = '' }: { className?: string }) {
           overflow: hidden;
           pointer-events: none;
           opacity: 0.75;
+        }
+        .hero-scene--right {
+          left: auto;
+          width: 62%;
         }
         .hero-scene svg {
           width: 100%;
@@ -29,10 +39,10 @@ export default function HeroScene({ className = '' }: { className?: string }) {
         .hs-tw3   { animation: hsTw 3s ease-in-out 1.8s infinite; }
         @keyframes hsBob { from { transform: translateY(0); } to { transform: translateY(-8px); } }
         @keyframes hsDoc {
-          0%   { transform: translateX(-180px); opacity: 0; }
-          10%  { opacity: 1; }
+          0%   { transform: translateX(-200px); opacity: 0; }
+          12%  { opacity: 1; }
           80%  { opacity: 1; }
-          100% { transform: translateX(560px); opacity: 0; }
+          100% { transform: translateX(540px); opacity: 0; }
         }
         @keyframes hsPlane {
           0%   { transform: translateX(-160px) translateY(0); }
@@ -60,12 +70,12 @@ export default function HeroScene({ className = '' }: { className?: string }) {
         }
         @keyframes hsTw { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.9; } }
       `}</style>
-      <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice">
+      <svg viewBox="0 0 1200 400" preserveAspectRatio={variant === 'right' ? 'xMaxYMid slice' : 'xMidYMid slice'}>
         {/* ground */}
         <path d="M0 342 Q 300 322 600 344 T 1200 342 L 1200 400 L 0 400 Z" fill="#d9bd8c" fillOpacity="0.30" />
 
         {/* kanban board (wall, right) */}
-        <g transform="translate(905, 118)">
+        <g transform="translate(900, 122)">
           <rect width="150" height="118" rx="9" fill="#c9a76b" fillOpacity="0.9" />
           <rect x="0" y="14" width="40" height="90" rx="6" fill="#fdf8ec" fillOpacity="0.55" />
           <rect x="44" y="14" width="40" height="90" rx="6" fill="#fdf8ec" fillOpacity="0.55" />
@@ -83,75 +93,72 @@ export default function HeroScene({ className = '' }: { className?: string }) {
         </g>
 
         {/* briefcase (floor, right) */}
-        <g className="hs-bob2" transform="translate(1025, 300)">
+        <g className="hs-bob2" transform="translate(1020, 248)">
           <rect width="118" height="80" rx="14" fill="#8a5a2b" fillOpacity="0.95" />
           <path d="M38 0 v-16 a 12 12 0 0 1 42 0 v16" fill="none" stroke="#5b3a1e" strokeWidth="9" strokeLinecap="round" />
           <rect x="50" y="-5" width="18" height="10" rx="5" fill="#5b3a1e" fillOpacity="0.8" />
           <path d="M34 52 l16 16 l34 -36" fill="none" stroke="#fffdf5" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" className="hs-pop" style={{ animationDelay: '1.6s' }} />
         </g>
 
+        {/* floating application card (above laptop) */}
+        <g className="hs-bob2" transform="translate(576, 104)">
+          <rect width="72" height="94" rx="11" fill="#fffdf5" fillOpacity="0.92" />
+          <rect x="11" y="14" width="50" height="9" rx="4.5" fill="#8a5a2b" fillOpacity="0.8" />
+          <rect x="11" y="30" width="50" height="7" rx="3.5" fill="#8a5a2b" fillOpacity="0.55" />
+          <rect x="11" y="42" width="36" height="7" rx="3.5" fill="#8a5a2b" fillOpacity="0.55" />
+          <path d="M20 70 l10 10 l24 -24" fill="none" stroke="#221c13" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+        </g>
+
         {/* character sitting at desk (center-right) */}
         <g className="hs-bob">
-          {/* torso / shirt */}
-          <rect x="700" y="222" width="80" height="86" rx="18" fill="#fffdf5" fillOpacity="0.95" />
-          <path d="M730 222 v-10" stroke="#e3cba4" strokeWidth="6" />
-          <rect x="728" y="208" width="24" height="16" rx="6" fill="#e8c9a0" />
-          {/* head */}
-          <circle cx="740" cy="174" r="34" fill="#e8c9a0" />
-          <path d="M706 172 a34 34 0 0 1 68 0 v2 a34 34 0 0 0 -68 0 Z" fill="#221c13" />
-          <circle cx="728" cy="180" r="3.4" fill="#221c13" />
-          <circle cx="752" cy="180" r="3.4" fill="#221c13" />
-          <path d="M730 190 q10 8 20 0" fill="none" stroke="#221c13" strokeWidth="2.6" strokeLinecap="round" />
+          <rect x="700" y="214" width="80" height="86" rx="18" fill="#fffdf5" fillOpacity="0.95" />
+          <path d="M730 214 v-10" stroke="#e3cba4" strokeWidth="6" />
+          <rect x="728" y="200" width="24" height="16" rx="6" fill="#e8c9a0" />
+          <circle cx="740" cy="166" r="34" fill="#e8c9a0" />
+          <path d="M706 164 a34 34 0 0 1 68 0 v2 a34 34 0 0 0 -68 0 Z" fill="#221c13" />
+          <circle cx="728" cy="172" r="3.4" fill="#221c13" />
+          <circle cx="752" cy="172" r="3.4" fill="#221c13" />
+          <path d="M730 182 q10 8 20 0" fill="none" stroke="#221c13" strokeWidth="2.6" strokeLinecap="round" />
         </g>
 
         {/* desk */}
-        <rect x="560" y="246" width="380" height="22" rx="10" fill="#8a5a2b" fillOpacity="0.92" />
-        <rect x="588" y="268" width="20" height="66" rx="5" fill="#5b3a1e" fillOpacity="0.85" />
-        <rect x="880" y="268" width="20" height="66" rx="5" fill="#5b3a1e" fillOpacity="0.85" />
+        <rect x="560" y="238" width="380" height="22" rx="10" fill="#8a5a2b" fillOpacity="0.92" />
+        <rect x="588" y="260" width="20" height="66" rx="5" fill="#5b3a1e" fillOpacity="0.85" />
+        <rect x="880" y="260" width="20" height="66" rx="5" fill="#5b3a1e" fillOpacity="0.85" />
 
         {/* laptop */}
-        <g transform="rotate(-4 667 213)">
-          <rect x="600" y="196" width="134" height="34" rx="4" fill="#2b2117" />
-          <rect x="612" y="204" width="40" height="5" rx="2.5" fill="#c9a76b" fillOpacity="0.8" />
-          <rect x="612" y="213" width="52" height="5" rx="2.5" fill="#c9a76b" fillOpacity="0.6" />
-          <rect x="612" y="222" width="30" height="5" rx="2.5" fill="#c9a76b" fillOpacity="0.6" />
+        <g transform="rotate(-4 667 205)">
+          <rect x="600" y="188" width="134" height="34" rx="4" fill="#2b2117" />
+          <rect x="612" y="196" width="40" height="5" rx="2.5" fill="#c9a76b" fillOpacity="0.8" />
+          <rect x="612" y="205" width="52" height="5" rx="2.5" fill="#c9a76b" fillOpacity="0.6" />
+          <rect x="612" y="214" width="30" height="5" rx="2.5" fill="#c9a76b" fillOpacity="0.6" />
         </g>
-        <rect x="592" y="230" width="150" height="9" rx="4" fill="#3a2f24" />
-        <rect x="602" y="234" width="130" height="1" fill="#5b4632" />
+        <rect x="592" y="222" width="150" height="9" rx="4" fill="#3a2f24" />
+        <rect x="602" y="226" width="130" height="1" fill="#5b4632" />
 
         {/* arms + hands on laptop */}
-        <rect x="694" y="240" width="56" height="14" rx="7" fill="#e8c9a0" transform="rotate(24 722 247)" />
-        <rect x="716" y="244" width="58" height="14" rx="7" fill="#e8c9a0" transform="rotate(-24 745 251)" />
-        <circle cx="700" cy="252" r="10" fill="#e8c9a0" />
-        <circle cx="756" cy="238" r="10" fill="#e8c9a0" />
+        <rect x="694" y="232" width="56" height="14" rx="7" fill="#e8c9a0" transform="rotate(24 722 239)" />
+        <rect x="716" y="236" width="58" height="14" rx="7" fill="#e8c9a0" transform="rotate(-24 745 243)" />
+        <circle cx="700" cy="244" r="10" fill="#e8c9a0" />
+        <circle cx="756" cy="230" r="10" fill="#e8c9a0" />
 
         {/* mug with steam */}
-        <rect x="846" y="218" width="26" height="26" rx="6" fill="#fffdf5" fillOpacity="0.95" />
-        <path d="M872 224 a 9 9 0 0 1 0 14" fill="none" stroke="#fffdf5" strokeWidth="5" strokeLinecap="round" />
-        <path d="M856 210 c-3 -7 3 -11 0 -18" fill="none" stroke="#fffdf5" strokeWidth="2.5" strokeLinecap="round" className="hs-steam" />
-        <path d="M862 212 c-3 -7 3 -11 0 -18" fill="none" stroke="#fffdf5" strokeWidth="2.5" strokeLinecap="round" className="hs-steam2" />
+        <rect x="846" y="210" width="26" height="26" rx="6" fill="#fffdf5" fillOpacity="0.95" />
+        <path d="M872 216 a 9 9 0 0 1 0 14" fill="none" stroke="#fffdf5" strokeWidth="5" strokeLinecap="round" />
+        <path d="M856 202 c-3 -7 3 -11 0 -18" fill="none" stroke="#fffdf5" strokeWidth="2.5" strokeLinecap="round" className="hs-steam" />
+        <path d="M862 204 c-3 -7 3 -11 0 -18" fill="none" stroke="#fffdf5" strokeWidth="2.5" strokeLinecap="round" className="hs-steam2" />
 
         {/* documents flying toward laptop */}
-        <g className="hs-doc" transform="translate(0, 160)">
+        <g className="hs-doc" transform="translate(0, 168)">
           <rect width="36" height="48" rx="7" fill="#fffdf5" fillOpacity="0.9" />
           <rect x="8" y="11" width="20" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.8" />
           <rect x="8" y="21" width="20" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.6" />
           <rect x="8" y="31" width="13" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.6" />
         </g>
-        <g className="hs-doc2" transform="translate(0, 210)">
+        <g className="hs-doc2" transform="translate(0, 226)">
           <rect width="32" height="44" rx="7" fill="#f2e3c9" fillOpacity="0.9" />
           <rect x="7" y="10" width="18" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.8" />
           <rect x="7" y="20" width="18" height="5" rx="2.5" fill="#8a5a2b" fillOpacity="0.6" />
-        </g>
-
-        {/* floating application card (left) */}
-        <g className="hs-bob2" transform="translate(90, 120)">
-          <rect width="120" height="150" rx="14" fill="#fffdf5" fillOpacity="0.92" />
-          <rect x="16" y="18" width="88" height="12" rx="6" fill="#8a5a2b" fillOpacity="0.8" />
-          <rect x="16" y="40" width="88" height="10" rx="5" fill="#8a5a2b" fillOpacity="0.55" />
-          <rect x="16" y="56" width="64" height="10" rx="5" fill="#8a5a2b" fillOpacity="0.55" />
-          <rect x="16" y="78" width="88" height="10" rx="5" fill="#8a5a2b" fillOpacity="0.4" />
-          <path d="M30 108 l16 16 l40 -40" fill="none" stroke="#221c13" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
         </g>
 
         {/* paper plane (left) */}
@@ -161,9 +168,9 @@ export default function HeroScene({ className = '' }: { className?: string }) {
         </g>
 
         {/* sparkles */}
-        <path d="M250 64 l6 14 14 6 -14 6 -6 14 -6 -14 -14 -6 14 -6 Z" fill="#fffdf5" className="hs-tw" />
-        <path d="M640 90 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z" fill="#fffdf5" className="hs-tw2" />
-        <path d="M470 330 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z" fill="#fffdf5" className="hs-tw3" />
+        <path d="M640 90 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z" fill="#fffdf5" className="hs-tw" />
+        <path d="M520 330 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z" fill="#fffdf5" className="hs-tw2" />
+        <path d="M360 60 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z" fill="#fffdf5" className="hs-tw3" />
       </svg>
     </div>
   )

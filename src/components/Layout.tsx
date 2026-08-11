@@ -1,12 +1,12 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
-import { useTheme } from '../context/ThemeContext'
+import { useTheme, HERO_THEMES } from '../context/ThemeContext'
 import { supabase, cleanupOldEmailEvents, getEmailEventCount } from '../lib/supabase'
 
 export default function Layout() {
   const { user } = useAuth()
-  const { theme, toggle } = useTheme()
+  const { theme, toggle, heroTheme, setHeroTheme } = useTheme()
   const location = useLocation()
   const [newEmailCount, setNewEmailCount] = useState(0)
   const [showEmailsTab, setShowEmailsTab] = useState(false)
@@ -49,52 +49,94 @@ export default function Layout() {
   return (
     <div>
       <style>{`
+        .nav-bar {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 24px;
+          background: var(--hero-grad);
+        }
+        .nav-brand {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-weight: 800;
+          font-size: 15px;
+          color: var(--hero-text);
+          text-decoration: none;
+        }
+        .nav-brand-box {
+          width: 26px;
+          height: 26px;
+          border-radius: 7px;
+          background: var(--nav-active);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 14px;
+          color: var(--hero-text);
+        }
         .nav-tab {
           padding: 7px 14px;
           font-size: 13px;
           font-weight: 600;
           border-radius: 8px;
-          color: rgba(255,255,255,0.95);
+          color: var(--hero-text);
           text-decoration: none;
           border: 1px solid transparent;
           transition: background 0.15s ease, color 0.15s ease;
         }
         .nav-tab:hover {
-          background: rgba(255,255,255,0.18);
-          border-color: rgba(255,255,255,0.2);
+          background: var(--nav-hover);
+          border-color: var(--nav-active);
         }
         .nav-tab-active {
-          background: rgba(255,255,255,0.26);
-          border-color: rgba(255,255,255,0.4);
-          color: #fff;
+          background: var(--nav-active);
+          border-color: var(--nav-active);
+          color: var(--hero-text);
           font-weight: 700;
         }
+        .nav-spacer { flex: 1; }
+        .nav-btn {
+          padding: 7px 12px;
+          font-size: 13px;
+          font-weight: 600;
+          border-radius: 8px;
+          border: 1px solid var(--nav-active);
+          background: var(--nav-hover);
+          color: var(--hero-text);
+          cursor: pointer;
+          font-family: inherit;
+        }
+        .nav-icon-btn {
+          width: 34px;
+          height: 34px;
+          border-radius: 8px;
+          border: 1px solid var(--nav-active);
+          background: var(--nav-hover);
+          color: var(--hero-text);
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 16px;
+          font-family: inherit;
+        }
+        .nav-select {
+          padding: 5px 8px;
+          font-size: 12px;
+          font-weight: 600;
+          border-radius: 8px;
+          border: 1px solid var(--nav-active);
+          background: var(--nav-hover);
+          color: var(--hero-text);
+          cursor: pointer;
+          font-family: inherit;
+        }
       `}</style>
-      <nav
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 8,
-          padding: '10px 24px',
-          background: 'linear-gradient(135deg, #b0804e 0%, #8a5a2b 55%, #6b431f 100%)',
-        }}
-      >
-        <NavLink to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 800, fontSize: 15, color: 'rgba(255,255,255,0.95)', textDecoration: 'none' }}>
-          <span
-            style={{
-              width: 26,
-              height: 26,
-              borderRadius: 7,
-              background: 'rgba(255,255,255,0.2)',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: 14,
-              color: '#fff',
-            }}
-          >
-            J
-          </span>
+      <nav className="nav-bar">
+        <NavLink to="/" className="nav-brand">
+          <span className="nav-brand-box">J</span>
           JobTracker
         </NavLink>
 
@@ -113,45 +155,29 @@ export default function Layout() {
           </NavLink>
         )}
 
-        <div style={{ flex: 1 }} />
+        <div className="nav-spacer" />
 
-        <button
-          onClick={toggle}
-          title="Toggle theme"
-          style={{
-            width: 34,
-            height: 34,
-            borderRadius: 8,
-            border: '1px solid rgba(255,255,255,0.3)',
-            background: 'rgba(255,255,255,0.15)',
-            color: '#fff',
-            cursor: 'pointer',
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: 16,
-          }}
+        <select
+          className="nav-select"
+          title="Choose a theme"
+          aria-label="Choose a theme"
+          value={heroTheme}
+          onChange={(e) => setHeroTheme(e.target.value as typeof heroTheme)}
         >
+          {HERO_THEMES.map((t) => (
+            <option key={t.key} value={t.key}>
+              {t.label}
+            </option>
+          ))}
+        </select>
+
+        <button className="nav-icon-btn" onClick={toggle} title="Toggle theme" aria-label="Toggle light or dark mode">
           {theme === 'light' ? '🌙' : '☀️'}
         </button>
 
-        {user?.email && (
-          <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.9)', margin: '0 4px' }}>{user.email}</span>
-        )}
+        {user?.email && <span style={{ fontSize: 13, color: 'var(--hero-text)', opacity: 0.9, margin: '0 4px' }}>{user.email}</span>}
 
-        <button
-          onClick={() => supabase.auth.signOut()}
-          style={{
-            padding: '7px 12px',
-            fontSize: 13,
-            fontWeight: 600,
-            borderRadius: 8,
-            border: '1px solid rgba(255,255,255,0.3)',
-            background: 'rgba(255,255,255,0.15)',
-            color: '#fff',
-            cursor: 'pointer',
-          }}
-        >
+        <button className="nav-btn" onClick={() => supabase.auth.signOut()}>
           Sign Out
         </button>
       </nav>

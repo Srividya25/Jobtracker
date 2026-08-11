@@ -164,7 +164,7 @@ export default function Dashboard() {
   return (
     <div className="dash">
       <header className="dash-hero">
-        <HeroScene />
+        <HeroScene variant="right" />
         <div className="dash-hero-inner">
           <div className="dash-hero-top">
             <div>

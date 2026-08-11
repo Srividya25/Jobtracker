@@ -42,8 +42,8 @@
 }
 .detail-hero {
   background: var(--hero-grad);
-  color: #fff;
-  padding: 24px;
+  color: var(--hero-text);
+  padding: 24px 24px 56px;
   position: relative;
   overflow: hidden;
 }
@@ -58,7 +58,7 @@
 }
 .detail-hero p {
   margin: 4px 0 0;
-  opacity: 0.9;
+  color: var(--hero-text-sub);
   font-size: 14px;
 }
 .detail-body {

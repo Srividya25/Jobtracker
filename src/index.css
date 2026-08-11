@@ -8,13 +8,17 @@
   --muted: #64748b;
   --faint: #94a3b8;
   --border: #e2e8f0;
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
-  --primary-soft: #eef2ff;
+  --primary: #a06a3c;
+  --primary-hover: #8a5a2b;
+  --primary-soft: #f5e8d5;
   --danger: #dc2626;
   --danger-soft: #fef2f2;
   --success: #16a34a;
-  --hero-grad: linear-gradient(135deg, #b0804e 0%, #8a5a2b 55%, #6b431f 100%);
+  --hero-grad: linear-gradient(135deg, #e8d2ae 0%, #d9bd8c 55%, #c9a76b 100%);
+  --hero-text: #4a3017;
+  --hero-text-sub: rgba(74, 48, 23, 0.75);
+  --nav-hover: rgba(74, 48, 23, 0.1);
+  --nav-active: rgba(74, 48, 23, 0.18);
   --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
   --shadow-md: 0 6px 16px rgba(15, 23, 42, 0.1);
 }
@@ -29,15 +33,71 @@
   --muted: #94a3b8;
   --faint: #64748b;
   --border: #2b3a52;
-  --primary: #818cf8;
-  --primary-hover: #a5b4fc;
-  --primary-soft: #1e2542;
+  --primary: #d9bd8c;
+  --primary-hover: #e8d2ae;
+  --primary-soft: #2f2417;
   --danger: #f87171;
   --danger-soft: #3b1a1a;
   --success: #4ade80;
   --hero-grad: linear-gradient(135deg, #4a3017 0%, #3a2410 55%, #2e1c0c 100%);
+  --hero-text: #fff;
+  --hero-text-sub: rgba(255, 255, 255, 0.85);
+  --nav-hover: rgba(255, 255, 255, 0.14);
+  --nav-active: rgba(255, 255, 255, 0.22);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* Selectable hero themes (set on <html data-hero-theme="...">) */
+[data-hero-theme='beige'] {
+  --hero-grad: linear-gradient(135deg, #e8d2ae 0%, #d9bd8c 55%, #c9a76b 100%);
+  --primary: #a06a3c;
+  --primary-hover: #8a5a2b;
+  --primary-soft: #f5e8d5;
+  --hero-text: #4a3017;
+  --hero-text-sub: rgba(74, 48, 23, 0.75);
+  --nav-hover: rgba(74, 48, 23, 0.1);
+  --nav-active: rgba(74, 48, 23, 0.18);
+}
+[data-hero-theme='classic'] {
+  --hero-grad: linear-gradient(135deg, #4f46e5 0%, #7c3aed 55%, #a855f7 100%);
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-soft: #eef2ff;
+  --hero-text: #fff;
+  --hero-text-sub: rgba(255, 255, 255, 0.85);
+  --nav-hover: rgba(255, 255, 255, 0.18);
+  --nav-active: rgba(255, 255, 255, 0.28);
+}
+[data-hero-theme='ocean'] {
+  --hero-grad: linear-gradient(135deg, #0ea5b7 0%, #0e7490 55%, #164e63 100%);
+  --primary: #0e7490;
+  --primary-hover: #155e75;
+  --primary-soft: #ecfeff;
+  --hero-text: #fff;
+  --hero-text-sub: rgba(255, 255, 255, 0.85);
+  --nav-hover: rgba(255, 255, 255, 0.16);
+  --nav-active: rgba(255, 255, 255, 0.26);
+}
+[data-hero-theme='forest'] {
+  --hero-grad: linear-gradient(135deg, #65a30d 0%, #4d7c0f 55%, #365314 100%);
+  --primary: #4d7c0f;
+  --primary-hover: #3f6212;
+  --primary-soft: #f7fee7;
+  --hero-text: #fff;
+  --hero-text-sub: rgba(255, 255, 255, 0.85);
+  --nav-hover: rgba(255, 255, 255, 0.16);
+  --nav-active: rgba(255, 255, 255, 0.26);
+}
+[data-hero-theme='sunset'] {
+  --hero-grad: linear-gradient(135deg, #fb923c 0%, #ea580c 55%, #9a3412 100%);
+  --primary: #ea580c;
+  --primary-hover: #c2410c;
+  --primary-soft: #fff7ed;
+  --hero-text: #fff;
+  --hero-text-sub: rgba(255, 255, 255, 0.88);
+  --nav-hover: rgba(255, 255, 255, 0.16);
+  --nav-active: rgba(255, 255, 255, 0.26);
 }
 
 * {

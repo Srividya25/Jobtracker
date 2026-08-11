@@ -9,8 +9,8 @@
 /* ---- Hero header ---- */
 .dash-hero {
   background: var(--hero-grad);
-  color: #fff;
-  padding: 32px 24px 68px;
+  color: var(--hero-text);
+  padding: 32px 24px 180px;
   position: relative;
   overflow: hidden;
 }
@@ -40,7 +40,7 @@
 }
 .dash-hero-sub {
   font-size: 13px;
-  opacity: 0.85;
+  color: var(--hero-text-sub);
   margin-top: 2px;
 }
 .dash-hero-actions {
@@ -60,19 +60,19 @@
 }
 .dash-btn-white {
   background: #fff;
-  color: #4f46e5;
+  color: var(--primary);
 }
 .dash-btn-white:hover {
-  background: #eef2ff;
+  background: var(--primary-soft);
   transform: translateY(-1px);
 }
 .dash-btn-soft {
-  background: rgba(255, 255, 255, 0.16);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: var(--nav-hover);
+  color: var(--hero-text);
+  border: 1px solid var(--nav-active);
 }
 .dash-btn-soft:hover {
-  background: rgba(255, 255, 255, 0.26);
+  background: var(--nav-active);
 }
 .dash-btn-primary {
   background: var(--primary);

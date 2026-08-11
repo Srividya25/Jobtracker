@@ -97,7 +97,7 @@ export default function ApplicationDetail() {
 
         <div className="detail-card">
           <div className="detail-hero">
-            <HeroScene />
+            <HeroScene variant="right" />
             <div className="detail-hero-content">
               <h1>{app.job_title}</h1>
               <p>{app.company}</p>
