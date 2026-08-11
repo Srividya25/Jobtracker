@@ -55,11 +55,14 @@ export default function HeroScene({
         .hs-spark, .hs-tick, .hs-pop { transform-box: fill-box; transform-origin: center; animation: hsPop 1.8s ease-in-out infinite; }
         .hs-idle { animation: hsIdle 3.2s ease-in-out infinite; }
         .hs-pace { animation: hsPace 3s ease-in-out infinite alternate; }
+        .hs-swap-a { animation: hsSwapA 0.8s steps(1) infinite; }
+        .hs-swap-b { animation: hsSwapB 0.8s steps(1) infinite; }
+        .hs-nod { transform-box: fill-box; transform-origin: center; animation: hsNod 2.2s ease-in-out infinite; }
+        .hs-jump { animation: hsJump 0.9s ease-in-out infinite; }
         .hs-spin { transform-box: fill-box; transform-origin: center; animation: hsSpin 6s linear infinite; }
         .hs-talk { transform-box: fill-box; transform-origin: center; animation: hsTalk 1.6s ease-in-out infinite; }
         .hs-talk2 { transform-box: fill-box; transform-origin: center; animation: hsTalk 1.6s ease-in-out 0.8s infinite; }
         .hs-wait { fill: var(--hero-text); fill-opacity: .9; animation: hsWait 1.5s ease-in-out infinite; }
-        .hs-jump { animation: hsJump .9s ease-in-out infinite; }
         .hs-conf { fill: var(--hero-text); fill-opacity: .55; transform-box: fill-box; transform-origin: center; animation: hsConf 2.4s linear infinite; }
         .hs-tw { animation: hsTw 2.4s ease-in-out infinite; }
         .hs-cloud { animation: hsCloud 3.6s ease-in-out infinite alternate; }
@@ -75,6 +78,9 @@ export default function HeroScene({
         }
         @keyframes hsIdle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
         @keyframes hsPace { 0% { transform: translateX(-16px); } 100% { transform: translateX(16px); } }
+        @keyframes hsSwapA { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+        @keyframes hsSwapB { 0%, 50% { opacity: 0; } 50.01%, 100% { opacity: 1; } }
+        @keyframes hsNod { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
         @keyframes hsSpin { to { transform: rotate(360deg); } }
         @keyframes hsBlink { 0%, 100% { opacity: .18; } 50% { opacity: .75; } }
         @keyframes hsPop { 0%, 55%, 100% { transform: scale(.3); opacity: .2; } 72% { transform: scale(1.18); opacity: 1; } 86% { transform: scale(1); } }
@@ -177,11 +183,18 @@ function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
               <circle cx={-4} cy={108} r={13} />
               <path d="M-4 121 L0 178" />
               <path d="M0 132 L-14 156 L-26 180" />
-              <path d="M0 132 L14 174 L24 230" />
               <path d="M0 178 L-8 232 L-13 300" />
               <path d="M0 178 L8 232 L13 300" />
             </g>
-            <circle cx={24} cy={230} r={3.5} className="hs-spark" style={{ animationDelay: '0.6s' }} />
+            <g className="hs-stick hs-swap-a" strokeWidth={5}>
+              <path d="M0 132 L12 180 L22 232" />
+              <circle cx={22} cy={232} r={3.5} />
+            </g>
+            <g className="hs-stick hs-swap-b" strokeWidth={5}>
+              <path d="M0 132 L14 168 L28 214" />
+              <circle cx={28} cy={214} r={3.5} />
+            </g>
+            <circle cx={24} cy={222} r={3} className="hs-spark" style={{ animationDelay: '0.4s' }} />
           </g>
           <path d="M-70 252 L70 252 M-58 252 L-58 300 M58 252 L58 300" className="hs-stick hs-soft" strokeWidth={4} />
           <g>
@@ -203,8 +216,14 @@ function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
               <path d="M0 121 L0 178" />
               <path d="M0 132 L-14 156 L-26 180" />
               <path d="M0 132 L14 156 L26 180" />
-              <path d="M0 178 L-8 232 L-13 300" />
-              <path d="M0 178 L8 232 L13 300" />
+            </g>
+            <g className="hs-stick hs-swap-a" strokeWidth={5}>
+              <path d="M0 178 L-10 240 L-22 300" />
+              <path d="M0 178 L10 240 L22 300" />
+            </g>
+            <g className="hs-stick hs-swap-b" strokeWidth={5}>
+              <path d="M0 178 L-20 300" />
+              <path d="M0 178 L-2 240 L2 300" />
             </g>
             <g transform="translate(42 64)">
               <circle r={16} className="hs-stick" strokeWidth={4.5} />
