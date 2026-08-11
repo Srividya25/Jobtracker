@@ -12,11 +12,27 @@ export default function AuthScene() {
         .auth-scene svg { width: 100%; height: 100%; display: block; }
         .as-bob   { animation: asBob 4.5s ease-in-out infinite alternate; }
         .as-bob2  { animation: asBob 6s ease-in-out 0.6s infinite alternate; }
+        .as-doc   { animation: asDoc 6s linear infinite; }
+        .as-doc2  { animation: asDoc 6s linear 2s infinite; }
+        .as-plane { animation: asPlane 8.5s linear infinite; }
         .as-steam { animation: asSteam 2.4s ease-out infinite; }
         .as-steam2{ animation: asSteam 2.4s ease-out 0.8s infinite; }
         .as-tw    { animation: asTw 3s ease-in-out infinite; }
         .as-tw2   { animation: asTw 3s ease-in-out 1.4s infinite; }
         @keyframes asBob { from { transform: translateY(0); } to { transform: translateY(-6px); } }
+        @keyframes asDoc {
+          0%   { transform: translateX(-220px); opacity: 0; }
+          12%  { opacity: 1; }
+          80%  { opacity: 1; }
+          100% { transform: translateX(560px); opacity: 0; }
+        }
+        @keyframes asPlane {
+          0%   { transform: translateX(-180px) translateY(0); }
+          25%  { transform: translateX(300px) translateY(-16px); }
+          50%  { transform: translateX(760px) translateY(4px); }
+          75%  { transform: translateX(1200px) translateY(-14px); }
+          100% { transform: translateX(1450px) translateY(0); }
+        }
         @keyframes asSteam {
           0%   { transform: translateY(0); opacity: 0; }
           30%  { opacity: 0.8; }
@@ -86,6 +102,23 @@ export default function AuthScene() {
           <rect x="650" y="252" width="84" height="12" rx="6" fill="var(--hero-text)" fillOpacity="0.65" transform="rotate(-4 692 258)" />
           <circle cx="730" cy="246" r="9" fill="var(--hero-text)" fillOpacity="0.7" />
           <circle cx="730" cy="258" r="9" fill="var(--hero-text)" fillOpacity="0.7" />
+        </g>
+
+        <g className="as-doc" transform="translate(0, 150)">
+          <rect width="36" height="48" rx="7" fill="var(--hero-text)" fillOpacity="0.9" />
+          <rect x="8" y="11" width="20" height="5" rx="2.5" fill="var(--hero-text)" fillOpacity="0.55" />
+          <rect x="8" y="21" width="20" height="5" rx="2.5" fill="var(--hero-text)" fillOpacity="0.45" />
+          <rect x="8" y="31" width="13" height="5" rx="2.5" fill="var(--hero-text)" fillOpacity="0.45" />
+        </g>
+        <g className="as-doc2" transform="translate(0, 208)">
+          <rect width="32" height="44" rx="7" fill="var(--hero-text)" fillOpacity="0.75" />
+          <rect x="7" y="10" width="18" height="5" rx="2.5" fill="var(--hero-text)" fillOpacity="0.5" />
+          <rect x="7" y="20" width="18" height="5" rx="2.5" fill="var(--hero-text)" fillOpacity="0.45" />
+        </g>
+
+        <g className="as-plane" transform="translate(0, 318)">
+          <path d="M0 14 L62 0 L44 58 L28 40 L10 44 Z" fill="var(--hero-text)" fillOpacity="0.9" />
+          <path d="M28 40 L62 0" fill="none" stroke="var(--hero-text)" strokeOpacity="0.5" strokeWidth="3" />
         </g>
 
         <g className="as-bob2" transform="translate(586, 196)">
