@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JobTracker</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('jobtracker-theme')
+          document.documentElement.dataset.theme =
+            t === 'light' || t === 'dark'
+              ? t
+              : window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light'
+          var h = localStorage.getItem('jobtracker-hero-theme')
+          if (h === 'beige' || h === 'classic' || h === 'ocean' || h === 'forest' || h === 'sunset') {
+            document.documentElement.dataset.heroTheme = h
+          }
+        } catch (e) {}
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>
