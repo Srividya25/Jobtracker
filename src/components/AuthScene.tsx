@@ -98,16 +98,20 @@ export default function AuthScene() {
         </g>
 
         <g className="as-bob">
-          <rect x="578" y="210" width="58" height="102" rx="16" fill="var(--hero-text)" fillOpacity="0.3" />
-          <path d="M586 210 q0 -12 12 -12 h30 q12 0 12 12 h-54 Z" fill="var(--hero-text)" fillOpacity="0.42" />
-          <rect x="596" y="298" width="124" height="16" rx="8" fill="var(--hero-text)" fillOpacity="0.42" />
-          <rect x="596" y="300" width="124" height="3" rx="1.5" fill="var(--hero-text)" fillOpacity="0.55" />
-          <rect x="586" y="262" width="9" height="40" rx="4.5" fill="var(--hero-text)" fillOpacity="0.35" />
-          <rect x="580" y="254" width="24" height="9" rx="4.5" fill="var(--hero-text)" fillOpacity="0.42" />
-          <rect x="648" y="314" width="12" height="20" rx="6" fill="var(--hero-text)" fillOpacity="0.35" />
-          <ellipse cx="654" cy="336" rx="42" ry="8" fill="var(--hero-text)" fillOpacity="0.3" />
-          <rect x="616" y="332" width="12" height="7" rx="3.5" fill="var(--hero-text)" fillOpacity="0.3" />
-          <rect x="680" y="332" width="12" height="7" rx="3.5" fill="var(--hero-text)" fillOpacity="0.3" />
+          <rect x="614" y="116" width="112" height="204" rx="22" fill="var(--hero-text)" fillOpacity="0.28" />
+          <path d="M620 116 q0 -14 14 -14 h72 q14 0 14 14 Z" fill="var(--hero-text)" fillOpacity="0.4" />
+          <rect x="668" y="140" width="4" height="150" rx="2" fill="var(--hero-text)" fillOpacity="0.45" />
+          <rect x="654" y="150" width="4" height="140" rx="2" fill="var(--hero-text)" fillOpacity="0.35" />
+          <rect x="644" y="100" width="56" height="22" rx="11" fill="var(--hero-text)" fillOpacity="0.34" />
+          <rect x="630" y="298" width="96" height="16" rx="8" fill="var(--hero-text)" fillOpacity="0.42" />
+          <rect x="630" y="300" width="96" height="3" rx="1.5" fill="var(--hero-text)" fillOpacity="0.58" />
+          <rect x="600" y="264" width="8" height="42" rx="4" fill="var(--hero-text)" fillOpacity="0.34" />
+          <rect x="594" y="256" width="24" height="9" rx="4.5" fill="var(--hero-text)" fillOpacity="0.4" />
+          <rect x="672" y="314" width="10" height="22" rx="5" fill="var(--hero-text)" fillOpacity="0.34" />
+          <ellipse cx="677" cy="338" rx="46" ry="8" fill="var(--hero-text)" fillOpacity="0.3" />
+          <rect x="636" y="334" width="12" height="6" rx="3" fill="var(--hero-text)" fillOpacity="0.3" />
+          <rect x="706" y="334" width="12" height="6" rx="3" fill="var(--hero-text)" fillOpacity="0.3" />
+          <rect x="671" y="342" width="12" height="6" rx="3" fill="var(--hero-text)" fillOpacity="0.3" />
           <rect x="636" y="216" width="78" height="84" rx="18" fill="var(--hero-text)" fillOpacity="0.92" />
           <path d="M664 216 v-10" stroke="var(--hero-text)" strokeWidth="6" strokeOpacity="0.8" />
           <rect x="662" y="202" width="24" height="16" rx="6" fill="var(--hero-text)" fillOpacity="0.8" />
