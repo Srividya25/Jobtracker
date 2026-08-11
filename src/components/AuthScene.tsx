@@ -57,6 +57,12 @@ export default function AuthScene() {
         @keyframes asTw { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.9; } }
       `}</style>
       <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax meet">
+        <defs>
+          <radialGradient id="asGlow" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor="var(--hero-text)" stopOpacity="0.26" />
+            <stop offset="100%" stopColor="var(--hero-text)" stopOpacity="0" />
+          </radialGradient>
+        </defs>
         <path d="M0 342 Q 300 322 600 344 T 1200 342 L 1200 400 L 0 400 Z" fill="var(--hero-text)" fillOpacity="0.12" />
 
         <g transform="translate(972, 78)">
@@ -92,24 +98,29 @@ export default function AuthScene() {
         </g>
 
         <g className="as-bob">
-          <rect x="634" y="212" width="80" height="88" rx="18" fill="var(--hero-text)" fillOpacity="0.92" />
-          <path d="M664 212 v-10" stroke="var(--hero-text)" strokeWidth="6" strokeOpacity="0.8" />
-          <rect x="662" y="198" width="24" height="16" rx="6" fill="var(--hero-text)" fillOpacity="0.8" />
-          <circle cx="666" cy="160" r="34" fill="var(--hero-text)" fillOpacity="0.8" />
-          <path d="M632 158 a34 34 0 0 1 68 0 v2 a34 34 0 0 0 -68 0 Z" fill="var(--hero-text)" fillOpacity="0.9" />
-          <circle cx="654" cy="166" r="3.4" fill="var(--hero-text)" fillOpacity="0.9" />
-          <circle cx="678" cy="166" r="3.4" fill="var(--hero-text)" fillOpacity="0.9" />
-          <path d="M656 176 q10 8 20 0" fill="none" stroke="var(--hero-text)" strokeWidth="2.6" strokeLinecap="round" />
-          <rect x="632" y="238" width="88" height="12" rx="6" fill="var(--hero-text)" fillOpacity="0.7" transform="rotate(7 676 244)" />
-          <rect x="632" y="252" width="88" height="12" rx="6" fill="var(--hero-text)" fillOpacity="0.7" transform="rotate(-5 676 258)" />
-          <circle cx="714" cy="246" r="9" fill="var(--hero-text)" fillOpacity="0.75" />
-          <circle cx="714" cy="258" r="9" fill="var(--hero-text)" fillOpacity="0.75" />
+          <rect x="636" y="216" width="78" height="84" rx="18" fill="var(--hero-text)" fillOpacity="0.92" />
+          <path d="M664 216 v-10" stroke="var(--hero-text)" strokeWidth="6" strokeOpacity="0.8" />
+          <rect x="662" y="202" width="24" height="16" rx="6" fill="var(--hero-text)" fillOpacity="0.8" />
+          <circle cx="668" cy="168" r="33" fill="var(--hero-text)" fillOpacity="0.8" />
+          <path d="M635 164 a33 33 0 0 1 66 0 v2 a33 33 0 0 0 -66 0 Z" fill="var(--hero-text)" fillOpacity="0.9" />
+          <circle cx="680" cy="173" r="3.1" fill="var(--hero-text)" fillOpacity="0.9" />
+          <circle cx="692" cy="173" r="3.1" fill="var(--hero-text)" fillOpacity="0.9" />
+          <rect x="670" y="167" width="13" height="10" rx="3" fill="none" stroke="var(--hero-text)" strokeWidth="2" strokeOpacity="0.85" />
+          <rect x="687" y="167" width="13" height="10" rx="3" fill="none" stroke="var(--hero-text)" strokeWidth="2" strokeOpacity="0.85" />
+          <path d="M683 172 h4" stroke="var(--hero-text)" strokeWidth="2" strokeOpacity="0.85" />
+          <path d="M672 162 l2 -4 M690 162 l-2 -4" stroke="var(--hero-text)" strokeWidth="2.2" strokeLinecap="round" strokeOpacity="0.8" />
+          <path d="M678 183 q5 4 10 0" fill="none" stroke="var(--hero-text)" strokeWidth="2.4" strokeLinecap="round" strokeOpacity="0.85" />
+          <rect x="634" y="240" width="88" height="12" rx="6" fill="var(--hero-text)" fillOpacity="0.7" transform="rotate(7 678 246)" />
+          <rect x="634" y="254" width="88" height="12" rx="6" fill="var(--hero-text)" fillOpacity="0.7" transform="rotate(-5 678 260)" />
+          <circle cx="716" cy="248" r="9" fill="var(--hero-text)" fillOpacity="0.75" />
+          <circle cx="716" cy="260" r="9" fill="var(--hero-text)" fillOpacity="0.75" />
         </g>
 
         <rect x="560" y="240" width="400" height="22" rx="10" fill="var(--hero-text)" fillOpacity="0.45" />
         <rect x="588" y="262" width="20" height="64" rx="5" fill="var(--hero-text)" fillOpacity="0.3" />
         <rect x="910" y="262" width="20" height="64" rx="5" fill="var(--hero-text)" fillOpacity="0.3" />
 
+        <ellipse cx="860" cy="196" rx="120" ry="95" fill="url(#asGlow)" />
         <g>
           <rect x="788" y="146" width="150" height="94" rx="10" fill="var(--hero-text)" fillOpacity="0.85" />
           <rect x="800" y="158" width="126" height="70" rx="6" fill="var(--hero-text)" fillOpacity="0.2" />
