@@ -24,7 +24,6 @@ export default function SignIn() {
 
   return (
     <div className="auth">
-      <AuthScene />
       <div className="auth-grid">
         <div className="auth-panel">
           <div className="auth-card">
@@ -53,6 +52,13 @@ export default function SignIn() {
               Don't have an account? <Link to="/signup">Sign Up</Link>
             </p>
           </div>
+        </div>
+        <div className="auth-visual">
+          <div className="auth-visual-head">
+            <h2>Every application, one place.</h2>
+            <p>Capture, track, and win your job search.</p>
+          </div>
+          <AuthScene />
         </div>
       </div>
     </div>
