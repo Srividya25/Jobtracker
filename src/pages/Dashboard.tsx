@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase, type Application, exportApplicationsToCSV } from '../lib/supabase'
+import HeroScene from '../components/HeroScene'
 import './dashboard.css'
 
 const STATUS: Record<string, { label: string; color: string; bg: string }> = {
@@ -163,6 +164,7 @@ export default function Dashboard() {
   return (
     <div className="dash">
       <header className="dash-hero">
+        <HeroScene />
         <div className="dash-hero-inner">
           <div className="dash-hero-top">
             <div>

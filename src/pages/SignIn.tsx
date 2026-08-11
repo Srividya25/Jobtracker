@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import HeroScene from '../components/HeroScene'
 import './auth.css'
 
 export default function SignIn() {
@@ -23,6 +24,7 @@ export default function SignIn() {
 
   return (
     <div className="auth">
+      <HeroScene className="auth-scene" />
       <div className="auth-card">
         <div className="auth-logo">J</div>
         <h1 className="auth-title">Sign In</h1>

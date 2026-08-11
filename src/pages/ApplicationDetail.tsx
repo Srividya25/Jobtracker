@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { supabase, getResumeSignedUrl, type Application } from '../lib/supabase'
+import HeroScene from '../components/HeroScene'
 import './detail.css'
 
 const STATUS: Record<string, { label: string; color: string; bg: string }> = {
@@ -96,8 +97,11 @@ export default function ApplicationDetail() {
 
         <div className="detail-card">
           <div className="detail-hero">
-            <h1>{app.job_title}</h1>
-            <p>{app.company}</p>
+            <HeroScene />
+            <div className="detail-hero-content">
+              <h1>{app.job_title}</h1>
+              <p>{app.company}</p>
+            </div>
           </div>
 
           <div className="detail-body">

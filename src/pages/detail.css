@@ -44,6 +44,12 @@
   background: var(--hero-grad);
   color: #fff;
   padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.detail-hero-content {
+  position: relative;
+  z-index: 1;
 }
 .detail-hero h1 {
   margin: 0;

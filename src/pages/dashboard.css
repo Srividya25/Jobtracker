@@ -11,10 +11,14 @@
   background: var(--hero-grad);
   color: #fff;
   padding: 32px 24px 68px;
+  position: relative;
+  overflow: hidden;
 }
 .dash-hero-inner {
   max-width: 1080px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 .dash-hero-top {
   display: flex;
