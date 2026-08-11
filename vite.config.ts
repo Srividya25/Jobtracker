@@ -2,7 +2,13 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { execSync } from 'node:child_process'
 
-const buildSha = execSync('git rev-parse --short HEAD').toString().trim()
+const buildSha = (() => {
+  try {
+    return execSync('git rev-parse --short HEAD').toString().trim()
+  } catch (e) {
+    return 'dev'
+  }
+})()
 
 export default defineConfig({
   plugins: [react()],
