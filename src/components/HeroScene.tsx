@@ -39,7 +39,7 @@ export default function HeroScene({
         .hs-dot { fill: var(--hero-text); }
         .hs-dot-idle { fill: var(--hero-text); fill-opacity: .2; }
 
-        .hs-stage { animation: hsStage 12s linear infinite; }
+        .hs-stage { opacity: 0; animation: hsStage 12s linear infinite; animation-fill-mode: both; }
         .hs-spark, .hs-tick, .hs-pop { transform-box: fill-box; transform-origin: center; animation: hsPop 1.8s ease-in-out infinite; }
         .hs-idle { animation: hsIdle 3.2s ease-in-out infinite; }
         .hs-spin { transform-box: fill-box; transform-origin: center; animation: hsSpin 6s linear infinite; }
@@ -70,7 +70,7 @@ export default function HeroScene({
           <circle key={i} cx={330 + i * 108} cy={364} r={5} className="hs-dot-idle" />
         ))}
         {STAGES.map((st, i) => (
-          <g key={st.key} className="hs-stage" style={{ animationDelay: `${i * 2}s` }}>
+          <g key={st.key} className="hs-stage" style={{ animationDelay: `${-i * 2}s` }}>
             <text className="hs-label-big" x={600} y={62}>
               {st.label}
             </text>
