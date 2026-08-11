@@ -37,10 +37,24 @@ export default function AuthScene() {
         <path d="M900 70 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z" fill="var(--hero-text)" className="as-tw" />
         <path d="M300 90 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z" fill="var(--hero-text)" className="as-tw2" />
 
+        <g className="as-bob">
+          <rect x="654" y="206" width="76" height="54" rx="16" fill="var(--hero-text)" fillOpacity="0.9" />
+          <path d="M682 206 v-10" stroke="var(--hero-text)" strokeWidth="6" strokeOpacity="0.75" />
+          <circle cx="684" cy="158" r="32" fill="var(--hero-text)" fillOpacity="0.78" />
+          <path d="M652 154 a32 32 0 0 1 64 0 v2 a32 32 0 0 0 -64 0 Z" fill="var(--hero-text)" fillOpacity="0.88" />
+          <circle cx="696" cy="163" r="3" fill="var(--hero-text)" fillOpacity="0.88" />
+          <circle cx="708" cy="163" r="3" fill="var(--hero-text)" fillOpacity="0.88" />
+          <rect x="686" y="157" width="13" height="10" rx="3" fill="none" stroke="var(--hero-text)" strokeWidth="2" strokeOpacity="0.8" />
+          <rect x="703" y="157" width="13" height="10" rx="3" fill="none" stroke="var(--hero-text)" strokeWidth="2" strokeOpacity="0.8" />
+          <path d="M699 162 h4" stroke="var(--hero-text)" strokeWidth="2" strokeOpacity="0.8" />
+          <path d="M688 148 l2 -3 M706 148 l-2 -3" stroke="var(--hero-text)" fillOpacity="0.8" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.7" />
+          <path d="M696 173 q5 4 10 0" fill="none" stroke="var(--hero-text)" strokeWidth="2.4" strokeLinecap="round" strokeOpacity="0.8" />
+        </g>
+
         <g transform="translate(560, 252)">
           <rect width="440" height="18" rx="9" fill="var(--hero-text)" fillOpacity="0.42" />
-          <rect x="20" y="18" width="22" height="70" rx="6" fill="var(--hero-text)" fillOpacity="0.28" />
-          <rect x="398" y="18" width="22" height="70" rx="6" fill="var(--hero-text)" fillOpacity="0.28" />
+          <rect x="20" y="18" width="22" height="72" rx="6" fill="var(--hero-text)" fillOpacity="0.28" />
+          <rect x="398" y="18" width="22" height="72" rx="6" fill="var(--hero-text)" fillOpacity="0.28" />
         </g>
 
         <g>
@@ -68,42 +82,13 @@ export default function AuthScene() {
         <path d="M856 250 v11" stroke="var(--hero-text)" strokeWidth="2.5" strokeOpacity="0.55" />
 
         <g className="as-bob">
-          <rect x="626" y="150" width="86" height="200" rx="20" fill="var(--hero-text)" fillOpacity="0.26" />
-          <path d="M634 150 q0 -12 12 -12 h54 q12 0 12 12 Z" fill="var(--hero-text)" fillOpacity="0.38" />
-          <rect x="662" y="170" width="5" height="160" rx="2.5" fill="var(--hero-text)" fillOpacity="0.4" />
-          <rect x="638" y="312" width="76" height="16" rx="8" fill="var(--hero-text)" fillOpacity="0.4" />
-          <rect x="638" y="314" width="76" height="3" rx="1.5" fill="var(--hero-text)" fillOpacity="0.55" />
-          <rect x="614" y="278" width="8" height="36" rx="4" fill="var(--hero-text)" fillOpacity="0.32" />
-          <rect x="608" y="270" width="22" height="9" rx="4.5" fill="var(--hero-text)" fillOpacity="0.38" />
-          <rect x="664" y="328" width="10" height="22" rx="5" fill="var(--hero-text)" fillOpacity="0.32" />
-          <ellipse cx="669" cy="352" rx="42" ry="8" fill="var(--hero-text)" fillOpacity="0.28" />
-          <rect x="634" y="348" width="12" height="6" rx="3" fill="var(--hero-text)" fillOpacity="0.28" />
-          <rect x="694" y="348" width="12" height="6" rx="3" fill="var(--hero-text)" fillOpacity="0.28" />
-          <rect x="663" y="354" width="12" height="6" rx="3" fill="var(--hero-text)" fillOpacity="0.28" />
-
-          <rect x="652" y="212" width="80" height="86" rx="18" fill="var(--hero-text)" fillOpacity="0.9" />
-          <path d="M682 212 v-10" stroke="var(--hero-text)" strokeWidth="6" strokeOpacity="0.75" />
-          <rect x="680" y="198" width="24" height="16" rx="6" fill="var(--hero-text)" fillOpacity="0.75" />
-          <circle cx="684" cy="160" r="32" fill="var(--hero-text)" fillOpacity="0.78" />
-          <path d="M652 156 a32 32 0 0 1 64 0 v2 a32 32 0 0 0 -64 0 Z" fill="var(--hero-text)" fillOpacity="0.88" />
-          <circle cx="696" cy="165" r="3" fill="var(--hero-text)" fillOpacity="0.88" />
-          <circle cx="708" cy="165" r="3" fill="var(--hero-text)" fillOpacity="0.88" />
-          <rect x="686" y="159" width="13" height="10" rx="3" fill="none" stroke="var(--hero-text)" strokeWidth="2" strokeOpacity="0.8" />
-          <rect x="703" y="159" width="13" height="10" rx="3" fill="none" stroke="var(--hero-text)" strokeWidth="2" strokeOpacity="0.8" />
-          <path d="M699 164 h4" stroke="var(--hero-text)" strokeWidth="2" strokeOpacity="0.8" />
-          <path d="M688 150 l2 -3 M706 150 l-2 -3" stroke="var(--hero-text)" fillOpacity="0.8" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.7" />
-          <path d="M696 175 q5 4 10 0" fill="none" stroke="var(--hero-text)" strokeWidth="2.4" strokeLinecap="round" strokeOpacity="0.8" />
-          <rect x="650" y="240" width="84" height="12" rx="6" fill="var(--hero-text)" fillOpacity="0.65" transform="rotate(6 692 246)" />
-          <rect x="650" y="254" width="84" height="12" rx="6" fill="var(--hero-text)" fillOpacity="0.65" transform="rotate(-4 692 260)" />
-          <circle cx="730" cy="248" r="9" fill="var(--hero-text)" fillOpacity="0.7" />
-          <circle cx="730" cy="260" r="9" fill="var(--hero-text)" fillOpacity="0.7" />
-          <rect x="662" y="302" width="14" height="22" rx="7" fill="var(--hero-text)" fillOpacity="0.5" />
-          <rect x="704" y="302" width="14" height="22" rx="7" fill="var(--hero-text)" fillOpacity="0.5" />
-          <rect x="658" y="320" width="22" height="8" rx="4" fill="var(--hero-text)" fillOpacity="0.65" />
-          <rect x="700" y="320" width="22" height="8" rx="4" fill="var(--hero-text)" fillOpacity="0.65" />
+          <rect x="650" y="238" width="84" height="12" rx="6" fill="var(--hero-text)" fillOpacity="0.65" transform="rotate(6 692 244)" />
+          <rect x="650" y="252" width="84" height="12" rx="6" fill="var(--hero-text)" fillOpacity="0.65" transform="rotate(-4 692 258)" />
+          <circle cx="730" cy="246" r="9" fill="var(--hero-text)" fillOpacity="0.7" />
+          <circle cx="730" cy="258" r="9" fill="var(--hero-text)" fillOpacity="0.7" />
         </g>
 
-        <g className="as-bob2" transform="translate(590, 198)">
+        <g className="as-bob2" transform="translate(586, 196)">
           <rect width="24" height="24" rx="6" fill="var(--hero-text)" fillOpacity="0.9" />
           <path d="M24 14 a 8 8 0 0 1 0 12" fill="none" stroke="var(--hero-text)" strokeWidth="4.5" strokeLinecap="round" strokeOpacity="0.85" />
           <path d="M9 6 c-3 -7 3 -11 0 -18" fill="none" stroke="var(--hero-text)" strokeWidth="2.5" strokeLinecap="round" className="as-steam" />
