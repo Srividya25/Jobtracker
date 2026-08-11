@@ -473,6 +473,14 @@
 [data-theme='dark'] .dash-filter {
   background: var(--surface-2);
   border-color: #3b4f6e;
+  color: #e2e8f0;
+}
+[data-theme='dark'] .dash-filter:hover {
+  border-color: var(--primary);
+  color: #a5b4fc;
+}
+[data-theme='dark'] .dash-filter .count {
+  color: #94a3b8;
 }
 [data-theme='dark'] .dash-filter.active,
 [data-theme='dark'] .dash-btn-primary {
