@@ -125,8 +125,9 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
         <path d="M900 70 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z" fill="var(--scene-ink, var(--hero-text))" className="as-tw" />
         <path d="M300 90 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z" fill="var(--scene-ink, var(--hero-text))" className="as-tw2" />
 
-        <g className="as-bob">
-          <rect x="654" y="206" width="76" height="54" rx="16" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
+        <g transform="translate(132, -80)">
+          <g className="as-bob">
+            <rect x="654" y="206" width="76" height="54" rx="16" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
           <rect x="668" y="260" width="16" height="70" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.6" />
           <rect x="700" y="260" width="16" height="70" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.6" />
           <rect x="666" y="328" width="20" height="12" rx="5" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.75" />
@@ -140,7 +141,8 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
           <rect x="703" y="157" width="13" height="10" rx="3" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2" strokeOpacity="0.8" />
           <path d="M699 162 h4" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2" strokeOpacity="0.8" />
           <path d="M688 148 l2 -3 M706 148 l-2 -3" stroke="var(--scene-ink, var(--hero-text))" fillOpacity="0.8" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.7" />
-          <path d="M696 173 q5 4 10 0" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.4" strokeLinecap="round" strokeOpacity="0.8" />
+            <path d="M696 173 q5 4 10 0" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.4" strokeLinecap="round" strokeOpacity="0.8" />
+          </g>
         </g>
 
         <g transform="translate(560, 252)">
