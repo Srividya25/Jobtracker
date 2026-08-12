@@ -28,7 +28,13 @@ export default function Kanban() {
   const [overCol, setOverCol] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [savingId, setSavingId] = useState<string | null>(null)
+  const [search, setSearch] = useState('')
   const navigate = useNavigate()
+
+  const q = search.trim().toLowerCase()
+  const filtered = applications.filter(
+    (a) => !q || a.company.toLowerCase().includes(q) || a.job_title.toLowerCase().includes(q)
+  )
 
   useEffect(() => {
     let cancelled = false
@@ -87,14 +93,25 @@ export default function Kanban() {
           <h1>Pipeline</h1>
           <p>Drag applications between columns to update their status</p>
         </div>
-        <button className="kanban-btn" onClick={() => navigate('/new')}>
-          + New Application
-        </button>
+        <div className="kanban-head-actions">
+          <div className="kanban-search">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input
+              type="text"
+              placeholder="Search company or role…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+          <button className="kanban-btn" onClick={() => navigate('/new')}>
+            + New Application
+          </button>
+        </div>
       </div>
 
       <div className="kanban-board">
         {COLUMNS.map((col) => {
-          const cards = applications.filter((a) => a.status === col.key)
+          const cards = filtered.filter((a) => a.status === col.key)
           return (
             <div
               key={col.key}
@@ -109,7 +126,7 @@ export default function Kanban() {
                 <span className="kanban-col-count">{cards.length}</span>
               </div>
               {cards.length === 0 && (
-                <div className="kanban-empty">Drop applications here</div>
+                <div className="kanban-empty">{q ? 'No matches' : 'Drop applications here'}</div>
               )}
               {cards.map((app) => (
                 <div
