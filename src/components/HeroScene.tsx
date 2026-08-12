@@ -40,6 +40,7 @@ export default function HeroScene({
         .hero-scene svg { width: 100%; height: 100%; display: block; }
 
         .hs-ink { fill: var(--hero-text); fill-opacity: .9; stroke: none; }
+        .hs-blob { fill: var(--hero-text); fill-opacity: .88; stroke: none; }
         .hs-card-strong { fill: var(--hero-text); fill-opacity: .16; stroke: var(--hero-text); stroke-opacity: .85; }
         .hs-stick { stroke: var(--hero-text); fill: none; stroke-linecap: round; stroke-linejoin: round; }
         .hs-soft { opacity: .45; }
@@ -230,16 +231,16 @@ export default function HeroScene({
               <g>
                 <g transform="translate(510 150)">
                   <g className="hs-rise">
-                    <ellipse cx={0} cy={0} rx={11} ry={14} className="hs-stick" strokeWidth={3.5} />
-                    <path d="M0 13 l-4 8 h8 Z" fill="var(--hero-text)" fillOpacity="0.2" stroke="var(--hero-text)" strokeWidth={2.5} strokeLinejoin="round" />
-                    <path d="M0 21 v34" className="hs-stick hs-soft" strokeWidth={2.5} />
+                    <circle cy={0} r={9} className="hs-blob" />
+                    <rect x={-9} y={9} width={18} height={22} rx={9} className="hs-blob" />
+                    <path d="M0 31 v20" fill="none" stroke="var(--hero-text)" strokeWidth={5} strokeLinecap="round" strokeOpacity="0.4" />
                   </g>
                 </g>
                 <g transform="translate(700 138)">
                   <g className="hs-rise" style={{ animationDelay: '0.8s' }}>
-                    <ellipse cx={0} cy={0} rx={11} ry={14} className="hs-stick" strokeWidth={3.5} />
-                    <path d="M0 13 l-4 8 h8 Z" fill="var(--hero-text)" fillOpacity="0.2" stroke="var(--hero-text)" strokeWidth={2.5} strokeLinejoin="round" />
-                    <path d="M0 21 v34" className="hs-stick hs-soft" strokeWidth={2.5} />
+                    <circle cy={0} r={9} className="hs-blob" />
+                    <rect x={-9} y={9} width={18} height={22} rx={9} className="hs-blob" />
+                    <path d="M0 31 v20" fill="none" stroke="var(--hero-text)" strokeWidth={5} strokeLinecap="round" strokeOpacity="0.4" />
                   </g>
                 </g>
               </g>
@@ -257,26 +258,66 @@ export default function HeroScene({
   )
 }
 
+function BlobLimb({
+  from,
+  to,
+  w,
+}: {
+  from: [number, number]
+  to: [number, number]
+  w: number
+}) {
+  return (
+    <path
+      d={`M${from[0]} ${from[1]} L${to[0]} ${to[1]}`}
+      fill="none"
+      stroke="var(--hero-text)"
+      strokeWidth={w}
+      strokeLinecap="round"
+      strokeOpacity="0.88"
+    />
+  )
+}
+
+function Blob({
+  hx = 0,
+  leftArm,
+  rightArm,
+  leftLeg,
+  rightLeg,
+}: {
+  hx?: number
+  leftArm?: [number, number]
+  rightArm?: [number, number]
+  leftLeg?: [number, number]
+  rightLeg?: [number, number]
+}) {
+  return (
+    <g>
+      <circle cx={hx} cy={106} r={16} className="hs-blob" />
+      <rect x={hx - 20} y={122} width={40} height={54} rx={20} className="hs-blob" />
+      {leftLeg && <BlobLimb from={[hx - 7, 176]} to={leftLeg} w={9} />}
+      {rightLeg && <BlobLimb from={[hx + 7, 176]} to={rightLeg} w={9} />}
+      {leftArm && <BlobLimb from={[hx - 14, 137]} to={leftArm} w={8} />}
+      {rightArm && <BlobLimb from={[hx + 14, 137]} to={rightArm} w={8} />}
+      <circle cx={hx - 6} cy={102} r={2.8} fill="var(--bg)" />
+      <circle cx={hx + 6} cy={102} r={2.8} fill="var(--bg)" />
+    </g>
+  )
+}
+
 function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
   switch (stage) {
     case 'apply':
       return (
         <g>
           <g className="hs-idle">
-            <g className="hs-stick" strokeWidth={5}>
-              <circle cx={-4} cy={108} r={13} />
-              <path d="M-4 121 L0 178" />
-              <path d="M0 132 L-14 156 L-26 180" />
-              <path d="M0 178 L-8 232 L-13 300" />
-              <path d="M0 178 L8 232 L13 300" />
+            <Blob leftArm={[-24, 190]} leftLeg={[-10, 300]} rightLeg={[10, 300]} />
+            <g className="hs-swap-a">
+              <BlobLimb from={[14, 137]} to={[24, 206]} w={8} />
             </g>
-            <g className="hs-stick hs-swap-a" strokeWidth={5}>
-              <path d="M0 132 L12 180 L22 232" />
-              <circle cx={22} cy={232} r={3.5} />
-            </g>
-            <g className="hs-stick hs-swap-b" strokeWidth={5}>
-              <path d="M0 132 L14 168 L28 214" />
-              <circle cx={28} cy={214} r={3.5} />
+            <g className="hs-swap-b">
+              <BlobLimb from={[14, 137]} to={[31, 194]} w={8} />
             </g>
             <circle cx={24} cy={222} r={3} className="hs-spark" style={{ animationDelay: '0.4s' }} />
           </g>
@@ -295,19 +336,14 @@ function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
       return (
         <g className="hs-pace">
           <g className="hs-idle">
-            <g className="hs-stick" strokeWidth={5}>
-              <circle cx={0} cy={108} r={13} />
-              <path d="M0 121 L0 178" />
-              <path d="M0 132 L-14 156 L-26 180" />
-              <path d="M0 132 L14 156 L26 180" />
+            <Blob leftArm={[-26, 182]} rightArm={[26, 182]} />
+            <g className="hs-swap-a">
+              <BlobLimb from={[-7, 176]} to={[-12, 300]} w={9} />
+              <BlobLimb from={[7, 176]} to={[12, 300]} w={9} />
             </g>
-            <g className="hs-stick hs-swap-a" strokeWidth={5}>
-              <path d="M0 178 L-10 240 L-22 300" />
-              <path d="M0 178 L10 240 L22 300" />
-            </g>
-            <g className="hs-stick hs-swap-b" strokeWidth={5}>
-              <path d="M0 178 L-20 300" />
-              <path d="M0 178 L-2 240 L2 300" />
+            <g className="hs-swap-b">
+              <BlobLimb from={[-7, 176]} to={[-20, 300]} w={9} />
+              <BlobLimb from={[7, 176]} to={[2, 300]} w={9} />
             </g>
             <g transform="translate(42 64)">
               <circle r={16} className="hs-stick" strokeWidth={4.5} />
@@ -324,14 +360,7 @@ function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
       return (
         <g>
           <g className="hs-idle">
-            <g className="hs-stick" strokeWidth={5}>
-              <circle cx={0} cy={108} r={13} />
-              <path d="M0 121 L0 186" />
-              <path d="M0 132 L-14 190 L-18 240" />
-              <path d="M0 132 L14 190 L18 240" />
-              <path d="M0 186 L16 244 L16 300" />
-              <path d="M0 186 L4 240 L8 300" />
-            </g>
+            <Blob leftArm={[-17, 232]} rightArm={[17, 232]} leftLeg={[-10, 300]} rightLeg={[10, 300]} />
             <circle cx={-18} cy={240} r={3.5} className="hs-spark" style={{ animationDelay: '0.5s' }} />
             <circle cx={18} cy={240} r={3.5} className="hs-spark" style={{ animationDelay: '1.1s' }} />
           </g>
@@ -353,26 +382,10 @@ function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
       return (
         <g>
           <g className="hs-idle">
-            <g className="hs-stick" strokeWidth={5}>
-              <circle cx={-42} cy={108} r={13} />
-              <path d="M-42 121 L-42 178" />
-              <path d="M-42 132 L-52 156 L-64 178" />
-              <path d="M-42 132 L-34 184 L-22 238" />
-              <path d="M-42 178 L-50 232 L-55 300" />
-              <path d="M-42 178 L-34 232 L-29 300" />
-              <path d="M-51 117 q6 7 12 0" />
-            </g>
+            <Blob hx={-42} leftArm={[-64, 182]} rightArm={[-24, 232]} leftLeg={[-52, 300]} rightLeg={[-32, 300]} />
           </g>
           <g className="hs-idle" style={{ animationDelay: '0.4s' }}>
-            <g className="hs-stick" strokeWidth={5}>
-              <circle cx={46} cy={108} r={13} />
-              <path d="M46 121 L46 190" />
-              <path d="M46 132 L36 182 L24 238" />
-              <path d="M46 132 L56 156 L68 182" />
-              <path d="M46 190 L60 248 L60 300" />
-              <path d="M46 190 L38 300" />
-              <path d="M39 117 q6 7 12 0" />
-            </g>
+            <Blob hx={46} leftArm={[24, 232]} rightArm={[68, 182]} leftLeg={[32, 300]} rightLeg={[58, 300]} />
           </g>
           <path d="M-32 252 L32 252 M-26 252 L-26 300 M26 252 L26 300" className="hs-stick hs-soft" strokeWidth={4} />
           <rect x={-20} y={234} width={11} height={10} rx={2.5} fill="var(--hero-text)" fillOpacity="0.2" stroke="var(--hero-text)" strokeWidth="2.5" />
@@ -399,14 +412,7 @@ function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
       return (
         <g className="hs-pace">
           <g className="hs-idle">
-            <g className="hs-stick" strokeWidth={5}>
-              <circle cx={0} cy={108} r={13} />
-              <path d="M0 121 L0 192" />
-              <path d="M0 132 L-14 156 L-26 180" />
-              <path d="M0 132 L14 156 L26 180" />
-              <path d="M0 192 L18 248 L18 300" />
-              <path d="M0 192 L6 240 L10 300" />
-            </g>
+            <Blob leftArm={[-26, 182]} rightArm={[26, 182]} leftLeg={[-10, 300]} rightLeg={[18, 300]} />
             <g transform="translate(34 66)">
               <circle r={16} className="hs-stick" strokeWidth={4} />
               <circle cx={24} cy={-14} r={7} className="hs-stick" strokeWidth={3.5} />
@@ -423,14 +429,7 @@ function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
       return (
         <g>
           <g className="hs-jump">
-            <g className="hs-stick" strokeWidth={5}>
-              <circle cx={0} cy={108} r={13} />
-              <path d="M0 121 L0 176" />
-              <path d="M0 132 L-12 118 L-26 104" />
-              <path d="M0 132 L12 118 L26 104" />
-              <path d="M0 176 L-12 268" />
-              <path d="M0 176 L14 270" />
-            </g>
+            <Blob leftArm={[-26, 104]} rightArm={[26, 104]} leftLeg={[-12, 268]} rightLeg={[14, 270]} />
             <g transform="translate(28 96)">
               <rect width={22} height={30} rx={3} className="hs-paper" strokeWidth={2.5} />
               <path d="M4 17 l5 6 l10 -12" fill="none" className="hs-stick hs-pop" strokeWidth={3.5} />
