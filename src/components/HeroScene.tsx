@@ -208,7 +208,7 @@ export default function HeroScene({
         {STAGES.slice(0, 5).map((_, i) => (
           <circle
             key={i}
-            cx={340 + i * 104}
+            cx={392 + i * 104}
             cy={376}
             r={5}
             className={`hs-dot-idle hs-dot-fill${i === 0 ? '' : ` hs-dot-f${i}`}`}
@@ -249,7 +249,7 @@ export default function HeroScene({
               <StageBody stage={st.key} />
             </g>
             <ellipse cx={600} cy={392} rx={42} ry={4} className="hs-shadow" />
-            <circle cx={340 + Math.min(i, 4) * 104} cy={376} r={5} className="hs-dot-pulse" />
+            <circle cx={392 + Math.min(i, 4) * 104} cy={376} r={5} className="hs-dot-pulse" />
           </g>
         ))}
       </svg>
