@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase, type Application, exportApplicationsToCSV } from '../lib/supabase'
 import HeroBackdrop from '../components/HeroBackdrop'
-import { DashboardSkeleton } from '../components/Skeleton'
+import { DashboardSkeleton, minDelay } from '../components/Skeleton'
 import './dashboard.css'
 
 const STATUS: Record<string, { label: string; color: string; bg: string }> = {
@@ -89,6 +89,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     let cancelled = false
+    const started = Date.now()
     ;(async () => {
       try {
         const { data, error } = await supabase
@@ -101,7 +102,10 @@ export default function Dashboard() {
       } catch (err) {
         console.error(err)
       } finally {
-        if (!cancelled) setLoading(false)
+        if (!cancelled) {
+          await minDelay(started)
+          setLoading(false)
+        }
       }
     })()
     return () => {

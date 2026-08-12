@@ -8,7 +8,7 @@ import {
   deleteResumeAndFile,
   type Resume,
 } from '../lib/supabase'
-import { ResumesSkeleton } from '../components/Skeleton'
+import { ResumesSkeleton, minDelay } from '../components/Skeleton'
 import './resumes.css'
 
 export default function Resumes() {
@@ -19,10 +19,14 @@ export default function Resumes() {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
+    const started = Date.now()
     getResumes()
       .then(setResumes)
       .catch((e) => console.error(e))
-      .finally(() => setLoading(false))
+      .finally(async () => {
+        await minDelay(started)
+        setLoading(false)
+      })
   }, [])
 
   async function handleUpload(file: File) {

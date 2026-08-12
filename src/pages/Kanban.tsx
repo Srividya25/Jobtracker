@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase, type Application } from '../lib/supabase'
-import { KanbanSkeleton } from '../components/Skeleton'
+import { KanbanSkeleton, minDelay } from '../components/Skeleton'
 import './kanban.css'
 
 const COLUMNS = [
@@ -32,6 +32,7 @@ export default function Kanban() {
 
   useEffect(() => {
     let cancelled = false
+    const started = Date.now()
     ;(async () => {
       try {
         const { data, error } = await supabase
@@ -44,7 +45,10 @@ export default function Kanban() {
       } catch (err) {
         console.error(err)
       } finally {
-        if (!cancelled) setLoading(false)
+        if (!cancelled) {
+          await minDelay(started)
+          setLoading(false)
+        }
       }
     })()
     return () => {
