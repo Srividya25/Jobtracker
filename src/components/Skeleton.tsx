@@ -3,7 +3,7 @@ import './skeleton.css'
 
 /* Keep skeleton loaders visible for at least this long so fast loads
    still feel smooth and intentional instead of flashing content in. */
-export const MIN_LOADING_MS = 4000
+export const MIN_LOADING_MS = 800
 
 export function minDelay(startedAt: number): Promise<void> {
   const remaining = MIN_LOADING_MS - (Date.now() - startedAt)
