@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase, type Application, exportApplicationsToCSV } from '../lib/supabase'
-import HeroBackdrop from '../components/HeroBackdrop'
+import HeroScene from '../components/HeroScene'
 import { DashboardSkeleton, minDelay } from '../components/Skeleton'
 import './dashboard.css'
 
@@ -169,7 +169,7 @@ export default function Dashboard() {
   return (
     <div className="dash">
       <header className="dash-hero">
-        <HeroBackdrop />
+        <HeroScene variant="right" />
         <div className="dash-hero-inner">
           <div className="dash-hero-top">
             <div>
