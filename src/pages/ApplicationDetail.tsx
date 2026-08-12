@@ -108,7 +108,7 @@ export default function ApplicationDetail() {
             <div className="detail-grid" style={{ marginBottom: 24 }}>
               <div className="detail-section">
                 <div className="detail-label">Status</div>
-                <span className="detail-pill" style={{ color: st.color, background: st.bg }}>
+                <span className="detail-pill" style={{ color: st.color, background: `color-mix(in srgb, ${st.color} 14%, transparent)` }}>
                   <span className="dot"></span>
                   {st.label}
                 </span>

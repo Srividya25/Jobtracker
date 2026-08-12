@@ -186,7 +186,7 @@ export default function Dashboard() {
       <main className="dash-main">
         <div className="dash-stats">
           <div className="dash-stat">
-            <div className="dash-stat-icon" style={{ background: '#eef2ff', color: '#4f46e5' }}>
+            <div className="dash-stat-icon" style={{ background: 'color-mix(in srgb, #4f46e5 14%, transparent)', color: '#4f46e5' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
             </div>
             <div>
@@ -195,7 +195,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="dash-stat">
-            <div className="dash-stat-icon" style={{ background: '#eff6ff', color: '#2563eb' }}>
+            <div className="dash-stat-icon" style={{ background: 'color-mix(in srgb, #2563eb 14%, transparent)', color: '#2563eb' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
             </div>
             <div>
@@ -204,7 +204,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="dash-stat">
-            <div className="dash-stat-icon" style={{ background: '#fffbeb', color: '#d97706' }}>
+            <div className="dash-stat-icon" style={{ background: 'color-mix(in srgb, #d97706 14%, transparent)', color: '#d97706' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
             </div>
             <div>
@@ -213,7 +213,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="dash-stat">
-            <div className="dash-stat-icon" style={{ background: '#f0fdf4', color: '#16a34a' }}>
+            <div className="dash-stat-icon" style={{ background: 'color-mix(in srgb, #16a34a 14%, transparent)', color: '#16a34a' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 17.5 5.5 21l2-7.5L2 9h7z"/></svg>
             </div>
             <div>
@@ -222,7 +222,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="dash-stat">
-            <div className="dash-stat-icon" style={{ background: '#fef2f2', color: '#dc2626' }}>
+            <div className="dash-stat-icon" style={{ background: 'color-mix(in srgb, #dc2626 14%, transparent)', color: '#dc2626' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
             </div>
             <div>
@@ -360,7 +360,7 @@ export default function Dashboard() {
                         {app.job_url && <div className="dash-company-meta">View posting</div>}
                       </td>
                       <td>
-                        <span className="dash-pill" style={{ color: st.color, background: st.bg }}>
+                        <span className="dash-pill" style={{ color: st.color, background: `color-mix(in srgb, ${st.color} 14%, transparent)` }}>
                           <span className="dot"></span>
                           {st.label}
                         </span>

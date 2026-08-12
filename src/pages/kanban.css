@@ -40,6 +40,9 @@
   background: var(--primary-hover);
   transform: translateY(-1px);
 }
+[data-theme='dark'] .kanban-btn {
+  color: #0b1220;
+}
 .kanban-board {
   display: flex;
   gap: 14px;

@@ -106,11 +106,11 @@
 }
 .emails-badge.interview {
   color: #d97706;
-  background: #fffbeb;
+  background: color-mix(in srgb, #d97706 14%, transparent);
 }
 .emails-badge.assessment {
   color: #a06a3c;
-  background: #f5e8d5;
+  background: color-mix(in srgb, #a06a3c 16%, transparent);
 }
 .emails-date {
   font-size: 11.5px;

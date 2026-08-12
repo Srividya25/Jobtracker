@@ -8,7 +8,7 @@ export default function BuildBadge() {
         zIndex: 50,
         fontFamily: 'system-ui',
         fontSize: 11,
-        color: 'rgba(90, 68, 44, 0.55)',
+        color: 'color-mix(in srgb, var(--hero-text) 55%, transparent)',
         pointerEvents: 'none',
       }}
     >
