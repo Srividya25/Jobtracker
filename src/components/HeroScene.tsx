@@ -252,7 +252,6 @@ export default function HeroScene({
             </g>
             <ellipse cx={600} cy={392} rx={42} ry={4} className="hs-shadow" />
             <circle cx={340 + i * 104} cy={376} r={5} className="hs-dot-pulse" />
-            <circle cx={340 + i * 104} cy={376} r={5} className="hs-dot" />
           </g>
         ))}
       </svg>
