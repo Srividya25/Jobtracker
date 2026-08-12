@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 const STAGES = [
   { key: 'apply', label: 'Apply', sub: 'Tailor your resume' },
   { key: 'wait1', label: 'Wait', sub: 'Sit tight' },
@@ -258,14 +260,14 @@ export default function HeroScene({
   )
 }
 
-function BlobLimb({
+function Stem({
   from,
   to,
-  w,
+  w = 6,
 }: {
   from: [number, number]
   to: [number, number]
-  w: number
+  w?: number
 }) {
   return (
     <path
@@ -279,29 +281,31 @@ function BlobLimb({
   )
 }
 
-function Blob({
-  hx = 0,
-  leftArm,
-  rightArm,
-  leftLeg,
-  rightLeg,
-}: {
-  hx?: number
-  leftArm?: [number, number]
-  rightArm?: [number, number]
-  leftLeg?: [number, number]
-  rightLeg?: [number, number]
-}) {
+function Leaf({ x, y, ang, r = 8 }: { x: number; y: number; ang: number; r?: number }) {
+  return <ellipse cx={x} cy={y} rx={r} ry={r * 0.45} transform={`rotate(${ang} ${x} ${y})`} className="hs-blob" />
+}
+
+function Soil() {
+  return <ellipse cx={0} cy={-27} rx={11} ry={4.5} fill="var(--hero-text)" fillOpacity="0.3" />
+}
+
+function Potted({ x = 0, s = 1, children }: { x?: number; s?: number; children?: ReactNode }) {
   return (
-    <g>
-      <circle cx={hx} cy={106} r={16} className="hs-blob" />
-      <rect x={hx - 20} y={122} width={40} height={54} rx={20} className="hs-blob" />
-      {leftLeg && <BlobLimb from={[hx - 7, 176]} to={leftLeg} w={9} />}
-      {rightLeg && <BlobLimb from={[hx + 7, 176]} to={rightLeg} w={9} />}
-      {leftArm && <BlobLimb from={[hx - 14, 137]} to={leftArm} w={8} />}
-      {rightArm && <BlobLimb from={[hx + 14, 137]} to={rightArm} w={8} />}
-      <circle cx={hx - 6} cy={102} r={2.8} fill="var(--bg)" />
-      <circle cx={hx + 6} cy={102} r={2.8} fill="var(--bg)" />
+    <g transform={`translate(${x} 300) scale(${s})`}>
+      <path d="M-16 -30 L16 -30 L11 0 L-11 0 Z" className="hs-blob" />
+      <rect x={-18} y={-36} width={36} height={7} rx={3.5} className="hs-blob" />
+      {children}
+    </g>
+  )
+}
+
+function Bloom({ scale = 1 }: { scale?: number }) {
+  return (
+    <g transform={`scale(${scale})`}>
+      {[0, 72, 144, 216, 288].map((a) => (
+        <ellipse key={a} cx={0} cy={-8.5} rx={5.5} ry={8} transform={`rotate(${a})`} className="hs-blob" />
+      ))}
+      <circle cy={0} r={5} className="hs-blob" />
     </g>
   )
 }
@@ -312,14 +316,27 @@ function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
       return (
         <g>
           <g className="hs-idle">
-            <Blob leftArm={[-24, 190]} leftLeg={[-10, 300]} rightLeg={[10, 300]} />
+            <Potted>
+              <Soil />
+              <circle cx={-3} cy={-26} r={2.2} className="hs-blob" />
+              <circle cx={4} cy={-25} r={2} className="hs-blob" />
+              <circle cx={6} cy={-42} r={3} className="hs-spark" style={{ animationDelay: '0.4s' }} />
+            </Potted>
             <g className="hs-swap-a">
-              <BlobLimb from={[14, 137]} to={[24, 206]} w={8} />
+              <g transform="rotate(-38 -30 -46)">
+                <rect x={-42} y={-56} width={17} height={21} rx={3} className="hs-blob" />
+                <path d="M-42 -50 C-51 -56 -53 -45 -44 -42" fill="none" stroke="var(--hero-text)" strokeWidth={3} strokeLinecap="round" strokeOpacity="0.7" />
+                <path d="M-25 -51 L-12 -46 L-14 -39 L-27 -44 Z" className="hs-blob" />
+              </g>
+              <circle cx={-9} cy={-33} r={2.1} className="hs-wait" />
+              <circle cx={-5} cy={-26} r={2.1} className="hs-wait" style={{ animationDelay: '0.22s' }} />
+              <circle cx={-1} cy={-19} r={2.1} className="hs-wait" style={{ animationDelay: '0.44s' }} />
             </g>
             <g className="hs-swap-b">
-              <BlobLimb from={[14, 137]} to={[31, 194]} w={8} />
+              <rect x={-42} y={-56} width={17} height={21} rx={3} className="hs-blob" />
+              <path d="M-42 -50 C-51 -56 -53 -45 -44 -42" fill="none" stroke="var(--hero-text)" strokeWidth={3} strokeLinecap="round" strokeOpacity="0.7" />
+              <path d="M-25 -51 L-12 -46 L-14 -39 L-27 -44 Z" className="hs-blob" />
             </g>
-            <circle cx={24} cy={222} r={3} className="hs-spark" style={{ animationDelay: '0.4s' }} />
           </g>
           <path d="M-70 252 L70 252 M-58 252 L-58 300 M58 252 L58 300" className="hs-stick hs-soft" strokeWidth={4} />
           <g>
@@ -336,15 +353,13 @@ function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
       return (
         <g className="hs-pace">
           <g className="hs-idle">
-            <Blob leftArm={[-26, 182]} rightArm={[26, 182]} />
-            <g className="hs-swap-a">
-              <BlobLimb from={[-7, 176]} to={[-12, 300]} w={9} />
-              <BlobLimb from={[7, 176]} to={[12, 300]} w={9} />
-            </g>
-            <g className="hs-swap-b">
-              <BlobLimb from={[-7, 176]} to={[-20, 300]} w={9} />
-              <BlobLimb from={[7, 176]} to={[2, 300]} w={9} />
-            </g>
+            <Potted>
+              <Soil />
+              <Stem from={[0, -30]} to={[0, -62]} w={5} />
+              <Leaf x={-2} y={-58} ang={-20} r={6} />
+              <Leaf x={2} y={-58} ang={20} r={6} />
+              <circle cx={4} cy={-70} r={2.4} className="hs-wait" />
+            </Potted>
             <g transform="translate(42 64)">
               <circle r={16} className="hs-stick" strokeWidth={4.5} />
               <g className="hs-spin hs-stick" strokeWidth={3.5}>
@@ -360,9 +375,15 @@ function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
       return (
         <g>
           <g className="hs-idle">
-            <Blob leftArm={[-17, 232]} rightArm={[17, 232]} leftLeg={[-10, 300]} rightLeg={[10, 300]} />
-            <circle cx={-18} cy={240} r={3.5} className="hs-spark" style={{ animationDelay: '0.5s' }} />
-            <circle cx={18} cy={240} r={3.5} className="hs-spark" style={{ animationDelay: '1.1s' }} />
+            <Potted>
+              <Soil />
+              <Stem from={[0, -30]} to={[0, -128]} w={6} />
+              <Leaf x={-7} y={-100} ang={-24} r={9} />
+              <Leaf x={7} y={-108} ang={24} r={9} />
+              <Leaf x={-6} y={-120} ang={-18} r={7} />
+              <Leaf x={6} y={-126} ang={18} r={7} />
+              <circle cx={0} cy={-138} r={4} className="hs-blob" />
+            </Potted>
           </g>
           <path d="M-70 250 L70 250 M-60 250 L-60 300 M60 250 L60 300" className="hs-stick hs-soft" strokeWidth={4} />
           <g>
@@ -382,10 +403,28 @@ function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
       return (
         <g>
           <g className="hs-idle">
-            <Blob hx={-42} leftArm={[-64, 182]} rightArm={[-24, 232]} leftLeg={[-52, 300]} rightLeg={[-32, 300]} />
+            <Potted x={-44}>
+              <Soil />
+              <Stem from={[0, -30]} to={[0, -175]} w={5} />
+              <Leaf x={-7} y={-96} ang={-24} r={9} />
+              <Leaf x={7} y={-104} ang={24} r={9} />
+              <Leaf x={-6} y={-140} ang={-18} r={7} />
+              <Leaf x={6} y={-146} ang={18} r={7} />
+              <Leaf x={-5} y={-164} ang={-14} r={6} />
+              <Leaf x={5} y={-170} ang={14} r={6} />
+            </Potted>
           </g>
           <g className="hs-idle" style={{ animationDelay: '0.4s' }}>
-            <Blob hx={46} leftArm={[24, 232]} rightArm={[68, 182]} leftLeg={[32, 300]} rightLeg={[58, 300]} />
+            <Potted x={44}>
+              <Soil />
+              <Stem from={[0, -30]} to={[0, -175]} w={5} />
+              <Leaf x={-7} y={-96} ang={-24} r={9} />
+              <Leaf x={7} y={-104} ang={24} r={9} />
+              <Leaf x={-6} y={-140} ang={-18} r={7} />
+              <Leaf x={6} y={-146} ang={18} r={7} />
+              <Leaf x={-5} y={-164} ang={-14} r={6} />
+              <Leaf x={5} y={-170} ang={14} r={6} />
+            </Potted>
           </g>
           <path d="M-32 252 L32 252 M-26 252 L-26 300 M26 252 L26 300" className="hs-stick hs-soft" strokeWidth={4} />
           <rect x={-20} y={234} width={11} height={10} rx={2.5} fill="var(--hero-text)" fillOpacity="0.2" stroke="var(--hero-text)" strokeWidth="2.5" />
@@ -412,7 +451,17 @@ function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
       return (
         <g className="hs-pace">
           <g className="hs-idle">
-            <Blob leftArm={[-26, 182]} rightArm={[26, 182]} leftLeg={[-10, 300]} rightLeg={[18, 300]} />
+            <Potted>
+              <Soil />
+              <Stem from={[0, -30]} to={[0, -170]} w={6} />
+              <Leaf x={-8} y={-90} ang={-24} r={10} />
+              <Leaf x={8} y={-98} ang={24} r={10} />
+              <Leaf x={-7} y={-130} ang={-22} r={9} />
+              <Leaf x={7} y={-138} ang={22} r={9} />
+              <Leaf x={-5} y={-158} ang={-16} r={7} />
+              <Leaf x={5} y={-164} ang={16} r={7} />
+              <circle cx={0} cy={-178} r={5} className="hs-blob" />
+            </Potted>
             <g transform="translate(34 66)">
               <circle r={16} className="hs-stick" strokeWidth={4} />
               <circle cx={24} cy={-14} r={7} className="hs-stick" strokeWidth={3.5} />
@@ -429,7 +478,19 @@ function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
       return (
         <g>
           <g className="hs-jump">
-            <Blob leftArm={[-26, 104]} rightArm={[26, 104]} leftLeg={[-12, 268]} rightLeg={[14, 270]} />
+            <Potted>
+              <Soil />
+              <Stem from={[0, -30]} to={[0, -180]} w={6} />
+              <Leaf x={-8} y={-95} ang={-24} r={10} />
+              <Leaf x={8} y={-103} ang={24} r={10} />
+              <Leaf x={-7} y={-140} ang={-22} r={9} />
+              <Leaf x={7} y={-148} ang={22} r={9} />
+              <path d="M2 -170 Q20 -182 26 -196" fill="none" stroke="var(--hero-text)" strokeWidth={3} strokeLinecap="round" strokeOpacity="0.6" />
+              <Leaf x={26} y={-194} ang={35} r={4} />
+              <g transform="translate(0 -186)">
+                <Bloom />
+              </g>
+            </Potted>
             <g transform="translate(28 96)">
               <rect width={22} height={30} rx={3} className="hs-paper" strokeWidth={2.5} />
               <path d="M4 17 l5 6 l10 -12" fill="none" className="hs-stick hs-pop" strokeWidth={3.5} />
