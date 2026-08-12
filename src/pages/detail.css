@@ -51,41 +51,6 @@
   position: relative;
   z-index: 1;
 }
-.detail-hero .al-root {
-  padding: 0;
-  left: auto;
-  right: 20px;
-  bottom: 8px;
-  width: 300px;
-  align-items: flex-end;
-  justify-content: flex-end;
-}
-.detail-hero .al-stage {
-  height: 132px;
-  max-width: 300px;
-}
-.detail-hero .al-caption {
-  min-height: 26px;
-  margin-top: 6px;
-  padding: 4px 12px;
-}
-.detail-hero .al-dot {
-  width: 7px;
-  height: 7px;
-}
-.detail-hero .al-label {
-  font-size: 12px;
-}
-@media (max-width: 900px) {
-  .detail-hero .al-root {
-    right: 14px;
-    width: 200px;
-  }
-  .detail-hero .al-stage {
-    height: 100px;
-    max-width: 200px;
-  }
-}
 .detail-hero h1 {
   margin: 0;
   font-size: 22px;

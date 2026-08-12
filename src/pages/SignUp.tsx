@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import AuthLottieSequence from '../components/AuthLottieSequence'
+import AuthScene from '../components/AuthScene'
 import BuildBadge from '../components/BuildBadge'
 import './auth.css'
 
@@ -12,8 +12,18 @@ export default function SignUp() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [showPw, setShowPw] = useState(false)
+  const [typing, setTyping] = useState(false)
+  const typeTimer = useRef<number>()
   const { signUp } = useAuth()
   const navigate = useNavigate()
+
+  useEffect(() => () => window.clearTimeout(typeTimer.current), [])
+
+  const markTyping = () => {
+    setTyping(true)
+    window.clearTimeout(typeTimer.current)
+    typeTimer.current = window.setTimeout(() => setTyping(false), 1000)
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -52,7 +62,7 @@ export default function SignUp() {
                       <path d="m22 6-10 7L2 6" />
                     </svg>
                   </span>
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" autoComplete="email" autoFocus />
+                  <input type="email" value={email} onChange={(e) => { setEmail(e.target.value); markTyping() }} onKeyDown={markTyping} required placeholder="you@example.com" autoComplete="email" autoFocus />
                 </div>
               </div>
               <div className="auth-field">
@@ -64,7 +74,7 @@ export default function SignUp() {
                       <path d="M8 11V7a4 4 0 0 1 8 0v4" />
                     </svg>
                   </span>
-                  <input type={showPw ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} placeholder="At least 6 characters" autoComplete="new-password" />
+                  <input type={showPw ? 'text' : 'password'} value={password} onChange={(e) => { setPassword(e.target.value); markTyping() }} onKeyDown={markTyping} required minLength={6} placeholder="At least 6 characters" autoComplete="new-password" />
                   <button
                     type="button"
                     className="auth-pw-toggle"
@@ -95,7 +105,7 @@ export default function SignUp() {
                       <path d="M8 11V7a4 4 0 0 1 8 0v4" />
                     </svg>
                   </span>
-                  <input type={showPw ? 'text' : 'password'} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required placeholder="Re-enter your password" autoComplete="new-password" />
+                  <input type={showPw ? 'text' : 'password'} value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value); markTyping() }} onKeyDown={markTyping} required placeholder="Re-enter your password" autoComplete="new-password" />
                 </div>
               </div>
               <button type="submit" className="auth-btn" disabled={loading}>
@@ -112,7 +122,7 @@ export default function SignUp() {
             <h2>Every application, one place.</h2>
             <p>Capture, track, and win your job search.</p>
           </div>
-          <AuthLottieSequence />
+          <AuthScene live={typing} />
         </div>
       </div>
       <BuildBadge />
