@@ -15,6 +15,7 @@ type FormData = {
   resume_id: string | null
   notes: string
   follow_up_date: string
+  screening_date: string
   interview_date: string
   interview_location: string
 }
@@ -29,6 +30,7 @@ const EMPTY: FormData = {
   resume_id: null,
   notes: '',
   follow_up_date: '',
+  screening_date: '',
   interview_date: '',
   interview_location: '',
 }
@@ -86,6 +88,7 @@ export default function ApplicationForm() {
           resume_id: data.resume_id,
           notes: data.notes || '',
           follow_up_date: data.follow_up_date ? data.follow_up_date.split('T')[0] : '',
+          screening_date: toLocalInput(data.screening_date),
           interview_date: toLocalInput(data.interview_date),
           interview_location: data.interview_location || '',
         })
@@ -136,6 +139,7 @@ export default function ApplicationForm() {
         resume_id: form.resume_id,
         notes: form.notes || null,
         follow_up_date: form.follow_up_date || null,
+        screening_date: form.screening_date ? new Date(form.screening_date).toISOString() : null,
         interview_date: form.interview_date ? new Date(form.interview_date).toISOString() : null,
         interview_location: form.interview_location || null,
       }
@@ -191,6 +195,10 @@ export default function ApplicationForm() {
             <div className="form-group">
               <label>Applied Date</label>
               <input name="applied_date" type="date" value={form.applied_date} onChange={handleChange} />
+            </div>
+            <div className="form-group">
+              <label>Screening Date</label>
+              <input name="screening_date" type="datetime-local" value={form.screening_date} onChange={handleChange} />
             </div>
             <div className="form-group">
               <label>Interview Date</label>

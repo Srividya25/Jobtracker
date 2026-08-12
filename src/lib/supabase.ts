@@ -30,6 +30,7 @@ export interface Application {
   resume_id: string | null
   notes: string | null
   follow_up_date: string | null
+  screening_date: string | null
   interview_date: string | null
   interview_location: string | null
   created_at: string
@@ -212,7 +213,7 @@ export async function deleteResumeAndFile(id: string, filePath: string) {
 
 // Export all applications as a CSV download
 export function exportApplicationsToCSV(applications: Application[]) {
-  const headers = ['Company', 'Job Title', 'Status', 'Applied Date', 'Job URL', 'Interview Date', 'Interview Location', 'Follow-up Date', 'Notes', 'Job Description']
+  const headers = ['Company', 'Job Title', 'Status', 'Applied Date', 'Job URL', 'Screening Date', 'Interview Date', 'Interview Location', 'Follow-up Date', 'Notes', 'Job Description']
   const escape = (v: string | null | undefined) => {
     if (!v) return ''
     return `"${String(v).replace(/"/g, '""')}"`
@@ -224,6 +225,7 @@ export function exportApplicationsToCSV(applications: Application[]) {
       escape(a.status),
       escape(a.applied_date),
       escape(a.job_url),
+      escape(a.screening_date),
       escape(a.interview_date),
       escape(a.interview_location),
       escape(a.follow_up_date),

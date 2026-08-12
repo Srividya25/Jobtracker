@@ -116,6 +116,20 @@ export default function ApplicationDetail() {
                   {app.applied_date ? new Date(app.applied_date).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' }) : '—'}
                 </div>
               </div>
+              {app.screening_date && (
+                <div className="detail-section">
+                  <div className="detail-label">Screening</div>
+                  <div className="detail-value">
+                    {new Date(app.screening_date).toLocaleString(undefined, {
+                      weekday: 'long',
+                      month: 'long',
+                      day: 'numeric',
+                      hour: 'numeric',
+                      minute: '2-digit',
+                    })}
+                  </div>
+                </div>
+              )}
               {app.interview_date && (
                 <div className="detail-section">
                   <div className="detail-label">Interview</div>

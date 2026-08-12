@@ -22,6 +22,23 @@ function timeAgo(dateStr: string) {
   return `${days}d ago`
 }
 
+function toLocalInput(iso: string | null | undefined) {
+  if (!iso) return ''
+  const d = new Date(iso)
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`
+}
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+}
+
+type MoveExtra = {
+  screening_date?: string | null
+  interview_date?: string | null
+  interview_location?: string | null
+}
+
 export default function Kanban() {
   const [applications, setApplications] = useState<Application[]>([])
   const [dragId, setDragId] = useState<string | null>(null)
@@ -29,6 +46,9 @@ export default function Kanban() {
   const [loading, setLoading] = useState(true)
   const [savingId, setSavingId] = useState<string | null>(null)
   const [search, setSearch] = useState('')
+  const [pendingMove, setPendingMove] = useState<{ app: Application; status: string } | null>(null)
+  const [draftDate, setDraftDate] = useState('')
+  const [draftLocation, setDraftLocation] = useState('')
   const navigate = useNavigate()
 
   const q = search.trim().toLowerCase()
@@ -58,17 +78,17 @@ export default function Kanban() {
     }
   }, [])
 
-  async function moveTo(app: Application, status: string) {
+  async function moveTo(app: Application, status: string, extra: MoveExtra = {}) {
     if (app.status === status) return
     setSavingId(app.id)
     const { error } = await supabase
       .from('applications')
-      .update({ status })
+      .update({ status, ...extra })
       .eq('id', app.id)
     if (error) {
       console.error('Error moving application:', error)
     } else {
-      setApplications((prev) => prev.map((a) => (a.id === app.id ? { ...a, status } : a)))
+      setApplications((prev) => prev.map((a) => (a.id === app.id ? { ...a, status, ...extra } : a)))
     }
     setSavingId(null)
   }
@@ -78,8 +98,32 @@ export default function Kanban() {
     setOverCol(null)
     const id = e.dataTransfer.getData('text/plain') || dragId
     const app = applications.find((a) => a.id === id)
-    if (app) moveTo(app, status)
     setDragId(null)
+    if (!app || app.status === status) return
+    if (status === 'screening' || status === 'interview') {
+      setDraftDate(toLocalInput(status === 'screening' ? app.screening_date : app.interview_date))
+      setDraftLocation(status === 'interview' ? app.interview_location || '' : '')
+      setPendingMove({ app, status })
+      return
+    }
+    moveTo(app, status)
+  }
+
+  function closeModal() {
+    setPendingMove(null)
+    setDraftDate('')
+    setDraftLocation('')
+  }
+
+  async function confirmMove() {
+    if (!pendingMove) return
+    const { app, status } = pendingMove
+    closeModal()
+    const extra: MoveExtra =
+      status === 'screening'
+        ? { screening_date: draftDate ? new Date(draftDate).toISOString() : null }
+        : { interview_date: draftDate ? new Date(draftDate).toISOString() : null, interview_location: draftLocation.trim() || null }
+    await moveTo(app, status, extra)
   }
 
   if (loading) {
@@ -142,7 +186,11 @@ export default function Kanban() {
                   <div className="kanban-card-title">{app.job_title}</div>
                   <div className="kanban-card-company">{app.company}</div>
                   <div className="kanban-card-meta">
-                    {app.interview_date ? '🗓 ' + new Date(app.interview_date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : timeAgo(app.created_at)}
+                    {app.status === 'screening' && app.screening_date
+                      ? '🗓 ' + formatDate(app.screening_date)
+                      : app.interview_date
+                        ? '🗓 ' + formatDate(app.interview_date)
+                        : timeAgo(app.created_at)}
                     {savingId === app.id ? ' · saving…' : ''}
                   </div>
                 </div>
@@ -151,6 +199,54 @@ export default function Kanban() {
           )
         })}
       </div>
+
+      {pendingMove && (
+        <div className="kanban-modal-backdrop" onClick={closeModal}>
+          <div className="kanban-modal" onClick={(e) => e.stopPropagation()}>
+            <h3>{pendingMove.status === 'screening' ? 'Schedule Screening' : 'Schedule Interview'}</h3>
+            <p className="kanban-modal-app">{pendingMove.app.company} — {pendingMove.app.job_title}</p>
+            <label className="kanban-modal-label">
+              {pendingMove.status === 'screening' ? 'Screening date & time' : 'Interview date & time'}
+            </label>
+            <input
+              type="datetime-local"
+              className="kanban-modal-input"
+              value={draftDate}
+              onChange={(e) => setDraftDate(e.target.value)}
+            />
+            {pendingMove.status === 'interview' && (
+              <>
+                <label className="kanban-modal-label">Interview location</label>
+                <input
+                  type="text"
+                  className="kanban-modal-input"
+                  value={draftLocation}
+                  onChange={(e) => setDraftLocation(e.target.value)}
+                  placeholder="e.g. Video call / office address"
+                />
+              </>
+            )}
+            <div className="kanban-modal-actions">
+              <button className="kanban-btn" onClick={confirmMove} disabled={savingId === pendingMove.app.id}>
+                Save & move
+              </button>
+              <button
+                className="dash-btn dash-btn-ghost"
+                onClick={() => {
+                  const { app, status } = pendingMove
+                  closeModal()
+                  moveTo(app, status)
+                }}
+              >
+                Move without date
+              </button>
+              <button className="dash-btn dash-btn-ghost" onClick={closeModal}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
