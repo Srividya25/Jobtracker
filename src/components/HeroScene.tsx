@@ -63,18 +63,26 @@ export default function HeroScene({
         .hs-talk { transform-box: fill-box; transform-origin: center; animation: hsTalk 1.6s ease-in-out infinite; }
         .hs-talk2 { transform-box: fill-box; transform-origin: center; animation: hsTalk 1.6s ease-in-out 0.8s infinite; }
         .hs-wait { fill: var(--hero-text); fill-opacity: .9; animation: hsWait 1.5s ease-in-out infinite; }
-        .hs-conf { fill: var(--hero-text); fill-opacity: .55; transform-box: fill-box; transform-origin: center; animation: hsConf 2.4s linear infinite; }
+        .hs-conf { transform-box: fill-box; transform-origin: center; animation: hsConf 2.4s linear infinite; }
+        .hs-flash { transform-box: fill-box; transform-origin: center; animation: hsFlash 2.4s ease-out infinite; }
         .hs-tw { animation: hsTw 2.4s ease-in-out infinite; }
         .hs-cloud { animation: hsCloud 3.6s ease-in-out infinite alternate; }
         .hs-rise { animation: hsRise 2.4s ease-in-out infinite alternate; }
         .hs-fly { animation: hsFly 9s linear infinite; }
+        .hs-dot-fill { fill: var(--hero-text); fill-opacity: .85; animation: hsDotF0 12s steps(1, end) infinite; }
+        .hs-dot-f1 { animation-name: hsDotF1; }
+        .hs-dot-f2 { animation-name: hsDotF2; }
+        .hs-dot-f3 { animation-name: hsDotF3; }
+        .hs-dot-f4 { animation-name: hsDotF4; }
+        .hs-dot-f5 { animation-name: hsDotF5; }
+        .hs-dot-pulse { fill: none; stroke: var(--hero-text); stroke-opacity: .55; stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: hsDotPulse 2s ease-out infinite; }
 
         @keyframes hsStage {
-          0%   { opacity: 0; }
-          2.5% { opacity: 1; }
-          14.2% { opacity: 1; }
-          16.7% { opacity: 0; }
-          100% { opacity: 0; }
+          0%   { opacity: 0; transform: translateY(16px); }
+          2.5% { opacity: 1; transform: translateY(0); }
+          14.2% { opacity: 1; transform: translateY(0); }
+          16.7% { opacity: 0; transform: translateY(-16px); }
+          100% { opacity: 0; transform: translateY(-16px); }
         }
         @keyframes hsIdle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
         @keyframes hsPace { 0% { transform: translateX(-16px); } 100% { transform: translateX(16px); } }
@@ -92,8 +100,41 @@ export default function HeroScene({
         @keyframes hsCloud { 0% { transform: translateX(0); } 100% { transform: translateX(16px); } }
         @keyframes hsRise { 0% { transform: translateY(0); } 100% { transform: translateY(-70px); } }
         @keyframes hsFly { 0% { transform: translateX(-150px); } 100% { transform: translateX(1370px); } }
+        @keyframes hsFlash {
+          0%, 6%, 100% { transform: scale(.3); opacity: 0; }
+          12% { transform: scale(1.3); opacity: .85; }
+          20% { transform: scale(1.35); opacity: 0; }
+        }
+        @keyframes hsDotPulse { 0% { transform: scale(.7); opacity: .9; } 100% { transform: scale(2.2); opacity: 0; } }
+        @keyframes hsDotF0 { 0%, 100% { fill-opacity: .85; } }
+        @keyframes hsDotF1 { 0% { fill-opacity: .2; } 16.7% { fill-opacity: .85; } }
+        @keyframes hsDotF2 { 0%, 16.7% { fill-opacity: .2; } 33.4% { fill-opacity: .85; } }
+        @keyframes hsDotF3 { 0%, 33.4% { fill-opacity: .2; } 50% { fill-opacity: .85; } }
+        @keyframes hsDotF4 { 0%, 50% { fill-opacity: .2; } 66.7% { fill-opacity: .85; } }
+        @keyframes hsDotF5 { 0%, 66.7% { fill-opacity: .2; } 83.4% { fill-opacity: .85; } }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-scene { opacity: 1; }
+          .hs-idle, .hs-pace, .hs-swap-a, .hs-swap-b, .hs-nod, .hs-jump, .hs-spin, .hs-talk, .hs-talk2, .hs-wait, .hs-conf, .hs-flash, .hs-tw, .hs-cloud, .hs-rise, .hs-fly, .hs-spark, .hs-tick, .hs-pop, .hs-type, .hs-dot-pulse, .hs-dot-fill { animation: none !important; }
+          .hs-swap-a { opacity: 1; }
+          .hs-swap-b { opacity: 0; }
+          .hs-conf, .hs-flash { opacity: 0; }
+          .hs-dot-fill { fill-opacity: .85; }
+          @keyframes hsStage {
+            0% { opacity: 0; }
+            2.5% { opacity: 1; }
+            14.2% { opacity: 1; }
+            16.7% { opacity: 0; }
+            100% { opacity: 0; }
+          }
+        }
       `}</style>
       <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <radialGradient id="hsConfGlow" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor="var(--primary, var(--hero-text))" stopOpacity="0.45" />
+            <stop offset="100%" stopColor="var(--primary, var(--hero-text))" stopOpacity="0" />
+          </radialGradient>
+        </defs>
         {/* background: stars + clouds */}
         <Star x={170} y={150} d={0} />
         <Star x={310} y={70} d={0.35} />
@@ -120,7 +161,13 @@ export default function HeroScene({
 
         {/* timeline dots */}
         {STAGES.map((_, i) => (
-          <circle key={i} cx={340 + i * 104} cy={376} r={5} className="hs-dot-idle" />
+          <circle
+            key={i}
+            cx={340 + i * 104}
+            cy={376}
+            r={5}
+            className={`hs-dot-idle hs-dot-fill${i === 0 ? '' : ` hs-dot-f${i}`}`}
+          />
         ))}
 
         {STAGES.map((st, i) => (
@@ -165,6 +212,7 @@ export default function HeroScene({
               <StageBody stage={st.key} />
             </g>
             <ellipse cx={600} cy={392} rx={42} ry={4} className="hs-shadow" />
+            <circle cx={340 + i * 104} cy={376} r={5} className="hs-dot-pulse" />
             <circle cx={340 + i * 104} cy={376} r={5} className="hs-dot" />
           </g>
         ))}
@@ -352,11 +400,16 @@ function StageBody({ stage }: { stage: (typeof STAGES)[number]['key'] }) {
               <path d="M4 17 l5 6 l10 -12" fill="none" className="hs-stick hs-pop" strokeWidth={3.5} />
             </g>
           </g>
-          <rect x={-46} y={74} width={7} height={7} rx={1.5} className="hs-conf" style={{ animationDelay: '0s' }} />
-          <rect x={-34} y={56} width={6} height={6} rx={1.5} className="hs-conf" style={{ animationDelay: '0.35s' }} />
-          <rect x={-22} y={68} width={8} height={8} rx={2} className="hs-conf" style={{ animationDelay: '0.7s' }} />
-          <rect x={-52} y={62} width={6} height={6} rx={1.5} className="hs-conf" style={{ animationDelay: '0.5s' }} />
-          <rect x={-12} y={52} width={7} height={7} rx={1.5} className="hs-conf" style={{ animationDelay: '0.9s' }} />
+          <ellipse cx={0} cy={80} rx={85} ry={85} fill="url(#hsConfGlow)" className="hs-flash" />
+          <rect x={-52} y={64} width={7} height={7} rx={1.5} fill="#f59e0b" className="hs-conf" style={{ animationDelay: '0s' }} />
+          <rect x={-40} y={52} width={6} height={6} rx={1.5} fill="#ef4444" className="hs-conf" style={{ animationDelay: '0.18s' }} />
+          <rect x={-28} y={60} width={8} height={8} rx={2} fill="#22c55e" className="hs-conf" style={{ animationDelay: '0.36s' }} />
+          <rect x={-56} y={52} width={6} height={6} rx={1.5} fill="#3b82f6" className="hs-conf" style={{ animationDelay: '0.12s' }} />
+          <rect x={-16} y={48} width={7} height={7} rx={1.5} fill="#ec4899" className="hs-conf" style={{ animationDelay: '0.54s' }} />
+          <rect x={-48} y={40} width={6} height={6} rx={1.5} fill="#a855f7" className="hs-conf" style={{ animationDelay: '0.3s' }} />
+          <rect x={-32} y={44} width={7} height={7} rx={1.5} fill="var(--hero-text)" className="hs-conf" style={{ animationDelay: '0.66s' }} />
+          <rect x={-20} y={58} width={6} height={6} rx={1.5} fill="#f59e0b" className="hs-conf" style={{ animationDelay: '0.8s' }} />
+          <rect x={-10} y={66} width={7} height={7} rx={1.5} fill="#22c55e" className="hs-conf" style={{ animationDelay: '0.96s' }} />
         </g>
       )
   }

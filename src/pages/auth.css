@@ -45,6 +45,12 @@
   from { transform: translate3d(0, 0, 0) scale(1); }
   to { transform: translate3d(60px, 40px, 0) scale(1.12); }
 }
+@media (prefers-reduced-motion: reduce) {
+  .auth::before,
+  .auth::after {
+    animation: none;
+  }
+}
 .auth-grid {
   display: grid;
   grid-template-columns: minmax(360px, 440px) 1fr;

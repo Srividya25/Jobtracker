@@ -77,6 +77,12 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
         .as-live .as-eq3 { animation-delay: 0.16s; }
         .as-live .as-eq4 { animation-delay: 0.08s; }
         .as-live .as-eq5 { animation-delay: 0.02s; }
+        .as-click { animation: asClick 7s ease-in-out infinite; }
+        .as-land  { opacity: 0; transform-box: fill-box; transform-origin: center; }
+        .as-app1 .as-land { animation: asLand 7s ease-out infinite; }
+        .as-app2 .as-land { animation: asLand 8s ease-out 0.8s infinite; }
+        .as-app3 .as-land { animation: asLand 7.5s ease-out 1.6s infinite; }
+        .as-app4 .as-land { animation: asLand 8.5s ease-out 2.4s infinite; }
         @keyframes asBob { from { transform: translateY(0); } to { transform: translateY(-6px); } }
         @keyframes asApp1 {
           0%   { transform: translate(20px, 15px) scale(0.55); opacity: 0; }
@@ -114,6 +120,24 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
         @keyframes asTw { 0%, 100% { opacity: 0.12; } 50% { opacity: 0.85; } }
         @keyframes asEq { from { transform: scaleY(0.35); } to { transform: scaleY(1.35); } }
         @keyframes asIn { from { opacity: 0; } to { opacity: 0.88; } }
+        @keyframes asClick {
+          0%, 76% { transform: translateY(0); }
+          78%     { transform: translateY(3px); }
+          81%     { transform: translateY(0); }
+          100%    { transform: translateY(0); }
+        }
+        @keyframes asLand {
+          0%, 76% { opacity: 0; transform: scale(0.6); }
+          79%     { opacity: 0.6; transform: scale(1.05); }
+          84%     { opacity: 0; transform: scale(1.45); }
+          100%    { opacity: 0; transform: scale(1.45); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .auth-scene { animation: none; opacity: 0.88; }
+          .auth-scene svg { transition: none; }
+          .as-bob, .as-bob2, .as-app, .as-steam, .as-steam2, .as-tw, .as-tw2, .as-eq, .as-click, .as-land { animation: none !important; }
+          .as-app { opacity: 0 !important; }
+        }
       `}</style>
       <div className="as-spot" />
       <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax meet" className={live ? 'as-live' : undefined}>
@@ -121,6 +145,10 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
           <radialGradient id="asGlow" cx="0.5" cy="0.5" r="0.5">
             <stop offset="0%" stopColor="var(--scene-ink, var(--hero-text))" stopOpacity="0.22" />
             <stop offset="100%" stopColor="var(--scene-ink, var(--hero-text))" stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="asLandGlow" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.55" />
+            <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
           </radialGradient>
         </defs>
 
@@ -173,8 +201,10 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
         <rect x="704" y="252" width="116" height="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.4" />
         <rect x="704" y="258" width="116" height="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.4" />
 
-        <rect x="844" y="222" width="24" height="30" rx="12" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.82" />
-        <path d="M844 236 h-12" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeOpacity="0.55" />
+        <g className="as-click">
+          <rect x="844" y="222" width="24" height="30" rx="12" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.82" />
+          <path d="M844 236 h-12" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeOpacity="0.55" />
+        </g>
 
         <g className="as-bob">
           <rect x="650" y="238" width="84" height="12" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" transform="rotate(6 692 244)" />
@@ -184,24 +214,28 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
         </g>
 
         <g className="as-app as-app1">
+          <ellipse cx="13" cy="17" rx="52" ry="52" fill="url(#asLandGlow)" className="as-land" />
           <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
           <rect x="5" y="8" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" />
           <rect x="5" y="15" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
           <rect x="5" y="22" width="10" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
         </g>
         <g className="as-app as-app2">
+          <ellipse cx="13" cy="17" rx="52" ry="52" fill="url(#asLandGlow)" className="as-land" />
           <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
           <rect x="5" y="8" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" />
           <rect x="5" y="15" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
           <path d="M7 27 l5 5 l9 -11" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.7" />
         </g>
         <g className="as-app as-app3">
+          <ellipse cx="13" cy="17" rx="52" ry="52" fill="url(#asLandGlow)" className="as-land" />
           <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
           <rect x="5" y="8" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" />
           <rect x="5" y="15" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
           <rect x="5" y="22" width="10" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
         </g>
         <g className="as-app as-app4">
+          <ellipse cx="13" cy="17" rx="52" ry="52" fill="url(#asLandGlow)" className="as-land" />
           <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
           <rect x="5" y="8" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" />
           <rect x="5" y="15" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
