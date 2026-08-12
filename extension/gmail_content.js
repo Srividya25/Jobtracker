@@ -39,6 +39,9 @@ const KEYWORDS_INTERVIEW = [
 ]
 const OA = /\boa\b/i
 
+// Only extract emails from the last N days — old inbox items are not job leads.
+const RECENT_WINDOW_DAYS = 60
+
 function detectType(text) {
   const t = ' ' + String(text || '').toLowerCase() + ' '
   const hasAssessment = KEYWORDS_ASSESSMENT.some((k) => t.includes(k))
@@ -142,6 +145,8 @@ async function scanAndSave() {
     rows: 0,
     matches: 0,
     saved: 0,
+    skipped: 0,
+    recentWindowDays: RECENT_WINDOW_DAYS,
     error: '',
     debug: null,
   }
@@ -157,10 +162,36 @@ async function scanAndSave() {
     const emails = readEmails()
     stats.rows = emails.length
     stats.debug = diagnoseGmail()
+
+    const cutoff = new Date()
+    cutoff.setDate(cutoff.getDate() - RECENT_WINDOW_DAYS)
+
+    // Already-extracted emails (done, dismissed, or still new) must not be
+    // re-extracted. Load their conflict keys so we can skip them in JS.
+    const { data: existing } = await supabase
+      .from('email_events')
+      .select('email_subject,email_sender,email_date')
+      .eq('user_id', session.user.id)
+    const existingKeys = new Set(
+      (existing || []).map((r) =>
+        [r.email_subject || '', r.email_sender || '', r.email_date || ''].join('|').toLowerCase()
+      )
+    )
+
     for (const email of emails) {
+      const emailDate = new Date(email.date).getTime()
+      if (!isNaN(emailDate) && emailDate < cutoff.getTime()) {
+        stats.skipped++
+        continue
+      }
       const detectedType = detectType(email.subject + ' ' + email.snippet)
       if (!detectedType) continue
       stats.matches++
+      const key = [email.subject, email.sender, email.date].join('|').toLowerCase()
+      if (existingKeys.has(key)) {
+        stats.skipped++
+        continue
+      }
       const { error } = await supabase
         .from('email_events')
         .insert(

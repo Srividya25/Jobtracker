@@ -147,6 +147,7 @@ function renderGmailStatus() {
     if (s.rows !== undefined) text += ` · ${s.rows} emails scanned`
     if (s.matches !== undefined) text += ` · ${s.matches} matches`
     if (s.saved !== undefined) text += ` · ${s.saved} saved`
+    if (s.skipped !== undefined && s.skipped > 0) text += ` · ${s.skipped} skipped (old/already done)`
     el.textContent = text
     if (s.debug && s.rows === 0) {
       const d = s.debug
