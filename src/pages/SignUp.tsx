@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import Lottie from 'lottie-react'
 import { useAuth } from '../context/AuthContext'
-import AuthScene from '../components/AuthScene'
 import BuildBadge from '../components/BuildBadge'
+import codingAnimation from '../assets/animations/coding.json'
 import './auth.css'
 
 export default function SignUp() {
@@ -122,7 +123,13 @@ export default function SignUp() {
             <h2>Every application, one place.</h2>
             <p>Capture, track, and win your job search.</p>
           </div>
-          <AuthScene live={typing} />
+          <Lottie
+            animationData={codingAnimation}
+            className="auth-lottie"
+            loop
+            autoplay
+            aria-hidden="true"
+          />
         </div>
       </div>
       <BuildBadge />
