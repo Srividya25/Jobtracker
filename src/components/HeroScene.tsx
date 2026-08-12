@@ -47,7 +47,6 @@ export default function HeroScene({
         .hs-label-big { fill: var(--hero-text); fill-opacity: .95; font-size: 20px; font-weight: 800; text-anchor: middle; letter-spacing: 1px; font-family: inherit; }
         .hs-caption { fill: var(--hero-text); fill-opacity: .55; font-size: 13px; font-weight: 600; text-anchor: middle; letter-spacing: .5px; font-family: inherit; }
         .hs-letter { opacity: 0; animation: hsLetterIn 0.3s ease-out both; }
-        .hs-sky { fill: transparent; animation: hsSky 12s steps(1, end) infinite; }
         .hs-bar-track { fill: var(--hero-text); fill-opacity: .12; }
         .hs-bar-fill { fill: var(--hero-text); fill-opacity: .85; transform-box: fill-box; transform-origin: 0 50%; animation: hsBar 12s steps(1, end) infinite; }
         .hs-plane { animation: hsPlaneX 12s linear infinite; }
@@ -111,14 +110,6 @@ export default function HeroScene({
         }
         @keyframes hsPlaneArc { 0%, 100% { transform: translateY(46px); } 45% { transform: translateY(-34px); } }
         @keyframes hsPlaneRot { 0%, 100% { transform: rotate(6deg); } 45% { transform: rotate(-6deg); } }
-        @keyframes hsSky {
-          0%, 16.6% { fill: #bae6fd; }
-          16.7%, 33.3% { fill: #bfdbfe; }
-          33.4%, 50% { fill: #a5f3fc; }
-          50.1%, 66.6% { fill: #ddd6fe; }
-          66.7%, 83.3% { fill: #bfdbfe; }
-          83.4%, 100% { fill: #fde68a; }
-        }
         @keyframes hsPace { 0% { transform: translateX(-16px); } 100% { transform: translateX(16px); } }
         @keyframes hsSwapA { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
         @keyframes hsSwapB { 0%, 50% { opacity: 0; } 50.01%, 100% { opacity: 1; } }
@@ -148,14 +139,13 @@ export default function HeroScene({
         @keyframes hsDotF5 { 0%, 66.7% { fill-opacity: .2; } 83.4% { fill-opacity: .85; } }
         @media (prefers-reduced-motion: reduce) {
           .hero-scene { opacity: 1; }
-          .hs-idle, .hs-pace, .hs-swap-a, .hs-swap-b, .hs-nod, .hs-jump, .hs-spin, .hs-talk, .hs-talk2, .hs-wait, .hs-conf, .hs-flash, .hs-tw, .hs-cloud, .hs-rise, .hs-fly, .hs-spark, .hs-tick, .hs-pop, .hs-type, .hs-dot-pulse, .hs-dot-fill, .hs-letter, .hs-bar-fill, .hs-plane, .hs-plane-rot, .hs-plane-arc, .hs-sky { animation: none !important; }
+          .hs-idle, .hs-pace, .hs-swap-a, .hs-swap-b, .hs-nod, .hs-jump, .hs-spin, .hs-talk, .hs-talk2, .hs-wait, .hs-conf, .hs-flash, .hs-tw, .hs-cloud, .hs-rise, .hs-fly, .hs-spark, .hs-tick, .hs-pop, .hs-type, .hs-dot-pulse, .hs-dot-fill, .hs-letter, .hs-bar-fill, .hs-plane, .hs-plane-rot, .hs-plane-arc { animation: none !important; }
           .hs-swap-a { opacity: 1; }
           .hs-swap-b { opacity: 0; }
           .hs-conf, .hs-flash { opacity: 0; }
           .hs-dot-fill { fill-opacity: .85; }
           .hs-letter { opacity: 1; }
           .hs-plane, .hs-plane-rot, .hs-plane-arc { opacity: 0; }
-          .hs-sky { fill: transparent; }
           @keyframes hsStage {
             0% { opacity: 0; }
             2.5% { opacity: 1; }
@@ -172,7 +162,6 @@ export default function HeroScene({
             <stop offset="100%" stopColor="var(--primary, var(--hero-text))" stopOpacity="0" />
           </radialGradient>
         </defs>
-        <rect className="hs-sky" x="0" y="0" width="1200" height="400" />
         <g className="hs-plane">
           <g className="hs-plane-rot">
             <g className="hs-plane-arc">
