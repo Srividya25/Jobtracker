@@ -157,19 +157,21 @@ export default function Layout() {
 
         <div className="nav-spacer" />
 
-        <select
-          className="nav-select"
-          title="Choose a theme"
-          aria-label="Choose a theme"
-          value={heroTheme}
-          onChange={(e) => setHeroTheme(e.target.value as typeof heroTheme)}
-        >
-          {HERO_THEMES.map((t) => (
-            <option key={t.key} value={t.key}>
-              {t.label}
-            </option>
-          ))}
-        </select>
+        {theme === 'dark' && (
+          <select
+            className="nav-select"
+            title="Choose a theme"
+            aria-label="Choose a theme"
+            value={heroTheme}
+            onChange={(e) => setHeroTheme(e.target.value as typeof heroTheme)}
+          >
+            {HERO_THEMES.map((t) => (
+              <option key={t.key} value={t.key}>
+                {t.label}
+              </option>
+            ))}
+          </select>
+        )}
 
         <button className="nav-icon-btn" onClick={toggle} title="Toggle theme" aria-label="Toggle light or dark mode">
           {theme === 'light' ? '🌙' : '☀️'}
