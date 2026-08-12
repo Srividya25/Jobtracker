@@ -205,7 +205,7 @@ export default function HeroScene({
         </g>
 
         {/* timeline dots */}
-        {STAGES.map((_, i) => (
+        {STAGES.slice(0, 5).map((_, i) => (
           <circle
             key={i}
             cx={340 + i * 104}
@@ -214,8 +214,6 @@ export default function HeroScene({
             className={`hs-dot-idle hs-dot-fill${i === 0 ? '' : ` hs-dot-f${i}`}`}
           />
         ))}
-        <rect x={340} y={390} width={520} height={3} rx={1.5} className="hs-bar-track" />
-        <rect x={340} y={390} width={520} height={3} rx={1.5} className="hs-bar-fill" />
 
         {STAGES.map((st, i) => (
           <g key={st.key} className="hs-stage" style={{ animationDelay: `${i * 2}s` }}>
@@ -251,7 +249,7 @@ export default function HeroScene({
               <StageBody stage={st.key} />
             </g>
             <ellipse cx={600} cy={392} rx={42} ry={4} className="hs-shadow" />
-            <circle cx={340 + i * 104} cy={376} r={5} className="hs-dot-pulse" />
+            <circle cx={340 + Math.min(i, 4) * 104} cy={376} r={5} className="hs-dot-pulse" />
           </g>
         ))}
       </svg>
