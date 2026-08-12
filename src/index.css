@@ -21,8 +21,8 @@
   --nav-active: rgba(74, 48, 23, 0.18);
   --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
   --shadow-md: 0 6px 16px rgba(15, 23, 42, 0.1);
-  --skeleton-base: #e6e8eb;
-  --skeleton-highlight: #f5f6f8;
+  --skeleton-base: #d7dce2;
+  --skeleton-highlight: #eef1f5;
 }
 
 [data-theme='dark'] {
@@ -48,8 +48,8 @@
   --nav-active: rgba(255, 255, 255, 0.22);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.5);
-  --skeleton-base: #273650;
-  --skeleton-highlight: #33455f;
+  --skeleton-base: #2c3b54;
+  --skeleton-highlight: #3a4c69;
 }
 
 /* Selectable hero themes (set on <html data-hero-theme="...">) */
