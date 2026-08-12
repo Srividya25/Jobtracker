@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { cleanupOldEmailEvents, getEmailEvents, updateEmailEventStatus, type EmailEvent } from '../lib/supabase'
+import { EmailsSkeleton } from '../components/Skeleton'
 import './emails.css'
 
 type Filter = 'new' | 'done' | 'dismissed'
@@ -96,7 +97,7 @@ export default function Emails() {
 
         <div className="emails-list">
           {loading ? (
-            <div className="emails-empty">Loading…</div>
+            <EmailsSkeleton />
           ) : emails.length === 0 ? (
             <div className="emails-empty">
               <div className="emails-empty-icon">📭</div>

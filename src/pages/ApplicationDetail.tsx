@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { supabase, getResumeSignedUrl, type Application } from '../lib/supabase'
-import HeroScene from '../components/HeroScene'
+import HeroBackdrop from '../components/HeroBackdrop'
+import { DetailSkeleton } from '../components/Skeleton'
 import './detail.css'
 
 const STATUS: Record<string, { label: string; color: string; bg: string }> = {
@@ -59,11 +60,7 @@ export default function ApplicationDetail() {
   }
 
   if (loading) {
-    return (
-      <div className="detail" style={{ textAlign: 'center', paddingTop: 80, color: 'var(--muted)' }}>
-        Loading…
-      </div>
-    )
+    return <DetailSkeleton />
   }
 
   if (error || !app) {
@@ -97,7 +94,7 @@ export default function ApplicationDetail() {
 
         <div className="detail-card">
           <div className="detail-hero">
-            <HeroScene variant="right" />
+            <HeroBackdrop />
             <div className="detail-hero-content">
               <h1>{app.job_title}</h1>
               <p>{app.company}</p>

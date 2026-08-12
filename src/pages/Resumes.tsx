@@ -8,6 +8,7 @@ import {
   deleteResumeAndFile,
   type Resume,
 } from '../lib/supabase'
+import { ResumesSkeleton } from '../components/Skeleton'
 import './resumes.css'
 
 export default function Resumes() {
@@ -92,7 +93,7 @@ export default function Resumes() {
 
         <div className="resume-list">
           {loading ? (
-            <div className="resume-empty">Loading…</div>
+            <ResumesSkeleton />
           ) : resumes.length === 0 ? (
             <div className="resume-empty">No resumes yet. Upload one above.</div>
           ) : (

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase, type Application } from '../lib/supabase'
+import { KanbanSkeleton } from '../components/Skeleton'
 import './kanban.css'
 
 const COLUMNS = [
@@ -76,15 +77,7 @@ export default function Kanban() {
   }
 
   if (loading) {
-    return (
-      <div className="kanban" style={{ textAlign: 'center', paddingTop: 60, color: 'var(--muted)' }}>
-        <div
-          className="dash-spinner"
-          style={{ display: 'inline-block', width: 26, height: 26, border: '3px solid var(--border)', borderTopColor: 'var(--primary)', borderRadius: '50%', animation: 'dashspin 0.7s linear infinite' }}
-        ></div>
-        <div style={{ marginTop: 10, fontSize: 14 }}>Loading pipeline…</div>
-      </div>
-    )
+    return <KanbanSkeleton />
   }
 
   return (

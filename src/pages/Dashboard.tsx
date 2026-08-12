@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase, type Application, exportApplicationsToCSV } from '../lib/supabase'
-import HeroScene from '../components/HeroScene'
+import HeroBackdrop from '../components/HeroBackdrop'
+import { DashboardSkeleton } from '../components/Skeleton'
 import './dashboard.css'
 
 const STATUS: Record<string, { label: string; color: string; bg: string }> = {
@@ -164,7 +165,7 @@ export default function Dashboard() {
   return (
     <div className="dash">
       <header className="dash-hero">
-        <HeroScene variant="right" />
+        <HeroBackdrop />
         <div className="dash-hero-inner">
           <div className="dash-hero-top">
             <div>
@@ -184,6 +185,10 @@ export default function Dashboard() {
       </header>
 
       <main className="dash-main">
+        {loading ? (
+          <DashboardSkeleton />
+        ) : (
+        <>
         <div className="dash-stats">
           <div className="dash-stat">
             <div className="dash-stat-icon" style={{ background: 'color-mix(in srgb, #4f46e5 14%, transparent)', color: '#4f46e5' }}>
@@ -306,12 +311,7 @@ export default function Dashboard() {
         </div>
 
         <div className="dash-table-wrap">
-          {loading ? (
-            <div className="dash-loading">
-              <div className="dash-spinner"></div>
-              <div>Loading applications…</div>
-            </div>
-          ) : filtered.length === 0 ? (
+          {filtered.length === 0 ? (
             <div className="dash-empty">
               <div className="dash-empty-icon">
                 {applications.length === 0 ? '🗂️' : '🔍'}
@@ -399,6 +399,8 @@ export default function Dashboard() {
             </table>
           )}
         </div>
+        </>
+        )}
       </main>
     </div>
   )
