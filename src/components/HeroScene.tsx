@@ -1,10 +1,10 @@
 const STAGES = [
-  { key: 'apply', label: 'Apply' },
-  { key: 'wait1', label: 'Wait' },
-  { key: 'assessment', label: 'Assessment' },
-  { key: 'interview', label: 'Interview' },
-  { key: 'wait2', label: 'Wait' },
-  { key: 'offer', label: 'Offer' },
+  { key: 'apply', label: 'Apply', sub: 'Tailor your resume' },
+  { key: 'wait1', label: 'Wait', sub: 'Sit tight' },
+  { key: 'assessment', label: 'Assessment', sub: 'Show your skills' },
+  { key: 'interview', label: 'Interview', sub: 'Impress them' },
+  { key: 'wait2', label: 'Wait', sub: 'Almost there' },
+  { key: 'offer', label: 'Offer', sub: 'You did it!' },
 ] as const
 
 function Star({ x, y, d }: { x: number; y: number; d: number }) {
@@ -45,6 +45,14 @@ export default function HeroScene({
         .hs-soft { opacity: .45; }
         .hs-shadow { fill: var(--hero-text); fill-opacity: .14; }
         .hs-label-big { fill: var(--hero-text); fill-opacity: .95; font-size: 20px; font-weight: 800; text-anchor: middle; letter-spacing: 1px; font-family: inherit; }
+        .hs-caption { fill: var(--hero-text); fill-opacity: .55; font-size: 13px; font-weight: 600; text-anchor: middle; letter-spacing: .5px; font-family: inherit; }
+        .hs-letter { opacity: 0; animation: hsLetterIn 0.3s ease-out both; }
+        .hs-sky { fill: transparent; animation: hsSky 12s steps(1, end) infinite; }
+        .hs-bar-track { fill: var(--hero-text); fill-opacity: .12; }
+        .hs-bar-fill { fill: var(--hero-text); fill-opacity: .85; transform-box: fill-box; transform-origin: 0 50%; animation: hsBar 12s steps(1, end) infinite; }
+        .hs-plane { animation: hsPlaneX 12s linear infinite; }
+        .hs-plane-rot { animation: hsPlaneRot 12s ease-in-out infinite; }
+        .hs-plane-arc { animation: hsPlaneArc 12s ease-in-out infinite; }
         .hs-bubble { fill: var(--hero-text); font-size: 16px; font-weight: 800; text-anchor: middle; font-family: inherit; }
         .hs-paper { fill: var(--hero-text); fill-opacity: .18; stroke: var(--hero-text); stroke-opacity: .85; }
         .hs-type { fill: var(--hero-text); fill-opacity: .35; animation: hsBlink 1.2s ease-in-out infinite; }
@@ -53,7 +61,7 @@ export default function HeroScene({
 
         .hs-stage { opacity: 0; animation: hsStage 12s linear infinite; animation-fill-mode: both; }
         .hs-spark, .hs-tick, .hs-pop { transform-box: fill-box; transform-origin: center; animation: hsPop 1.8s ease-in-out infinite; }
-        .hs-idle { animation: hsIdle 3.2s ease-in-out infinite; }
+        .hs-idle { transform-box: fill-box; transform-origin: center; animation: hsIdle 3.2s ease-in-out infinite; }
         .hs-pace { animation: hsPace 3s ease-in-out infinite alternate; }
         .hs-swap-a { animation: hsSwapA 0.8s steps(1) infinite; }
         .hs-swap-b { animation: hsSwapB 0.8s steps(1) infinite; }
@@ -84,7 +92,33 @@ export default function HeroScene({
           16.7% { opacity: 0; transform: translateY(-16px); }
           100% { opacity: 0; transform: translateY(-16px); }
         }
-        @keyframes hsIdle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+        @keyframes hsIdle { 0%, 100% { transform: translateY(0) scale(1, 1); } 50% { transform: translateY(-4px) scale(1, 1.02); } }
+        @keyframes hsLetterIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes hsBar {
+          0% { transform: scaleX(0); }
+          16.7% { transform: scaleX(0.167); }
+          33.4% { transform: scaleX(0.333); }
+          50% { transform: scaleX(0.5); }
+          66.7% { transform: scaleX(0.667); }
+          83.4% { transform: scaleX(0.833); }
+          100% { transform: scaleX(1); }
+        }
+        @keyframes hsPlaneX {
+          0% { transform: translateX(-160px); opacity: 0; }
+          3% { opacity: 1; }
+          94% { opacity: 1; }
+          100% { transform: translateX(1380px); opacity: 0; }
+        }
+        @keyframes hsPlaneArc { 0%, 100% { transform: translateY(46px); } 45% { transform: translateY(-34px); } }
+        @keyframes hsPlaneRot { 0%, 100% { transform: rotate(6deg); } 45% { transform: rotate(-6deg); } }
+        @keyframes hsSky {
+          0%, 16.6% { fill: #bae6fd; }
+          16.7%, 33.3% { fill: #bfdbfe; }
+          33.4%, 50% { fill: #a5f3fc; }
+          50.1%, 66.6% { fill: #ddd6fe; }
+          66.7%, 83.3% { fill: #bfdbfe; }
+          83.4%, 100% { fill: #fde68a; }
+        }
         @keyframes hsPace { 0% { transform: translateX(-16px); } 100% { transform: translateX(16px); } }
         @keyframes hsSwapA { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
         @keyframes hsSwapB { 0%, 50% { opacity: 0; } 50.01%, 100% { opacity: 1; } }
@@ -114,11 +148,14 @@ export default function HeroScene({
         @keyframes hsDotF5 { 0%, 66.7% { fill-opacity: .2; } 83.4% { fill-opacity: .85; } }
         @media (prefers-reduced-motion: reduce) {
           .hero-scene { opacity: 1; }
-          .hs-idle, .hs-pace, .hs-swap-a, .hs-swap-b, .hs-nod, .hs-jump, .hs-spin, .hs-talk, .hs-talk2, .hs-wait, .hs-conf, .hs-flash, .hs-tw, .hs-cloud, .hs-rise, .hs-fly, .hs-spark, .hs-tick, .hs-pop, .hs-type, .hs-dot-pulse, .hs-dot-fill { animation: none !important; }
+          .hs-idle, .hs-pace, .hs-swap-a, .hs-swap-b, .hs-nod, .hs-jump, .hs-spin, .hs-talk, .hs-talk2, .hs-wait, .hs-conf, .hs-flash, .hs-tw, .hs-cloud, .hs-rise, .hs-fly, .hs-spark, .hs-tick, .hs-pop, .hs-type, .hs-dot-pulse, .hs-dot-fill, .hs-letter, .hs-bar-fill, .hs-plane, .hs-plane-rot, .hs-plane-arc, .hs-sky { animation: none !important; }
           .hs-swap-a { opacity: 1; }
           .hs-swap-b { opacity: 0; }
           .hs-conf, .hs-flash { opacity: 0; }
           .hs-dot-fill { fill-opacity: .85; }
+          .hs-letter { opacity: 1; }
+          .hs-plane, .hs-plane-rot, .hs-plane-arc { opacity: 0; }
+          .hs-sky { fill: transparent; }
           @keyframes hsStage {
             0% { opacity: 0; }
             2.5% { opacity: 1; }
@@ -135,6 +172,22 @@ export default function HeroScene({
             <stop offset="100%" stopColor="var(--primary, var(--hero-text))" stopOpacity="0" />
           </radialGradient>
         </defs>
+        <rect className="hs-sky" x="0" y="0" width="1200" height="400" />
+        <g className="hs-plane">
+          <g className="hs-plane-rot">
+            <g className="hs-plane-arc">
+              <path
+                d="M0 14 L60 2 L38 40 L26 26 L8 28 Z"
+                fill="var(--hero-text)"
+                fillOpacity="0.22"
+                stroke="var(--hero-text)"
+                strokeWidth="3"
+                strokeLinejoin="round"
+                strokeLinecap="round"
+              />
+            </g>
+          </g>
+        </g>
         {/* background: stars + clouds */}
         <Star x={170} y={150} d={0} />
         <Star x={310} y={70} d={0.35} />
@@ -169,27 +222,21 @@ export default function HeroScene({
             className={`hs-dot-idle hs-dot-fill${i === 0 ? '' : ` hs-dot-f${i}`}`}
           />
         ))}
+        <rect x={340} y={390} width={520} height={3} rx={1.5} className="hs-bar-track" />
+        <rect x={340} y={390} width={520} height={3} rx={1.5} className="hs-bar-fill" />
 
         {STAGES.map((st, i) => (
           <g key={st.key} className="hs-stage" style={{ animationDelay: `${i * 2}s` }}>
             <text className="hs-label-big" x={600} y={80}>
-              {st.label}
+              {st.label.split('').map((ch, j) => (
+                <tspan key={j} className="hs-letter" style={{ animationDelay: `${i * 2 + j * 0.09}s` }}>
+                  {ch}
+                </tspan>
+              ))}
             </text>
-            {st.key === 'apply' && (
-              <g transform="translate(0 170)">
-                <g className="hs-fly">
-                  <path
-                    d="M0 14 L60 2 L38 40 L26 26 L8 28 Z"
-                    fill="var(--hero-text)"
-                    fillOpacity="0.22"
-                    stroke="var(--hero-text)"
-                    strokeWidth="3"
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                  />
-                </g>
-              </g>
-            )}
+            <text className="hs-caption" x={600} y={104}>
+              {st.sub}
+            </text>
             {st.key === 'offer' && (
               <g>
                 <g transform="translate(510 150)">

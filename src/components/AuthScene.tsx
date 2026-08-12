@@ -83,6 +83,15 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
         .as-app2 .as-land { animation: asLand 8s ease-out 0.8s infinite; }
         .as-app3 .as-land { animation: asLand 7.5s ease-out 1.6s infinite; }
         .as-app4 .as-land { animation: asLand 8.5s ease-out 2.4s infinite; }
+        .as-tap   { animation: asTap 7s ease-in-out infinite; }
+        .as-type  { opacity: 0; animation: asType 7s linear infinite; }
+        .as-type2 { animation-delay: 0.5s; }
+        .as-caret { opacity: 0; animation: asCaret 7s linear 0.5s infinite; }
+        .as-check { opacity: 0; transform-box: fill-box; transform-origin: center; animation: asCheck 7s ease-in-out infinite; }
+        .as-ring  { fill: none; stroke: var(--scene-ink, var(--hero-text)); stroke-opacity: .45; stroke-width: 3; stroke-dasharray: 100; animation: asRing 7s linear infinite; }
+        .as-ghost { opacity: 0; animation-delay: 0.05s; }
+        .as-bell  { transform-box: fill-box; transform-origin: 50% 0%; animation: asBell 7s ease-in-out infinite; }
+        .as-badge { transform-box: fill-box; transform-origin: center; animation: asBadge 7s ease-in-out infinite; }
         @keyframes asBob { from { transform: translateY(0); } to { transform: translateY(-6px); } }
         @keyframes asApp1 {
           0%   { transform: translate(20px, 15px) scale(0.55); opacity: 0; }
@@ -132,11 +141,50 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
           84%     { opacity: 0; transform: scale(1.45); }
           100%    { opacity: 0; transform: scale(1.45); }
         }
+        @keyframes asTap {
+          0%, 100% { transform: translateY(0); }
+          3%, 9.5%, 16% { transform: translateY(2px); }
+          6%, 13%, 19.5% { transform: translateY(0); }
+        }
+        @keyframes asType {
+          0%, 7% { opacity: 0; }
+          10% { opacity: 1; }
+          100% { opacity: 1; }
+        }
+        @keyframes asCaret {
+          0%, 24% { opacity: 0; }
+          26%, 36% { opacity: 1; }
+          38%, 48% { opacity: 0; }
+          50%, 60% { opacity: 1; }
+          62%, 100% { opacity: 0; }
+        }
+        @keyframes asCheck {
+          0%, 78% { opacity: 0; transform: scale(0.4); }
+          82% { opacity: 1; transform: scale(1.15); }
+          86%, 100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes asRing {
+          0% { stroke-dashoffset: 100; }
+          78% { stroke-dashoffset: 0; }
+          100% { stroke-dashoffset: 0; }
+        }
+        @keyframes asBell {
+          0%, 75%, 100% { transform: rotate(0deg); }
+          79% { transform: rotate(-9deg); }
+          83% { transform: rotate(8deg); }
+          88% { transform: rotate(0deg); }
+        }
+        @keyframes asBadge {
+          0%, 78% { transform: scale(0); }
+          82% { transform: scale(1.15); }
+          86%, 100% { transform: scale(1); }
+        }
         @media (prefers-reduced-motion: reduce) {
           .auth-scene { animation: none; opacity: 0.88; }
           .auth-scene svg { transition: none; }
-          .as-bob, .as-bob2, .as-app, .as-steam, .as-steam2, .as-tw, .as-tw2, .as-eq, .as-click, .as-land { animation: none !important; }
-          .as-app { opacity: 0 !important; }
+          .as-bob, .as-bob2, .as-app, .as-steam, .as-steam2, .as-tw, .as-tw2, .as-eq, .as-click, .as-land, .as-tap, .as-type, .as-caret, .as-check, .as-ring, .as-ghost, .as-bell, .as-badge { animation: none !important; }
+          .as-app, .as-ghost, .as-caret, .as-ring, .as-badge { opacity: 0 !important; }
+          .as-type, .as-check { opacity: 1 !important; }
         }
       `}</style>
       <div className="as-spot" />
@@ -150,6 +198,9 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
             <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.55" />
             <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
           </radialGradient>
+          <filter id="asBlur" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="3" />
+          </filter>
         </defs>
 
         <path d="M0 356 Q 300 340 600 358 T 1200 356 L 1200 400 L 0 400 Z" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.10" />
@@ -184,17 +235,19 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
         <g transform="translate(-30, 0)">
           <rect x="768" y="130" width="172" height="116" rx="12" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.85" />
           <rect x="782" y="144" width="144" height="88" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.18" />
-          <rect x="796" y="162" width="56" height="8" rx="4" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.5" />
-          <rect x="796" y="178" width="40" height="8" rx="4" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.35" />
+          <rect x="796" y="162" width="56" height="8" rx="4" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.5" className="as-type" />
+          <rect x="796" y="178" width="40" height="8" rx="4" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.35" className="as-type as-type2" />
+          <rect x="838" y="176" width="2" height="9" rx="1" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" className="as-caret" />
           <rect x="796" y="206" width="14" height="16" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" className="as-eq as-eq1" />
           <rect x="818" y="196" width="14" height="26" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" className="as-eq as-eq2" />
           <rect x="840" y="186" width="14" height="36" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" className="as-eq as-eq3" />
           <rect x="862" y="194" width="14" height="28" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" className="as-eq as-eq4" />
           <rect x="884" y="204" width="14" height="18" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" className="as-eq as-eq5" />
-          <path d="M908 170 l7 7 l14 -14" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.7" />
+          <path d="M908 170 l7 7 l14 -14" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.7" className="as-check" />
           <rect x="866" y="246" width="16" height="12" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.5" />
           <rect x="824" y="258" width="100" height="10" rx="5" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.5" />
           <ellipse cx="854" cy="192" rx="120" ry="100" fill="url(#asGlow)" />
+          <ellipse cx="854" cy="188" rx="78" ry="52" pathLength="100" className="as-ring" />
         </g>
 
         <rect x="696" y="248" width="132" height="16" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.82" />
@@ -207,18 +260,26 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
         </g>
 
         <g className="as-bob">
-          <rect x="650" y="238" width="84" height="12" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" transform="rotate(6 692 244)" />
-          <rect x="650" y="252" width="84" height="12" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" transform="rotate(-4 692 258)" />
-          <circle cx="730" cy="246" r="9" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.7" />
-          <circle cx="730" cy="258" r="9" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.7" />
+          <g className="as-tap">
+            <rect x="650" y="238" width="84" height="12" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" transform="rotate(6 692 244)" />
+            <rect x="650" y="252" width="84" height="12" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" transform="rotate(-4 692 258)" />
+            <circle cx="730" cy="246" r="9" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.7" />
+            <circle cx="730" cy="258" r="9" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.7" />
+          </g>
         </g>
 
+        <g className="as-app as-app1 as-ghost" filter="url(#asBlur)" style={{ animationDelay: '0.05s' }}>
+          <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.4" />
+        </g>
         <g className="as-app as-app1">
           <ellipse cx="13" cy="17" rx="52" ry="52" fill="url(#asLandGlow)" className="as-land" />
           <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
           <rect x="5" y="8" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" />
           <rect x="5" y="15" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
           <rect x="5" y="22" width="10" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
+        </g>
+        <g className="as-app as-app2 as-ghost" filter="url(#asBlur)" style={{ animationDelay: '0.85s' }}>
+          <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.4" />
         </g>
         <g className="as-app as-app2">
           <ellipse cx="13" cy="17" rx="52" ry="52" fill="url(#asLandGlow)" className="as-land" />
@@ -227,12 +288,18 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
           <rect x="5" y="15" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
           <path d="M7 27 l5 5 l9 -11" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.7" />
         </g>
+        <g className="as-app as-app3 as-ghost" filter="url(#asBlur)" style={{ animationDelay: '1.65s' }}>
+          <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.4" />
+        </g>
         <g className="as-app as-app3">
           <ellipse cx="13" cy="17" rx="52" ry="52" fill="url(#asLandGlow)" className="as-land" />
           <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
           <rect x="5" y="8" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" />
           <rect x="5" y="15" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
           <rect x="5" y="22" width="10" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
+        </g>
+        <g className="as-app as-app4 as-ghost" filter="url(#asBlur)" style={{ animationDelay: '2.45s' }}>
+          <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.4" />
         </g>
         <g className="as-app as-app4">
           <ellipse cx="13" cy="17" rx="52" ry="52" fill="url(#asLandGlow)" className="as-land" />
@@ -249,6 +316,16 @@ export default function AuthScene({ live = false }: { live?: boolean }) {
             <path d="M9 6 c-3 -7 3 -11 0 -18" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeLinecap="round" className="as-steam" />
             <path d="M15 8 c-3 -7 3 -11 0 -18" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeLinecap="round" className="as-steam2" />
           </g>
+        </g>
+
+        <g transform="translate(1000, 140)">
+          <g className="as-bell">
+            <path d="M0 -18 a8 8 0 0 1 0 16 z" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.85" />
+            <circle cx="0" cy="-17" r="2.4" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.85" />
+            <rect x="-8" y="-6" width="16" height="2.5" rx="1.25" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.85" />
+            <circle cx="0" cy="2" r="2.6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.85" />
+          </g>
+          <circle cx="8" cy="-11" r="4.5" fill="#ef4444" className="as-badge" />
         </g>
       </svg>
     </div>
