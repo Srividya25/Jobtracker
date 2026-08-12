@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { supabase, getResumeSignedUrl, type Application } from '../lib/supabase'
 import HeroScene from '../components/HeroScene'
-import { DetailSkeleton, minDelay } from '../components/Skeleton'
+import { DetailSkeleton } from '../components/Skeleton'
 import './detail.css'
 
 const STATUS: Record<string, { label: string; color: string; bg: string }> = {
@@ -30,7 +30,6 @@ export default function ApplicationDetail() {
   }, [id])
 
   async function loadApp() {
-    const started = Date.now()
     try {
       const { data, error } = await supabase
         .from('applications')
@@ -42,7 +41,6 @@ export default function ApplicationDetail() {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load application')
     } finally {
-      await minDelay(started)
       setLoading(false)
     }
   }

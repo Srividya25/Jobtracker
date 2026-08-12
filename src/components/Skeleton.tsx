@@ -1,17 +1,6 @@
 import type { CSSProperties } from 'react'
 import './skeleton.css'
 
-/* Keep skeleton loaders visible for at least this long so fast loads
-   still feel smooth and intentional instead of flashing content in. */
-export const MIN_LOADING_MS = 800
-
-export function minDelay(startedAt: number): Promise<void> {
-  const remaining = MIN_LOADING_MS - (Date.now() - startedAt)
-  return remaining > 0
-    ? new Promise((resolve) => setTimeout(resolve, remaining))
-    : Promise.resolve()
-}
-
 export function Skeleton({
   className = '',
   style,

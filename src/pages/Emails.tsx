@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { cleanupOldEmailEvents, getEmailEvents, updateEmailEventStatus, type EmailEvent } from '../lib/supabase'
-import { EmailsSkeleton, minDelay } from '../components/Skeleton'
+import { EmailsSkeleton } from '../components/Skeleton'
 import './emails.css'
 
 type Filter = 'new' | 'done' | 'dismissed'
@@ -38,7 +38,6 @@ export default function Emails() {
   const [error, setError] = useState('')
 
   const load = useCallback(async (status: Filter) => {
-    const started = Date.now()
     try {
       await cleanupOldEmailEvents()
     } catch (err) {
@@ -51,7 +50,6 @@ export default function Emails() {
       console.debug('email_events unavailable:', err)
       setEmails([])
     } finally {
-      await minDelay(started)
       setLoading(false)
     }
   }, [])
