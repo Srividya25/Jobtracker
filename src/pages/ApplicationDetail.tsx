@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { supabase, getResumeSignedUrl, type Application } from '../lib/supabase'
-import HeroScene from '../components/HeroScene'
+import AuthLottieSequence from '../components/AuthLottieSequence'
 import { DetailSkeleton } from '../components/Skeleton'
 import './detail.css'
 
@@ -94,7 +94,7 @@ export default function ApplicationDetail() {
 
         <div className="detail-card">
           <div className="detail-hero">
-            <HeroScene variant="right" />
+            <AuthLottieSequence />
             <div className="detail-hero-content">
               <h1>{app.job_title}</h1>
               <p>{app.company}</p>

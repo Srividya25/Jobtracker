@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase, type Application, exportApplicationsToCSV } from '../lib/supabase'
-import HeroScene from '../components/HeroScene'
+import AuthLottieSequence from '../components/AuthLottieSequence'
 import { DashboardSkeleton } from '../components/Skeleton'
 import './dashboard.css'
 
@@ -165,7 +165,7 @@ export default function Dashboard() {
   return (
     <div className="dash">
       <header className="dash-hero">
-        <HeroScene variant="right" />
+        <AuthLottieSequence />
         <div className="dash-hero-inner">
           <div className="dash-hero-top">
             <div>

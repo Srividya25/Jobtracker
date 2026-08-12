@@ -27,6 +27,41 @@
   gap: 16px;
   flex-wrap: wrap;
 }
+.dash-hero .al-root {
+  padding: 0;
+  left: auto;
+  right: 20px;
+  bottom: 8px;
+  width: 300px;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+.dash-hero .al-stage {
+  height: 132px;
+  max-width: 300px;
+}
+.dash-hero .al-caption {
+  min-height: 26px;
+  margin-top: 6px;
+  padding: 4px 12px;
+}
+.dash-hero .al-dot {
+  width: 7px;
+  height: 7px;
+}
+.dash-hero .al-label {
+  font-size: 12px;
+}
+@media (max-width: 900px) {
+  .dash-hero .al-root {
+    right: 14px;
+    width: 200px;
+  }
+  .dash-hero .al-stage {
+    height: 100px;
+    max-width: 200px;
+  }
+}
 .dash-brand {
   display: flex;
   align-items: center;
