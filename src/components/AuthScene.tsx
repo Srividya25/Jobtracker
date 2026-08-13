@@ -1,333 +1,77 @@
-import { useEffect, useRef } from 'react'
+import { createRef, useEffect, useRef, useState } from 'react'
+import Lottie, { LottieRefCurrentProps } from 'lottie-react'
+import workAnimation from '../assets/animations/work.json'
+import assessmentAnimation from '../assets/animations/assessment.json'
+import waitingAnimation from '../assets/animations/waiting.json'
+import interviewAnimation from '../assets/animations/interview.json'
+import offerAnimation from '../assets/animations/offer.json'
+import hiredAnimation from '../assets/animations/hired.json'
 
-export default function AuthScene({ live = false }: { live?: boolean }) {
-  const sceneRef = useRef<HTMLDivElement>(null)
+const STAGES = [
+  { step: 'Apply', caption: 'Submit your application', data: workAnimation },
+  { step: 'Assessment', caption: 'Show what you know', data: assessmentAnimation },
+  { step: 'Waiting', caption: 'Hang tight — good things take time', data: waitingAnimation },
+  { step: 'Interview', caption: 'Meet the team', data: interviewAnimation },
+  { step: 'Offer', caption: 'The offer lands in your inbox', data: offerAnimation },
+  { step: 'Hired', caption: 'Welcome aboard', data: hiredAnimation },
+] as const
+
+const FADE_MS = 700
+
+export default function AuthScene() {
+  const refs = useRef<ReturnType<typeof createRef<LottieRefCurrentProps>>[]>(
+    Array.from({ length: STAGES.length }, () => createRef<LottieRefCurrentProps>())
+  )
+  const [active, setActive] = useState(0)
+  const [reduced, setReduced] = useState(false)
 
   useEffect(() => {
-    const scene = sceneRef.current
-    if (!scene) return
-    const spot = scene.querySelector<HTMLElement>('.as-spot')
-    let raf = 0
-    const onMove = (e: MouseEvent) => {
-      cancelAnimationFrame(raf)
-      raf = requestAnimationFrame(() => {
-        const cx = e.clientX / window.innerWidth - 0.5
-        const cy = e.clientY / window.innerHeight - 0.5
-        scene.style.setProperty('--parx', `${Math.round(cx * -16)}px`)
-        scene.style.setProperty('--pary', `${Math.round(cy * -10)}px`)
-        if (spot) spot.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`
-      })
-    }
-    window.addEventListener('mousemove', onMove)
-    return () => {
-      window.removeEventListener('mousemove', onMove)
-      cancelAnimationFrame(raf)
-    }
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReduced(mq.matches)
+    const onChange = () => setReduced(mq.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
   }, [])
 
+  useEffect(() => {
+    const ref = refs.current[active].current
+    if (!ref) return
+    ref.goToAndStop(0, true)
+    if (reduced) return
+    const t = window.setTimeout(() => {
+      const current = refs.current[active].current
+      if (current) current.play()
+    }, FADE_MS)
+    return () => window.clearTimeout(t)
+  }, [active, reduced])
+
+  const next = () => setActive((i) => (i + 1) % STAGES.length)
+
   return (
-    <div className="auth-scene" aria-hidden="true" ref={sceneRef}>
-      <style>{`
-        .auth-scene {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100vw;
-          height: 100vh;
-          overflow: hidden;
-          pointer-events: none;
-          opacity: 0.88;
-          z-index: 1;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          animation: asIn 1.1s cubic-bezier(0.22, 0.61, 0.36, 1) 0.15s both;
-        }
-        .auth-scene svg {
-          width: 80%;
-          height: 80%;
-          display: block;
-          transform: translate(calc(80px + var(--parx, 0px)), calc(-80px + var(--pary, 0px)));
-          transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
-        }
-        .as-spot {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 480px;
-          height: 480px;
-          margin: -240px 0 0 -240px;
-          border-radius: 50%;
-          background: radial-gradient(circle, color-mix(in srgb, var(--primary) 13%, transparent), transparent 65%);
-          will-change: transform;
-        }
-        .as-bob   { animation: asBob 4.5s ease-in-out infinite alternate; }
-        .as-bob2  { animation: asBob 6s ease-in-out 0.6s infinite alternate; }
-        .as-app   { transform-box: fill-box; transform-origin: center; }
-        .as-app1  { animation: asApp1 7s ease-in-out infinite; }
-        .as-app2  { animation: asApp2 8s ease-in-out 0.8s infinite; }
-        .as-app3  { animation: asApp3 7.5s ease-in-out 1.6s infinite; }
-        .as-app4  { animation: asApp4 8.5s ease-in-out 2.4s infinite; }
-        .as-steam { animation: asSteam 2.4s ease-out infinite; }
-        .as-steam2{ animation: asSteam 2.4s ease-out 0.8s infinite; }
-        .as-tw    { animation: asTw 3s ease-in-out infinite; }
-        .as-tw2   { animation: asTw 3s ease-in-out 1.4s infinite; }
-        .as-live .as-eq { transform-box: fill-box; transform-origin: center bottom; animation: asEq 0.4s ease-in-out infinite alternate; }
-        .as-live .as-eq2 { animation-delay: 0.08s; }
-        .as-live .as-eq3 { animation-delay: 0.16s; }
-        .as-live .as-eq4 { animation-delay: 0.08s; }
-        .as-live .as-eq5 { animation-delay: 0.02s; }
-        .as-click { animation: asClick 7s ease-in-out infinite; }
-        .as-land  { opacity: 0; transform-box: fill-box; transform-origin: center; }
-        .as-app1 .as-land { animation: asLand 7s ease-out infinite; }
-        .as-app2 .as-land { animation: asLand 8s ease-out 0.8s infinite; }
-        .as-app3 .as-land { animation: asLand 7.5s ease-out 1.6s infinite; }
-        .as-app4 .as-land { animation: asLand 8.5s ease-out 2.4s infinite; }
-        .as-tap   { animation: asTap 7s ease-in-out infinite; }
-        .as-type  { opacity: 0; animation: asType 7s linear infinite; }
-        .as-type2 { animation-delay: 0.5s; }
-        .as-caret { opacity: 0; animation: asCaret 7s linear 0.5s infinite; }
-        .as-check { opacity: 0; transform-box: fill-box; transform-origin: center; animation: asCheck 7s ease-in-out infinite; }
-        .as-ring  { fill: none; stroke: var(--scene-ink, var(--hero-text)); stroke-opacity: .45; stroke-width: 3; stroke-dasharray: 100; animation: asRing 7s linear infinite; }
-        .as-ghost { opacity: 0; animation-delay: 0.05s; }
-        .as-bell  { transform-box: fill-box; transform-origin: 50% 0%; animation: asBell 7s ease-in-out infinite; }
-        .as-badge { transform-box: fill-box; transform-origin: center; animation: asBadge 7s ease-in-out infinite; }
-        @keyframes asBob { from { transform: translateY(0); } to { transform: translateY(-6px); } }
-        @keyframes asApp1 {
-          0%   { transform: translate(20px, 15px) scale(0.55); opacity: 0; }
-          12%  { opacity: 1; }
-          78%  { transform: translate(800px, 185px) scale(1); opacity: 1; }
-          90%  { transform: translate(800px, 185px) scale(1); opacity: 1; }
-          100% { transform: translate(800px, 185px) scale(0.94); opacity: 0; }
-        }
-        @keyframes asApp2 {
-          0%   { transform: translate(1170px, 20px) scale(0.55); opacity: 0; }
-          12%  { opacity: 1; }
-          78%  { transform: translate(805px, 190px) scale(1); opacity: 1; }
-          90%  { transform: translate(805px, 190px) scale(1); opacity: 1; }
-          100% { transform: translate(805px, 190px) scale(0.94); opacity: 0; }
-        }
-        @keyframes asApp3 {
-          0%   { transform: translate(25px, 378px) scale(0.55); opacity: 0; }
-          12%  { opacity: 1; }
-          78%  { transform: translate(790px, 205px) scale(1); opacity: 1; }
-          90%  { transform: translate(790px, 205px) scale(1); opacity: 1; }
-          100% { transform: translate(790px, 205px) scale(0.94); opacity: 0; }
-        }
-        @keyframes asApp4 {
-          0%   { transform: translate(1170px, 378px) scale(0.55); opacity: 0; }
-          12%  { opacity: 1; }
-          78%  { transform: translate(810px, 200px) scale(1); opacity: 1; }
-          90%  { transform: translate(810px, 200px) scale(1); opacity: 1; }
-          100% { transform: translate(810px, 200px) scale(0.94); opacity: 0; }
-        }
-        @keyframes asSteam {
-          0%   { transform: translateY(0); opacity: 0; }
-          30%  { opacity: 0.8; }
-          100% { transform: translateY(-26px); opacity: 0; }
-        }
-        @keyframes asTw { 0%, 100% { opacity: 0.12; } 50% { opacity: 0.85; } }
-        @keyframes asEq { from { transform: scaleY(0.35); } to { transform: scaleY(1.35); } }
-        @keyframes asIn { from { opacity: 0; } to { opacity: 0.88; } }
-        @keyframes asClick {
-          0%, 76% { transform: translateY(0); }
-          78%     { transform: translateY(3px); }
-          81%     { transform: translateY(0); }
-          100%    { transform: translateY(0); }
-        }
-        @keyframes asLand {
-          0%, 76% { opacity: 0; transform: scale(0.6); }
-          79%     { opacity: 0.6; transform: scale(1.05); }
-          84%     { opacity: 0; transform: scale(1.45); }
-          100%    { opacity: 0; transform: scale(1.45); }
-        }
-        @keyframes asTap {
-          0%, 100% { transform: translateY(0); }
-          3%, 9.5%, 16% { transform: translateY(2px); }
-          6%, 13%, 19.5% { transform: translateY(0); }
-        }
-        @keyframes asType {
-          0%, 7% { opacity: 0; }
-          10% { opacity: 1; }
-          100% { opacity: 1; }
-        }
-        @keyframes asCaret {
-          0%, 24% { opacity: 0; }
-          26%, 36% { opacity: 1; }
-          38%, 48% { opacity: 0; }
-          50%, 60% { opacity: 1; }
-          62%, 100% { opacity: 0; }
-        }
-        @keyframes asCheck {
-          0%, 78% { opacity: 0; transform: scale(0.4); }
-          82% { opacity: 1; transform: scale(1.15); }
-          86%, 100% { opacity: 1; transform: scale(1); }
-        }
-        @keyframes asRing {
-          0% { stroke-dashoffset: 100; }
-          78% { stroke-dashoffset: 0; }
-          100% { stroke-dashoffset: 0; }
-        }
-        @keyframes asBell {
-          0%, 75%, 100% { transform: rotate(0deg); }
-          79% { transform: rotate(-9deg); }
-          83% { transform: rotate(8deg); }
-          88% { transform: rotate(0deg); }
-        }
-        @keyframes asBadge {
-          0%, 78% { transform: scale(0); }
-          82% { transform: scale(1.15); }
-          86%, 100% { transform: scale(1); }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .auth-scene { animation: none; opacity: 0.88; }
-          .auth-scene svg { transition: none; }
-          .as-bob, .as-bob2, .as-app, .as-steam, .as-steam2, .as-tw, .as-tw2, .as-eq, .as-click, .as-land, .as-tap, .as-type, .as-caret, .as-check, .as-ring, .as-ghost, .as-bell, .as-badge { animation: none !important; }
-          .as-app, .as-ghost, .as-caret, .as-ring, .as-badge { opacity: 0 !important; }
-          .as-type, .as-check { opacity: 1 !important; }
-        }
-      `}</style>
-      <div className="as-spot" />
-      <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax meet" className={live ? 'as-live' : undefined}>
-        <defs>
-          <radialGradient id="asGlow" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0%" stopColor="var(--scene-ink, var(--hero-text))" stopOpacity="0.22" />
-            <stop offset="100%" stopColor="var(--scene-ink, var(--hero-text))" stopOpacity="0" />
-          </radialGradient>
-          <radialGradient id="asLandGlow" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.55" />
-            <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
-          </radialGradient>
-          <filter id="asBlur" x="-60%" y="-60%" width="220%" height="220%">
-            <feGaussianBlur stdDeviation="3" />
-          </filter>
-        </defs>
-
-        <path d="M0 356 Q 300 340 600 358 T 1200 356 L 1200 400 L 0 400 Z" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.10" />
-
-        <path d="M900 70 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z" fill="var(--scene-ink, var(--hero-text))" className="as-tw" />
-        <path d="M300 90 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 Z" fill="var(--scene-ink, var(--hero-text))" className="as-tw2" />
-
-        <g className="as-bob">
-          <rect x="654" y="206" width="76" height="54" rx="16" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
-          <rect x="668" y="260" width="16" height="70" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.6" />
-          <rect x="700" y="260" width="16" height="70" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.6" />
-          <rect x="666" y="328" width="20" height="12" rx="5" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.75" />
-          <rect x="698" y="328" width="20" height="12" rx="5" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.75" />
-          <path d="M682 206 v-10" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="6" strokeOpacity="0.75" />
-          <circle cx="684" cy="158" r="32" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.78" />
-          <path d="M652 154 a32 32 0 0 1 64 0 v2 a32 32 0 0 0 -64 0 Z" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.88" />
-          <circle cx="696" cy="163" r="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.88" />
-          <circle cx="708" cy="163" r="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.88" />
-          <rect x="686" y="157" width="13" height="10" rx="3" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2" strokeOpacity="0.8" />
-          <rect x="703" y="157" width="13" height="10" rx="3" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2" strokeOpacity="0.8" />
-          <path d="M699 162 h4" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2" strokeOpacity="0.8" />
-          <path d="M688 148 l2 -3 M706 148 l-2 -3" stroke="var(--scene-ink, var(--hero-text))" fillOpacity="0.8" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.7" />
-          <path d="M696 173 q5 4 10 0" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.4" strokeLinecap="round" strokeOpacity="0.8" />
-        </g>
-
-        <g transform="translate(560, 252)">
-          <rect width="440" height="18" rx="9" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.42" />
-          <rect x="20" y="18" width="22" height="72" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.28" />
-          <rect x="398" y="18" width="22" height="72" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.28" />
-        </g>
-
-        <g transform="translate(-30, 0)">
-          <rect x="768" y="130" width="172" height="116" rx="12" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.85" />
-          <rect x="782" y="144" width="144" height="88" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.18" />
-          <rect x="796" y="162" width="56" height="8" rx="4" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.5" className="as-type" />
-          <rect x="796" y="178" width="40" height="8" rx="4" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.35" className="as-type as-type2" />
-          <rect x="838" y="176" width="2" height="9" rx="1" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" className="as-caret" />
-          <rect x="796" y="206" width="14" height="16" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" className="as-eq as-eq1" />
-          <rect x="818" y="196" width="14" height="26" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" className="as-eq as-eq2" />
-          <rect x="840" y="186" width="14" height="36" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" className="as-eq as-eq3" />
-          <rect x="862" y="194" width="14" height="28" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" className="as-eq as-eq4" />
-          <rect x="884" y="204" width="14" height="18" rx="3" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" className="as-eq as-eq5" />
-          <path d="M908 170 l7 7 l14 -14" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.7" className="as-check" />
-          <rect x="866" y="246" width="16" height="12" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.5" />
-          <rect x="824" y="258" width="100" height="10" rx="5" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.5" />
-          <ellipse cx="854" cy="192" rx="120" ry="100" fill="url(#asGlow)" />
-          <ellipse cx="854" cy="188" rx="78" ry="52" pathLength="100" className="as-ring" />
-        </g>
-
-        <rect x="696" y="248" width="132" height="16" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.82" />
-        <rect x="704" y="252" width="116" height="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.4" />
-        <rect x="704" y="258" width="116" height="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.4" />
-
-        <g className="as-click">
-          <rect x="844" y="222" width="24" height="30" rx="12" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.82" />
-          <path d="M844 236 h-12" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeOpacity="0.55" />
-        </g>
-
-        <g className="as-bob">
-          <g className="as-tap">
-            <rect x="650" y="238" width="84" height="12" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" transform="rotate(6 692 244)" />
-            <rect x="650" y="252" width="84" height="12" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.65" transform="rotate(-4 692 258)" />
-            <circle cx="730" cy="246" r="9" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.7" />
-            <circle cx="730" cy="258" r="9" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.7" />
-          </g>
-        </g>
-
-        <g className="as-app as-app1 as-ghost" filter="url(#asBlur)" style={{ animationDelay: '0.05s' }}>
-          <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.4" />
-        </g>
-        <g className="as-app as-app1">
-          <ellipse cx="13" cy="17" rx="52" ry="52" fill="url(#asLandGlow)" className="as-land" />
-          <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
-          <rect x="5" y="8" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" />
-          <rect x="5" y="15" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
-          <rect x="5" y="22" width="10" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
-        </g>
-        <g className="as-app as-app2 as-ghost" filter="url(#asBlur)" style={{ animationDelay: '0.85s' }}>
-          <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.4" />
-        </g>
-        <g className="as-app as-app2">
-          <ellipse cx="13" cy="17" rx="52" ry="52" fill="url(#asLandGlow)" className="as-land" />
-          <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
-          <rect x="5" y="8" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" />
-          <rect x="5" y="15" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
-          <path d="M7 27 l5 5 l9 -11" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.7" />
-        </g>
-        <g className="as-app as-app3 as-ghost" filter="url(#asBlur)" style={{ animationDelay: '1.65s' }}>
-          <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.4" />
-        </g>
-        <g className="as-app as-app3">
-          <ellipse cx="13" cy="17" rx="52" ry="52" fill="url(#asLandGlow)" className="as-land" />
-          <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
-          <rect x="5" y="8" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" />
-          <rect x="5" y="15" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
-          <rect x="5" y="22" width="10" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
-        </g>
-        <g className="as-app as-app4 as-ghost" filter="url(#asBlur)" style={{ animationDelay: '2.45s' }}>
-          <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.4" />
-        </g>
-        <g className="as-app as-app4">
-          <ellipse cx="13" cy="17" rx="52" ry="52" fill="url(#asLandGlow)" className="as-land" />
-          <rect width="26" height="34" rx="7" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
-          <rect x="5" y="8" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.55" />
-          <rect x="5" y="15" width="16" height="4" rx="2" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.45" />
-          <path d="M7 27 l5 5 l9 -11" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.7" />
-        </g>
-
-        <g transform="translate(932, 240)">
-          <g className="as-bob2">
-            <rect width="24" height="24" rx="6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.9" />
-            <path d="M24 14 a 8 8 0 0 1 0 12" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="4.5" strokeLinecap="round" strokeOpacity="0.85" />
-            <path d="M9 6 c-3 -7 3 -11 0 -18" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeLinecap="round" className="as-steam" />
-            <path d="M15 8 c-3 -7 3 -11 0 -18" fill="none" stroke="var(--scene-ink, var(--hero-text))" strokeWidth="2.5" strokeLinecap="round" className="as-steam2" />
-          </g>
-        </g>
-
-        <g transform="translate(1000, 140)">
-          <g className="as-bell">
-            <path d="M0 -18 a8 8 0 0 1 0 16 z" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.85" />
-            <circle cx="0" cy="-17" r="2.4" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.85" />
-            <rect x="-8" y="-6" width="16" height="2.5" rx="1.25" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.85" />
-            <circle cx="0" cy="2" r="2.6" fill="var(--scene-ink, var(--hero-text))" fillOpacity="0.85" />
-          </g>
-          <circle cx="8" cy="-11" r="4.5" fill="#ef4444" className="as-badge" />
-        </g>
-      </svg>
+    <div className="auth-scene" role="img" aria-label="Your job search journey">
+      <div className="auth-scene-stage">
+        {STAGES.map((stage, i) => (
+          <Lottie
+            key={stage.step}
+            lottieRef={refs.current[i]}
+            animationData={stage.data}
+            className={`auth-scene-anim${i === active ? ' is-active' : ''}`}
+            loop={false}
+            autoplay={false}
+            onComplete={next}
+            aria-hidden="true"
+          />
+        ))}
+      </div>
+      <div className="auth-scene-caption">
+        <span className="auth-scene-step">{STAGES[active].step}</span>
+        <p>{STAGES[active].caption}</p>
+      </div>
+      <div className="auth-scene-dots" aria-hidden="true">
+        {STAGES.map((stage, i) => (
+          <span key={stage.step} className={`auth-scene-dot${i === active ? ' is-active' : ''}`} />
+        ))}
+      </div>
     </div>
   )
 }

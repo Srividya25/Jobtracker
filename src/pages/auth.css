@@ -68,11 +68,77 @@
   position: relative;
   height: 480px;
 }
-.auth-lottie {
+.auth-scene {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  animation: authUp 0.65s cubic-bezier(0.22, 0.61, 0.36, 1) 0.18s both;
+}
+.auth-scene-stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+.auth-scene-anim {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+  pointer-events: none;
+}
+.auth-scene-anim.is-active {
+  opacity: 1;
+}
+.auth-scene-caption {
+  text-align: center;
+  padding: 14px 24px 0;
+}
+.auth-scene-step {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.auth-scene-step::after {
+  content: '';
   display: block;
-  animation: authUp 0.65s cubic-bezier(0.22, 0.61, 0.36, 1) 0.18s both;
+  width: 34px;
+  height: 3px;
+  border-radius: 2px;
+  margin: 8px auto 0;
+  background: linear-gradient(90deg, var(--primary), color-mix(in srgb, var(--primary) 35%, transparent));
+}
+.auth-scene-caption p {
+  margin: 10px 0 0;
+  font-size: 14px;
+  color: color-mix(in srgb, var(--hero-text) 68%, transparent);
+}
+.auth-scene-dots {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  padding: 14px 0 2px;
+}
+.auth-scene-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--hero-text) 22%, transparent);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.auth-scene-dot.is-active {
+  background: var(--primary);
+  transform: scale(1.35);
+}
+@media (prefers-reduced-motion: reduce) {
+  .auth-scene-anim {
+    transition: none;
+  }
 }
 .auth-card {
   width: 100%;

@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import Lottie from 'lottie-react'
 import { useAuth } from '../context/AuthContext'
 import BuildBadge from '../components/BuildBadge'
-import codingAnimation from '../assets/animations/coding.json'
+import AuthScene from '../components/AuthScene'
 import './auth.css'
 
 export default function SignIn() {
@@ -106,13 +105,7 @@ export default function SignIn() {
             <h2>Every application, one place.</h2>
             <p>Capture, track, and win your job search.</p>
           </div>
-          <Lottie
-            animationData={codingAnimation}
-            className="auth-lottie"
-            loop
-            autoplay
-            aria-hidden="true"
-          />
+          <AuthScene />
         </div>
       </div>
       <BuildBadge />
